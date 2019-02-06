@@ -10,6 +10,12 @@ namespace Range
     {
         static void Main(string[] args)
         {
+            Range firstIn = new Range(2, 6);
+            Range secondIn = new Range(7, 9);
+
+            Range inter = new Range().GetIntersection(firstIn, secondIn);
+
+            Console.ReadKey();
         }
     }
 }

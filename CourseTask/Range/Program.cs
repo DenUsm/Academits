@@ -6,8 +6,8 @@ namespace Range
     {
         static void Main(string[] args)
         {
-            Range firstIn = new Range(5, 8);
-            Range secondIn = new Range(1, 6);
+            Range firstIn = new Range(1, 20);
+            Range secondIn = new Range(5, 15);
 
             Range inter = firstIn.GetIntersection(secondIn);
 

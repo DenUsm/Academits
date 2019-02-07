@@ -23,18 +23,40 @@
 
         public Range GetIntersection(Range interval)
         {
+            Range res = new Range(From, To);
+
             if (interval.IsInside(From))
             {
-                return new Range(From, interval.To);
+                if(interval.IsInside(To))
+                {
+                    return res;
+                }
+                res.To = interval.To;
+                return res;
             }
-            else if (interval.IsInside(To))
+            if(res.IsInside(interval.From))
             {
-                return new Range(interval.From, To);
+                if(res.IsInside(interval.To))
+                {
+                    return interval;
+                }
+                res.From = interval.From;
+                return res;
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
+
+        //public Range [] GetUnion(Range interval)
+        //{
+        //    Range intersectionInterval = interval.GetIntersection(new Range(From, To));
+        //    if(intersectionInterval == null)
+        //    {
+        //        return new Range[] { interval, new Range(From, To) }; 
+        //    }
+        //    else
+        //    {
+        //
+        //    }
+        //}
     }
 }

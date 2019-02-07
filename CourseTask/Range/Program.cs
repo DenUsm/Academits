@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Range
 {
@@ -10,10 +6,19 @@ namespace Range
     {
         static void Main(string[] args)
         {
-            Range firstIn = new Range(2, 6);
-            Range secondIn = new Range(7, 9);
+            Range firstIn = new Range(5, 8);
+            Range secondIn = new Range(1, 6);
 
-            Range inter = new Range().GetIntersection(firstIn, secondIn);
+            Range inter = firstIn.GetIntersection(secondIn);
+
+            if (inter == null)
+            {
+                Console.WriteLine("Отрезки не пересекаются, нового интервал нет");
+            }
+            else
+            {
+                Console.WriteLine("Точки нового интервала {0}-{1}", inter.From, inter.To);
+            }
 
             Console.ReadKey();
         }

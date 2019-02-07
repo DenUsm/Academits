@@ -5,11 +5,6 @@
         public double From { get; set; }
         public double To { get; set; }
 
-        public Range()
-        {
-
-        }
-
         public Range(double from, double to)
         {
             From = from;
@@ -26,15 +21,15 @@
             return ((doubleValue >= From) && (doubleValue <= To));
         }
 
-        public Range GetIntersection(Range first, Range second)
+        public Range GetIntersection(Range interval)
         {
-            if(first.IsInside(second.From))
+            if (interval.IsInside(From))
             {
-                return new Range(second.From, first.To);
+                return new Range(From, interval.To);
             }
-            else if (first.IsInside(second.To))
+            else if (interval.IsInside(To))
             {
-                return new Range(first.From, second.To);
+                return new Range(interval.From, To);
             }
             else
             {

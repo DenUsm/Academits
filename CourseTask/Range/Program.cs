@@ -6,19 +6,14 @@ namespace Range
     {
         static void Main(string[] args)
         {
-            Range firstIn = new Range(1, 20);
-            Range secondIn = new Range(5, 15);
+            Range firstInterval = new Range(2, 6);
+            Range secondInterval = new Range(5, 13);
 
-            Range inter = firstIn.GetIntersection(secondIn);
+            Range inte = firstInterval.GetIntersection(secondInterval);
+            Range inte1 = secondInterval.GetIntersection(firstInterval);
 
-            if (inter == null)
-            {
-                Console.WriteLine("Отрезки не пересекаются, нового интервал нет");
-            }
-            else
-            {
-                Console.WriteLine("Точки нового интервала {0}-{1}", inter.From, inter.To);
-            }
+            Range[] unionInterval = firstInterval.GetUnion(secondInterval);
+            Range[] unionInterval2 = secondInterval.GetUnion(firstInterval);
 
             Console.ReadKey();
         }

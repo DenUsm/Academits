@@ -23,40 +23,34 @@
 
         public Range GetIntersection(Range interval)
         {
-            Range res = new Range(From, To);
-
-            if (interval.IsInside(From))
+            if((interval.From > To) || (interval.To < From))
             {
-                if(interval.IsInside(To))
-                {
-                    return res;
-                }
-                res.To = interval.To;
-                return res;
+                return null;
             }
-            if(res.IsInside(interval.From))
-            {
-                if(res.IsInside(interval.To))
-                {
-                    return interval;
-                }
-                res.From = interval.From;
-                return res;
-            }
-            return null;
+            return new Range(GetMax(From, interval.From), GetMin(To, interval.To));
         }
 
-        //public Range [] GetUnion(Range interval)
-        //{
-        //    Range intersectionInterval = interval.GetIntersection(new Range(From, To));
-        //    if(intersectionInterval == null)
-        //    {
-        //        return new Range[] { interval, new Range(From, To) }; 
-        //    }
-        //    else
-        //    {
-        //
-        //    }
-        //}
+        private double GetMax(double firstValue, double secondValue)
+        {
+            return (firstValue > secondValue) ? firstValue : secondValue;
+        }
+
+        private double GetMin(double firstValue, double secondValue)
+        {
+            return (firstValue > secondValue) ? secondValue : firstValue;
+        }
+
+        public Range[] GetUnion(Range interval)
+        {
+            Range currentInterval = new Range(From, To);
+            Range intersectionInterval = interval.GetIntersection(currentInterval);
+
+            if (intersectionInterval == null)
+            {
+                return new Range[] { interval, currentInterval };
+            }
+            return new Range[] { new Range(GetMin(currentInterval.From, interval.From), GetMax(currentInterval.To, interval.To)) };
+        }
     }
 }
+ 

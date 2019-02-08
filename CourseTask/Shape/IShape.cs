@@ -3,7 +3,7 @@
     interface IShape
     {
         double GetWidth();
-        double GetHeigth();
+        double GetHeight();
         double GetArea();
         double GetPerimeter();
     }

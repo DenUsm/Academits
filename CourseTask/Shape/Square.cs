@@ -1,4 +1,6 @@
-﻿namespace Shape
+﻿using System;
+
+namespace Shape
 {
     class Square: IShape
     {
@@ -14,14 +16,14 @@
             return Side;
         }
 
-        public double GetHeigth()
+        public double GetHeight()
         {
             return Side;
         }
 
         public double GetArea()
         {
-            return Side * Side;
+            return Math.Pow(Side, 2);
         }
 
         public double GetPerimeter()

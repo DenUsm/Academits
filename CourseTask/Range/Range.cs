@@ -48,11 +48,11 @@ namespace Range
             {
                 return new Range[] { new Range(From, To) };
             }
-            else if ((range.From > From) && (range.To > To))
+            else if ((range.From > From) && (range.To >= To))
             {
                 return new Range[] { new Range(From, range.From) };
             }
-            else if ((range.From < From) && (range.To < To))
+            else if ((range.From <= From) && (range.To < To))
             {
                 return new Range[] { new Range(range.To, To) };
             }

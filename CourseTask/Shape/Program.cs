@@ -19,15 +19,33 @@ namespace Shape
 
             Shape[] massShapes = new Shape[] { shape1, shape2, shape3, shape4, shape5, shape6, shape7, shape8, shape9, shape10 };
 
-            GetMaxShapeArea(massShapes);
+            ShapeArea(massShapes);
+            foreach(Shape s in massShapes)
+            {
+                Console.WriteLine("{0}", s.GetArea());
+            }
+
+            Console.WriteLine();
+
+            ShapePerimeter(massShapes);
+            foreach (Shape s in massShapes)
+            {
+                Console.WriteLine("{0}", s.GetPerimeter());
+            }
 
             Console.ReadKey();
         }
 
-        public static void GetMaxShapeArea(Shape [] mass)
+        public static void ShapeArea(Shape [] mass)
         {
             Array.Sort(mass, new ShapesComparerArea());
             Console.WriteLine("Shape: {0}, Width: {1}, Height: {2}, Area: {3}, Perimeter: {4}", mass[0].GetType().Name, mass[0].GetWidth(), mass[0].GetHeight(), mass[0].GetArea(), mass[0].GetPerimeter());
+        }
+
+        public static void ShapePerimeter(Shape [] mass)
+        {
+            Array.Sort(mass, new ShapesComparerPerimeter());
+            Console.WriteLine("Shape: {0}, Width: {1}, Height: {2}, Area: {3}, Perimeter: {4}", mass[1].GetType().Name, mass[1].GetWidth(), mass[1].GetHeight(), mass[1].GetArea(), mass[1].GetPerimeter());
         }
     }
 }

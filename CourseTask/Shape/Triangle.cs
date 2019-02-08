@@ -2,7 +2,7 @@
 
 namespace Shape
 {
-    class Triangle : IShape
+    class Triangle : Shape, IShape
     {
         public double X1 { get; set; }
         public double Y1 { get; set; }
@@ -47,23 +47,23 @@ namespace Shape
             Y3 = y3;
         }
 
-        public double GetWidth()
+        public override double GetWidth()
         {
             return Math.Max(Math.Max(X1, X2), X3) - Math.Min(Math.Min(X1, X2), X3);
         }
 
-        public double GetHeight()
+        public override double GetHeight()
         {
             return Math.Max(Math.Max(X1, X2), X3) - Math.Min(Math.Min(X1, X2), X3);
         }
 
-        public double GetArea()
+        public override double GetArea()
         {
             double halfPerimeter = (FirstSlide + SecondSlide + ThirdSlide) / 2;
             return Math.Sqrt(halfPerimeter * (halfPerimeter - FirstSlide) * (halfPerimeter - SecondSlide) * (halfPerimeter - ThirdSlide));
         }
 
-        public double GetPerimeter()
+        public override double GetPerimeter()
         {
             return FirstSlide + SecondSlide + ThirdSlide;
         }

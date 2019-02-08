@@ -1,6 +1,6 @@
 ﻿namespace Shape
 {
-    class Rectangle : IShape
+    class Rectangle : Shape, IShape
     {
         public double SideWidth { get; set; }
         public double SideHeight { get; set; }
@@ -11,22 +11,22 @@
             SideHeight = sideHeight;
         }
 
-        public double GetWidth()
+        public override double GetWidth()
         {
             return SideWidth;
         }
 
-        public double GetHeight()
+        public override double GetHeight()
         {
             return SideHeight;
         }
 
-        public double GetArea()
+        public override double GetArea()
         {
             return SideHeight * SideWidth;
         }
 
-        public double GetPerimeter()
+        public override double GetPerimeter()
         {
             return 2 * (SideWidth + SideHeight);
         }

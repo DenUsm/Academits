@@ -2,7 +2,7 @@
 
 namespace Shape
 {
-    class Circle : IShape
+    class Circle : Shape, IShape
     {
         public double Radius { get; set; }
         
@@ -19,22 +19,22 @@ namespace Shape
             Radius = radius;
         }
 
-        public double GetArea()
+        public override double GetArea()
         {
             return Math.PI * Math.Pow(Radius, 2);
         }
 
-        public double GetHeight()
+        public override double GetHeight()
         {
             return Diameter;
         }
 
-        public double GetPerimeter()
+        public override double GetPerimeter()
         {
             return Math.PI * Diameter;
         }
 
-        public double GetWidth()
+        public override double GetWidth()
         {
             return Diameter;
         }

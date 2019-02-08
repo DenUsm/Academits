@@ -2,7 +2,7 @@
 
 namespace Shape
 {
-    class Square: IShape
+    class Square: Shape, IShape
     {
         public double Side { get; set; }
 
@@ -11,22 +11,22 @@ namespace Shape
             Side = side;
         }
 
-        public double GetWidth()
+        public override double GetWidth()
         {
             return Side;
         }
 
-        public double GetHeight()
+        public override double GetHeight()
         {
             return Side;
         }
 
-        public double GetArea()
+        public override double GetArea()
         {
             return Math.Pow(Side, 2);
         }
 
-        public double GetPerimeter()
+        public override double GetPerimeter()
         {
             return 4 * Side;
         }

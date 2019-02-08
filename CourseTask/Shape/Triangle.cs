@@ -67,5 +67,10 @@ namespace Shape
         {
             return FirstSlide + SecondSlide + ThirdSlide;
         }
+
+        public override string ToString()
+        {
+            return string.Format("Shape: {0}, Width: {1}, Height: {2}, Area: {3}, Perimeter: {4}", GetType().Name, GetWidth(), GetHeight(), GetArea(), GetPerimeter());
+        }
     }
 }

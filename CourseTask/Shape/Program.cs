@@ -39,13 +39,13 @@ namespace Shape
         public static void ShapeArea(Shape [] mass)
         {
             Array.Sort(mass, new ShapesComparerArea());
-            Console.WriteLine("Shape: {0}, Width: {1}, Height: {2}, Area: {3}, Perimeter: {4}", mass[0].GetType().Name, mass[0].GetWidth(), mass[0].GetHeight(), mass[0].GetArea(), mass[0].GetPerimeter());
+            Console.WriteLine(mass[0].ToString());
         }
 
         public static void ShapePerimeter(Shape [] mass)
         {
             Array.Sort(mass, new ShapesComparerPerimeter());
-            Console.WriteLine("Shape: {0}, Width: {1}, Height: {2}, Area: {3}, Perimeter: {4}", mass[1].GetType().Name, mass[1].GetWidth(), mass[1].GetHeight(), mass[1].GetArea(), mass[1].GetPerimeter());
+            Console.WriteLine(mass[1].ToString());
         }
     }
 }

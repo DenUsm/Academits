@@ -6,8 +6,8 @@ namespace Range
     {
         static void Main(string[] args)
         {
-            Range firstInterval = new Range(100, 300);
-            Range secondInterval = new Range(280, 400);
+            Range firstInterval = new Range(100, 200);
+            Range secondInterval = new Range(200, 400);
 
             Range intersection = firstInterval.GetIntersection(secondInterval);
             if (intersection == null)
@@ -24,18 +24,12 @@ namespace Range
             {
                 Console.WriteLine("{0} объединение [{1},{2}]", i + 1, unionInterval[i].From, unionInterval[i].To);
             }
-
+            
             Range[] differenceInterval = secondInterval.GetDifference(firstInterval);
-            if (differenceInterval == null)
+            
+            for (int i = 0; i < differenceInterval.Length; i++)
             {
-                Console.WriteLine("Результат отсутствует");
-            }
-            else
-            {
-                for (int i = 0; i < differenceInterval.Length; i++)
-                {
-                    Console.WriteLine("{0} разность [{1},{2}]", i + 1, differenceInterval[i].From, differenceInterval[i].To);
-                }
+                Console.WriteLine("{0} разность [{1},{2}]", i + 1, differenceInterval[i].From, differenceInterval[i].To);
             }
 
             Console.ReadKey();

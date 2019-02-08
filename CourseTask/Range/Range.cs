@@ -1,4 +1,6 @@
-﻿namespace Range
+﻿using System;
+
+namespace Range
 {
     class Range
     {
@@ -11,69 +13,54 @@
             To = to;
         }
 
-        public double GetLenght()
+        public double GetLength()
         {
             return To - From;
         }
 
-        public bool IsInside(double doubleValue)
+        public bool IsInside(double number)
         {
-            return ((doubleValue >= From) && (doubleValue <= To));
+            return ((number >= From) && (number <= To));
         }
 
-        public Range GetIntersection(Range interval)
+        public Range GetIntersection(Range range)
         {
-            if ((interval.From > To) || (interval.To < From))
+            if ((range.From >= To) || (range.To <= From))
             {
                 return null;
             }
-            return new Range(GetMax(From, interval.From), GetMin(To, interval.To));
+            return new Range(Math.Max(From, range.From), Math.Min(To, range.To));
         }
 
-        private double GetMax(double firstValue, double secondValue)
+        public Range[] GetUnion(Range range)
         {
-            return (firstValue > secondValue) ? firstValue : secondValue;
+            if ((range.From > To) || (range.To < From))
+            {
+                return new Range[] { new Range(range.From, range.To), new Range(From, To) };
+            }
+            return new Range[] { new Range(Math.Min(From, range.From), Math.Max(To, range.To)) };
         }
 
-        private double GetMin(double firstValue, double secondValue)
+
+        public Range[] GetDifference(Range range)
         {
-            return (firstValue > secondValue) ? secondValue : firstValue;
-        }
-
-        public Range[] GetUnion(Range interval)
-        {
-            Range currentInterval = new Range(From, To);
-            Range intersectionInterval = interval.GetIntersection(currentInterval);
-
-            if (intersectionInterval == null)
+            if ((range.From >= To) || (range.To <= From))
             {
-                return new Range[] { interval, currentInterval };
+                return new Range[] { new Range(From, To) };
             }
-            return new Range[] { new Range(GetMin(currentInterval.From, interval.From), GetMax(currentInterval.To, interval.To)) };
-        }
-
-        public Range[] GetDifference(Range interval)
-        {
-            Range currentInterval = new Range(From, To);
-            Range intersectionInterval = interval.GetIntersection(currentInterval);
-
-            if (intersectionInterval == null)
+            else if ((range.From > From) && (range.To > To))
             {
-                return new Range[] { currentInterval };
+                return new Range[] { new Range(From, range.From) };
             }
-            else if ((interval.From > currentInterval.From) && (interval.To > currentInterval.To))
+            else if ((range.From < From) && (range.To < To))
             {
-                return new Range[] { new Range(currentInterval.From, interval.From) };
+                return new Range[] { new Range(range.To, To) };
             }
-            else if ((interval.From < currentInterval.From) && (interval.To < currentInterval.To))
+            else if ((From < range.From) && (To > range.To))
             {
-                return new Range[] { new Range(interval.To, currentInterval.To) };
+                return new Range[] { new Range(From, range.From), new Range(range.To, To) };
             }
-            else if ((currentInterval.From < interval.From) && (currentInterval.To > interval.To))
-            {
-                return new Range[] { new Range(currentInterval.From, interval.From), new Range(interval.To, currentInterval.To) };
-            }
-            return null;
+            return new Range[] { };
         }
 
     }

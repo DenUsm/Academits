@@ -72,5 +72,19 @@ namespace Shape
         {
             return string.Format("Shape: {0}, Width: {1}, Height: {2}, Area: {3}, Perimeter: {4}", GetType().Name, GetWidth(), GetHeight(), GetArea(), GetPerimeter());
         }
+
+        public override bool Equals(object obj)
+        {
+            if(ReferenceEquals(obj, this))
+            {
+                return true;
+            }
+            if(ReferenceEquals(obj, null) || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            Triangle t = (Triangle)obj;
+            return (X1 == t.X1) && (Y1 == t.Y1) && (X2 == t.X2) && (Y2 == t.Y2) && (X3 == t.X3) && (Y1 == t.Y3);
+        }
     }
 }

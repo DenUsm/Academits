@@ -43,5 +43,19 @@ namespace Shape
         {
             return string.Format("Shape: {0}, Width: {1}, Height: {2}, Area: {3}, Perimeter: {4}", GetType().Name, GetWidth(), GetHeight(), GetArea(), GetPerimeter());
         }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(obj, this))
+            {
+                return true;
+            }
+            if (ReferenceEquals(obj, null) || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            Circle c = (Circle)obj;
+            return Radius == c.Radius;
+        }
     }
 }

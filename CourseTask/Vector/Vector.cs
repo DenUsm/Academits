@@ -54,6 +54,11 @@ namespace Vector
             }
         }
 
+        public int GetSize()
+        {
+            return Components.Length;
+        }
+
         public override string ToString()
         {
             return "{" + string.Join(", ", Components) + "}";

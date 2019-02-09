@@ -20,7 +20,7 @@ namespace Vector
 
             foreach (Vector val in mass)
             {
-                Console.WriteLine(val);
+                Console.WriteLine(val + " " + val.GetSize());
             }
 
             Console.ReadKey();

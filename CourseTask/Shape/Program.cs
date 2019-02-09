@@ -16,6 +16,19 @@ namespace Shape
             Shape shape8 = new Circle(20);
             Shape shape9 = new Circle(5);
             Shape shape10 = new Square(17);
+            Shape shape11 = new Square(17);
+
+            if(shape10.GetHashCode() == shape11.GetHashCode())
+            {
+                if (shape10.Equals(shape11))
+                {
+                    Console.WriteLine("Object is equals");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Object do not equals");
+            }
 
             Shape[] massShapes = new Shape[] { shape1, shape2, shape3, shape4, shape5, shape6, shape7, shape8, shape9, shape10 };
 

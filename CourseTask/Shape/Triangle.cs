@@ -86,5 +86,18 @@ namespace Shape
             Triangle t = (Triangle)obj;
             return (X1 == t.X1) && (Y1 == t.Y1) && (X2 == t.X2) && (Y2 == t.Y2) && (X3 == t.X3) && (Y1 == t.Y3);
         }
+
+        public override int GetHashCode()
+        {
+            int prime = 37;
+            int hash = 1;
+            hash = prime * hash + (int)X1;
+            hash = prime * hash + (int)Y1;
+            hash = prime * hash + (int)X2;
+            hash = prime * hash + (int)Y2;
+            hash = prime * hash + (int)X3;
+            hash = prime * hash + (int)Y3;
+            return hash;
+        }
     }
 }

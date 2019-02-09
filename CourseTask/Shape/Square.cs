@@ -49,5 +49,13 @@ namespace Shape
             Square s = (Square)obj;
             return Side == s.Side;
         }
+
+        public override int GetHashCode()
+        {
+            int prime = 37;
+            int hash = 1;
+            hash = prime * hash + (int)Side;
+            return hash;
+        }
     }
 }

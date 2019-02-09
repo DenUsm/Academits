@@ -49,5 +49,14 @@
             Rectangle r = (Rectangle)obj;
             return (SideHeight == r.SideHeight) && (SideWidth == r.SideWidth);
         }
+
+        public override int GetHashCode()
+        {
+            int prime = 37;
+            int hash = 1;
+            hash = prime * hash + (int)SideWidth;
+            hash = prime * hash + (int)SideHeight;
+            return hash;
+        }
     }
 }

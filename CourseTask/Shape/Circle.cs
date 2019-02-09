@@ -57,5 +57,13 @@ namespace Shape
             Circle c = (Circle)obj;
             return Radius == c.Radius;
         }
+
+        public override int GetHashCode()
+        {
+            int prime = 37;
+            int hash = 1;
+            hash = prime * hash + (int)Radius;
+            return hash;
+        }
     }
 }

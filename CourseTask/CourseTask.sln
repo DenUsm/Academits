@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Range", "Range\Range.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shape", "Shape\Shape.csproj", "{802D9237-086C-4395-9B1C-28E7DE7A5F52}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vector", "Vector\Vector.csproj", "{18CFA62A-29AB-44A1-8E7C-52F4B0DAF67C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{802D9237-086C-4395-9B1C-28E7DE7A5F52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{802D9237-086C-4395-9B1C-28E7DE7A5F52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{802D9237-086C-4395-9B1C-28E7DE7A5F52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18CFA62A-29AB-44A1-8E7C-52F4B0DAF67C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18CFA62A-29AB-44A1-8E7C-52F4B0DAF67C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18CFA62A-29AB-44A1-8E7C-52F4B0DAF67C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18CFA62A-29AB-44A1-8E7C-52F4B0DAF67C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

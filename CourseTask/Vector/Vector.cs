@@ -42,7 +42,11 @@ namespace Vector
                     throw new ArgumentException("Components count must be <= size of vector", nameof(components));
                 }
                 Components = new double[n];
-                Components = components;
+                Components.SetValue(0, Components.Length - 1);
+                for(int i = 0; i < components.Length; i++)
+                {
+                    Components[i] = components[i];
+                }
             }
             catch(ArgumentException ex)
             {

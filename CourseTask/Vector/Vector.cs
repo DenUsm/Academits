@@ -58,19 +58,42 @@ namespace Vector
         {
             return Components.Length;
         }
-
-        public Vector GetSum(Vector vector)
+         
+        public void Sum(Vector vector)
         {
-            Vector maxVector = new Vector(Math.Max(GetSize(), vector.GetSize()), (GetSize() > vector.GetSize()) ? vector.Components : Components);
-            Vector cloneMinVector = (GetSize() > vector.GetSize()) ? new Vector(Components) : new Vector(vector.Components);
-
-            for (int i = 0; i < maxVector.GetSize(); i++)
+            if(GetSize() < vector.GetSize())
             {
-                maxVector.Components[i] += cloneMinVector.Components[i];
+                double[] copy = Components;
+                Components = new double[vector.GetSize()];
+                Components.SetValue(0, Components.Length - 1);
+                for (int i = 0; i < copy.Length; i++)
+                {
+                    Components[i] = copy[i];
+                }
             }
-            return maxVector;
+            for (int i = 0; i < vector.GetSize(); i++)
+            {
+                Components[i] += vector.Components[i];
+            }
         }
 
+        public void Difference(Vector vector)
+        {
+            if (GetSize() < vector.GetSize())
+            {
+                double[] copy = Components;
+                Components = new double[vector.GetSize()];
+                Components.SetValue(0, Components.Length - 1);
+                for (int i = 0; i < copy.Length; i++)
+                {
+                    Components[i] = copy[i];
+                }
+            }
+            for (int i = 0; i < vector.GetSize(); i++)
+            {
+                Components[i] -= vector.Components[i];
+            }
+        }
 
         public override string ToString()
         {

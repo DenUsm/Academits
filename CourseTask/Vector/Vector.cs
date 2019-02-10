@@ -17,7 +17,7 @@ namespace Vector
                 Components = new double[n];
                 Components.SetValue(0, Components.Length - 1);
             }
-            catch(ArgumentException ex)
+            catch (ArgumentException ex)
             {
                 Console.WriteLine("{0} do not create {1}", GetType().Name, ex);
             }
@@ -43,12 +43,12 @@ namespace Vector
                 }
                 Components = new double[n];
                 Components.SetValue(0, Components.Length - 1);
-                for(int i = 0; i < components.Length; i++)
+                for (int i = 0; i < components.Length; i++)
                 {
                     Components[i] = components[i];
                 }
             }
-            catch(ArgumentException ex)
+            catch (ArgumentException ex)
             {
                 Console.WriteLine("{0} do not create {1}", GetType().Name, ex);
             }
@@ -58,10 +58,10 @@ namespace Vector
         {
             return Components.Length;
         }
-         
+
         public void Sum(Vector vector)
         {
-            if(GetSize() < vector.GetSize())
+            if (GetSize() < vector.GetSize())
             {
                 double[] copy = Components;
                 Components = new double[vector.GetSize()];
@@ -97,15 +97,15 @@ namespace Vector
 
         public void Multiplication(int value)
         {
-            for(int i = 0; i < GetSize(); i++)
+            for (int i = 0; i < GetSize(); i++)
             {
-                Components[i] *= value; 
+                Components[i] *= value;
             }
         }
 
         public void Turn()
         {
-            for(int i = 0; i < GetSize(); i++)
+            for (int i = 0; i < GetSize(); i++)
             {
                 Components[i] *= -1;
             }
@@ -114,7 +114,7 @@ namespace Vector
         public double GetLength()
         {
             double sumSquare = 0;
-            for(int i = 0; i < GetSize(); i++)
+            for (int i = 0; i < GetSize(); i++)
             {
                 sumSquare += Math.Pow(Components[i], 2);
             }
@@ -134,6 +134,33 @@ namespace Vector
         public override string ToString()
         {
             return "{" + string.Join(", ", Components) + "}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(obj, this))
+            {
+                return true;
+            }
+            if (ReferenceEquals(obj, null) || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            Vector vector = (Vector)obj;
+            return Components == vector.Components && GetSize() == vector.GetSize();
+        }
+
+        public override int GetHashCode()
+        {
+            int prime = 37;
+            int hash = 1;
+            double sumComponent = 0;
+            for (int i = 0; i < GetSize(); i++)
+            {
+                sumComponent += Components[i];
+            }
+            hash = prime * hash + (int)sumComponent;
+            return hash;
         }
     }
 }

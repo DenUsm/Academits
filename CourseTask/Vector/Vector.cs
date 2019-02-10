@@ -59,6 +59,19 @@ namespace Vector
             return Components.Length;
         }
 
+        public Vector GetSum(Vector vector)
+        {
+            Vector maxVector = new Vector(Math.Max(GetSize(), vector.GetSize()), (GetSize() > vector.GetSize()) ? vector.Components : Components);
+            Vector cloneMinVector = (GetSize() > vector.GetSize()) ? new Vector(Components) : new Vector(vector.Components);
+
+            for (int i = 0; i < maxVector.GetSize(); i++)
+            {
+                maxVector.Components[i] += cloneMinVector.Components[i];
+            }
+            return maxVector;
+        }
+
+
         public override string ToString()
         {
             return "{" + string.Join(", ", Components) + "}";

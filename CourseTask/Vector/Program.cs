@@ -24,7 +24,7 @@ namespace Vector
 
             Console.WriteLine();
 
-            vec4.Difference(vec5);
+            vec4.Multiplication(-5);
 
             mass = new Vector[] { vec1, vec2, vec3, vec4, vec5 };
 

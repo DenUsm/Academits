@@ -95,6 +95,14 @@ namespace Vector
             }
         }
 
+        public void Multiplication(int value)
+        {
+            for(int i = 0; i < GetSize(); i++)
+            {
+                Components[i] *= value; 
+            }
+        }
+
         public override string ToString()
         {
             return "{" + string.Join(", ", Components) + "}";

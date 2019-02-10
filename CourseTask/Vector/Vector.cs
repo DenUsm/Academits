@@ -121,6 +121,16 @@ namespace Vector
             return Math.Sqrt(sumSquare);
         }
 
+        public double GetComponent(int index)
+        {
+            return Components[index];
+        }
+
+        public void SetComponent(double value, int index)
+        {
+            Components[index] = value;
+        }
+
         public override string ToString()
         {
             return "{" + string.Join(", ", Components) + "}";

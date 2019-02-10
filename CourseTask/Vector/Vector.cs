@@ -25,12 +25,20 @@ namespace Vector
 
         public Vector(Vector vector)
         {
-            Components = vector.Components;
+            Components = new double[vector.GetSize()];
+            for(int i = 0; i< vector.GetSize(); i++)
+            {
+                Components[i] = vector.Components[i];
+            }
         }
 
         public Vector(double[] components)
         {
-            Components = components;
+            Components = new double[components.Length];
+            for (int i = 0; i < components.Length; i++)
+            {
+                Components[i] = components[i];
+            }
         }
 
         public Vector(int n, double[] components)
@@ -168,6 +176,26 @@ namespace Vector
             for (int i = 0; i < secondVector.GetSize(); i++)
             {
                 vector.Components[i] -= secondVector.Components[i];
+            }
+            return vector;
+        }
+
+        public static Vector Multiplication(Vector firstVector, Vector secondVector)
+        {
+            Vector vector = new Vector(firstVector.Components);
+            if (firstVector.GetSize() < secondVector.GetSize())
+            {
+                double[] copy = firstVector.Components;
+                vector = new Vector(secondVector.GetSize());
+                vector.Components.SetValue(0, vector.GetSize() - 1);
+                for (int i = 0; i < copy.Length; i++)
+                {
+                    vector.Components[i] = copy[i];
+                }
+            }
+            for (int i = 0; i < secondVector.GetSize(); i++)
+            {
+                vector.Components[i] *= secondVector.Components[i];
             }
             return vector;
         }

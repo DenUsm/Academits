@@ -27,6 +27,10 @@ namespace Vector
             Vector vec = Vector.Difference(vec4, vec5);
             Vector vecc = Vector.Difference(vec5, vec4);
 
+            Vector ver = Vector.Multiplication(vec4, vec5);
+            Vector ver1 = Vector.Multiplication(vec5, vec4);
+
+
             mass = new Vector[] { vec1, vec2, vec3, vec4, vec5 };
 
             foreach (Vector val in mass)

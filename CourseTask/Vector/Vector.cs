@@ -103,6 +103,24 @@ namespace Vector
             }
         }
 
+        public void Turn()
+        {
+            for(int i = 0; i < GetSize(); i++)
+            {
+                Components[i] *= -1;
+            }
+        }
+
+        public double GetLength()
+        {
+            double sumSquare = 0;
+            for(int i = 0; i < GetSize(); i++)
+            {
+                sumSquare += Math.Pow(Components[i], 2);
+            }
+            return Math.Sqrt(sumSquare);
+        }
+
         public override string ToString()
         {
             return "{" + string.Join(", ", Components) + "}";

@@ -13,7 +13,7 @@ namespace Vector
             Vector vec2 = new Vector(vec1);
             Vector vec3 = new Vector(new double[] { 1.2, 5.5, 4.7, 8, 6.4 });
             Vector vec4 = new Vector(5, new double[] { 1, 2, 3, 4, 5 });
-            Vector vec5 = new Vector(7, new double[] { 1, 2, 3, 4, 5, 6, 7 });
+            Vector vec5 = new Vector(7, new double[] { 1, 2, 3, 4, 5 });
 
             Vector[] mass = new Vector[] { vec1, vec2, vec3, vec4, vec5 };
 
@@ -24,8 +24,8 @@ namespace Vector
 
             Console.WriteLine();
 
-            vec4.Multiplication(-5);
-            vec5.Turn();
+            Vector vec = Vector.Difference(vec4, vec5);
+            Vector vecc = Vector.Difference(vec5, vec4);
 
             mass = new Vector[] { vec1, vec2, vec3, vec4, vec5 };
 

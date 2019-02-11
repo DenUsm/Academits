@@ -33,7 +33,7 @@ namespace Shape.Shapes
 
         public override string ToString()
         {
-            return string.Format("Shape: {0}, Width: {1}, Height: {2}, Area: {3}, Perimeter: {4}", GetType().Name, GetWidth(), GetHeight(), GetArea(), GetPerimeter());
+            return string.Format("Side: {0}", Side);
         }
 
         public override bool Equals(object obj)
@@ -52,9 +52,7 @@ namespace Shape.Shapes
 
         public override int GetHashCode()
         {
-            int hash = 1;
-            hash += Side.GetHashCode();
-            return hash;
+            return Side.GetHashCode();
         }
 
     }

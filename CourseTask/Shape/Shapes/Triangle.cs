@@ -13,7 +13,7 @@ namespace Shape.Shapes
         public double X3 { get; set; }
         public double Y3 { get; set; }
 
-        public double FirstSide
+        public double Side1
         {
             get
             {
@@ -21,7 +21,7 @@ namespace Shape.Shapes
             }
         }
 
-        public double SecondSide
+        public double Side2
         {
             get
             {
@@ -29,7 +29,7 @@ namespace Shape.Shapes
             }
         }
 
-        public double ThirdSide
+        public double Side3
         {
             get
             {
@@ -47,35 +47,30 @@ namespace Shape.Shapes
             Y3 = y3;
         }
 
-        private double SegmentLength()
+        public double GetWidth()
         {
             return Math.Max(Math.Max(X1, X2), X3) - Math.Min(Math.Min(X1, X2), X3);
         }
 
-        public double GetWidth()
-        {
-            return SegmentLength();
-        }
-
         public double GetHeight()
         {
-            return SegmentLength();
+            return Math.Max(Math.Max(Y1, Y2), Y3) - Math.Min(Math.Min(Y1, Y2), Y3);
         }
 
         public double GetArea()
         {
             double halfPerimeter = GetPerimeter() / 2;
-            return Math.Sqrt(halfPerimeter * (halfPerimeter - FirstSide) * (halfPerimeter - SecondSide) * (halfPerimeter - ThirdSide));
+            return Math.Sqrt(halfPerimeter * (halfPerimeter - Side1) * (halfPerimeter - Side2) * (halfPerimeter - Side3));
         }
 
         public double GetPerimeter()
         {
-            return FirstSide + SecondSide + ThirdSide;
+            return Side1 + Side2 + Side3;
         }
 
         public override string ToString()
         {
-            return string.Format("Shape: {0}, Width: {1}, Height: {2}, Area: {3}, Perimeter: {4}", GetType().Name, GetWidth(), GetHeight(), GetArea(), GetPerimeter());
+            return string.Format("X1: {0}, Y1: {1}, X2: {2}, Y2: {3}, X3: {4}, Y3: {5}", X1, Y1, X2, Y2, X3, Y3);
         }
 
         public override bool Equals(object obj)

@@ -33,7 +33,7 @@
 
         public override string ToString()
         {
-            return string.Format("Shape: {0}, Width: {1}, Height: {2}, Area: {3}, Perimeter: {4}", GetType().Name, GetWidth(), GetHeight(), GetArea(), GetPerimeter());
+            return string.Format("Width: {0}, Height: {1}", SideWidth, SideHeight);
         }
 
         public override bool Equals(object obj)

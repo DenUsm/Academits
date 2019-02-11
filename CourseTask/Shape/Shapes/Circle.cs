@@ -6,13 +6,7 @@ namespace Shape.Shapes
     {
         public double Radius { get; set; }
 
-        public double Diameter
-        {
-            get
-            {
-                return 2 * Radius;
-            }
-        }
+        public double Diameter => 2 * Radius;
 
         public Circle(double radius)
         {
@@ -41,7 +35,7 @@ namespace Shape.Shapes
 
         public override string ToString()
         {
-            return string.Format("Shape: {0}, Width: {1}, Height: {2}, Area: {3}, Perimeter: {4}", GetType().Name, GetWidth(), GetHeight(), GetArea(), GetPerimeter());
+            return string.Format("Radius: {0}, Diameter: {1}", Radius, Diameter);
         }
 
         public override bool Equals(object obj)
@@ -60,9 +54,7 @@ namespace Shape.Shapes
 
         public override int GetHashCode()
         {
-            int hash = 1;
-            hash += Radius.GetHashCode();
-            return hash;
+            return Radius.GetHashCode();
         }
     }
 }

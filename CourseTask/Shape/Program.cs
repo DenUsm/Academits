@@ -1,4 +1,6 @@
 ﻿using System;
+using Shape.Shapes;
+using Shape.Сomparison;
 
 namespace Shape
 {

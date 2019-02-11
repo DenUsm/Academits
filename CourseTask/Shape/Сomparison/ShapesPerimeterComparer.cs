@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Shape
+namespace Shape.Сomparison
 {
     class ShapesPerimeterComparer : IComparer<IShape>
     {

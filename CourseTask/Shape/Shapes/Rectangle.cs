@@ -1,4 +1,4 @@
-﻿namespace Shape
+﻿namespace Shape.Shapes
 {
     class Rectangle : IShape
     {

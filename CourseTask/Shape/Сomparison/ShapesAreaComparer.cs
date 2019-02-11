@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Shape
+namespace Shape.Сomparison
 {
     class ShapesAreaComparer : IComparer<IShape>
     {

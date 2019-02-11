@@ -17,7 +17,7 @@ namespace Shape.Shapes
         {
             get
             {
-                return Math.Sqrt(Math.Pow(X2 - X1, 2) + Math.Pow(Y2 - Y1, 2));
+                return GetSideLength(X2, X1, Y2, Y1);
             }
         }
 
@@ -25,7 +25,7 @@ namespace Shape.Shapes
         {
             get
             {
-                return Math.Sqrt(Math.Pow(X3 - X2, 2) + Math.Pow(Y3 - Y2, 2));
+                return GetSideLength(X3, X2, Y3, Y2);
             }
         }
 
@@ -33,11 +33,14 @@ namespace Shape.Shapes
         {
             get
             {
-                return Math.Sqrt(Math.Pow(X3 - X1, 2) + Math.Pow(Y3 - Y1, 2));
+                return GetSideLength(X3, X1, Y3, Y1);
             }
         }
 
-        private double 
+        private double GetSideLength(double coordinate1, double coordinate2, double coordinate3, double coordinate4)
+        {
+            return Math.Sqrt(Math.Pow(coordinate1 - coordinate2, 2) + Math.Pow(coordinate3 - coordinate4, 2));
+        }
 
         public Triangle(double x1, double y1, double x2, double y2, double x3, double y3)
         {

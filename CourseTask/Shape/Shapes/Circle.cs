@@ -35,7 +35,7 @@ namespace Shape.Shapes
 
         public override string ToString()
         {
-            return string.Format("Radius: {0}, Diameter: {1}", Radius, Diameter);
+            return string.Format("Figure: {0}, Radius: {1}, Diameter: {2}", GetType().Name, Radius, Diameter);
         }
 
         public override bool Equals(object obj)

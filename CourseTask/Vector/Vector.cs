@@ -139,7 +139,8 @@ namespace Vector
             Components[index] = value;
         }
 
-        public static Vector Sum(Vector firstVector, Vector secondVector)
+
+        private static Vector VectorAligment(Vector firstVector, Vector secondVector)
         {
             Vector vector = new Vector(firstVector.Components);
             if (firstVector.GetSize() < secondVector.GetSize())
@@ -153,6 +154,13 @@ namespace Vector
                     vector.Components[i] = copy[i];
                 }
             }
+            return vector;
+        }
+
+
+        public static Vector Sum(Vector firstVector, Vector secondVector)
+        {
+            Vector vector = VectorAligment(firstVector, secondVector);
             for (int i = 0; i < secondVector.GetSize(); i++)
             {
                 vector.Components[i] += secondVector.Components[i];
@@ -162,17 +170,7 @@ namespace Vector
 
         public static Vector Difference(Vector firstVector, Vector secondVector)
         {
-            Vector vector = new Vector(firstVector.Components);
-            if (firstVector.GetSize() < secondVector.GetSize())
-            {
-                double[] copy = firstVector.Components;
-                vector = new Vector(secondVector.GetSize());
-                vector.Components.SetValue(0, vector.GetSize() - 1);
-                for (int i = 0; i < copy.Length; i++)
-                {
-                    vector.Components[i] = copy[i];
-                }
-            }
+            Vector vector = VectorAligment(firstVector, secondVector);
             for (int i = 0; i < secondVector.GetSize(); i++)
             {
                 vector.Components[i] -= secondVector.Components[i];
@@ -182,17 +180,7 @@ namespace Vector
 
         public static Vector Multiplication(Vector firstVector, Vector secondVector)
         {
-            Vector vector = new Vector(firstVector.Components);
-            if (firstVector.GetSize() < secondVector.GetSize())
-            {
-                double[] copy = firstVector.Components;
-                vector = new Vector(secondVector.GetSize());
-                vector.Components.SetValue(0, vector.GetSize() - 1);
-                for (int i = 0; i < copy.Length; i++)
-                {
-                    vector.Components[i] = copy[i];
-                }
-            }
+            Vector vector = VectorAligment(firstVector, secondVector);
             for (int i = 0; i < secondVector.GetSize(); i++)
             {
                 vector.Components[i] *= secondVector.Components[i];
@@ -228,7 +216,7 @@ namespace Vector
             {
                 sumComponent += Components[i];
             }
-            hash = prime * hash + (int)sumComponent;
+            hash = prime * hash + sumComponent.GetHashCode();
             return hash;
         }
     }

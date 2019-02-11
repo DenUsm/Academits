@@ -24,7 +24,7 @@ namespace Vector
 
             Console.WriteLine();
 
-            Vector vec = Vector.Difference(vec4, vec5);
+            Vector vec = Vector.Sum(vec4, vec5);
             Vector vecc = Vector.Difference(vec5, vec4);
 
             Vector ver = Vector.Multiplication(vec4, vec5);

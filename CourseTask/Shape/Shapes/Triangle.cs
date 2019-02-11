@@ -37,6 +37,8 @@ namespace Shape.Shapes
             }
         }
 
+        private double 
+
         public Triangle(double x1, double y1, double x2, double y2, double x3, double y3)
         {
             X1 = x1;
@@ -70,7 +72,7 @@ namespace Shape.Shapes
 
         public override string ToString()
         {
-            return string.Format("X1: {0}, Y1: {1}, X2: {2}, Y2: {3}, X3: {4}, Y3: {5}", X1, Y1, X2, Y2, X3, Y3);
+            return string.Format("Figure: {0}, X1: {1}, Y1: {2}, X2: {3}, Y2: {4}, X3: {5}, Y3: {6}", GetType().Name, X1, Y1, X2, Y2, X3, Y3);
         }
 
         public override bool Equals(object obj)

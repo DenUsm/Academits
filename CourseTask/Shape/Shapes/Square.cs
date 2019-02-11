@@ -33,7 +33,7 @@ namespace Shape.Shapes
 
         public override string ToString()
         {
-            return string.Format("Side: {0}", Side);
+            return string.Format("Figure: {0}, Side: {1}", GetType().Name, Side);
         }
 
         public override bool Equals(object obj)

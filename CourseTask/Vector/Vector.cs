@@ -67,7 +67,7 @@ namespace Vector
             return Components.Length;
         }
 
-        public void Sum(Vector vector)
+        private void VectorAligment(Vector vector)
         {
             if (GetSize() < vector.GetSize())
             {
@@ -78,7 +78,12 @@ namespace Vector
                 {
                     Components[i] = copy[i];
                 }
-            }
+            } 
+        }
+
+        public void Sum(Vector vector)
+        {
+            VectorAligment(vector);
             for (int i = 0; i < vector.GetSize(); i++)
             {
                 Components[i] += vector.Components[i];
@@ -87,16 +92,7 @@ namespace Vector
 
         public void Difference(Vector vector)
         {
-            if (GetSize() < vector.GetSize())
-            {
-                double[] copy = Components;
-                Components = new double[vector.GetSize()];
-                Components.SetValue(0, Components.Length - 1);
-                for (int i = 0; i < copy.Length; i++)
-                {
-                    Components[i] = copy[i];
-                }
-            }
+            VectorAligment(vector);
             for (int i = 0; i < vector.GetSize(); i++)
             {
                 Components[i] -= vector.Components[i];
@@ -139,7 +135,6 @@ namespace Vector
             Components[index] = value;
         }
 
-
         private static Vector VectorAligment(Vector firstVector, Vector secondVector)
         {
             Vector vector = new Vector(firstVector.Components);
@@ -156,7 +151,6 @@ namespace Vector
             }
             return vector;
         }
-
 
         public static Vector Sum(Vector firstVector, Vector secondVector)
         {
@@ -204,19 +198,28 @@ namespace Vector
                 return false;
             }
             Vector vector = (Vector)obj;
-            return Components == vector.Components && GetSize() == vector.GetSize();
+            bool equals = true;
+            for(int i = 0; i < GetSize(); i++)
+            {
+                if (Components[i] == vector.Components[i])
+                {
+                    continue;
+                }
+                else
+                {
+                    equals = false;
+                }
+            }
+            return equals && GetSize() == vector.GetSize();
         }
 
         public override int GetHashCode()
         {
-            int prime = 37;
             int hash = 1;
-            double sumComponent = 0;
             for (int i = 0; i < GetSize(); i++)
             {
-                sumComponent += Components[i];
+                hash += Components[i].GetHashCode();
             }
-            hash = prime * hash + sumComponent.GetHashCode();
             return hash;
         }
     }

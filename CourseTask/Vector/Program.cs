@@ -12,30 +12,41 @@ namespace Vector
             Vector vec1 = new Vector(5);
             Vector vec2 = new Vector(vec1);
             Vector vec3 = new Vector(new double[] { 1.2, 5.5, 4.7, 8, 6.4 });
-            Vector vec4 = new Vector(5, new double[] { 1, 2, 3, 4, 5 });
+            Vector vec4 = new Vector(3, new double[] { 1, 2, 3 });
             Vector vec5 = new Vector(7, new double[] { 1, 2, 3, 4, 5 });
+            Vector vec6 = new Vector(5, new double[] { 9, 10, 7, 4, 5 });
+            Vector vec7 = new Vector(7, new double[] { 1, 2, 5, 4, 5 });
+            Vector vec8 = new Vector(5, new double[] { 1, 2, 3, 4, 5 });
+            Vector vec9 = new Vector(7, new double[] { 4, 0, 6, 4, 5 });
+            Vector vec10 = new Vector(5, new double[] { 3, 2, 3, 4, 5 });
+            Vector vec11 = new Vector(7, new double[] { 1, 2, 3, 4, 5 });
+            Vector vec12 = new Vector(5, new double[] { 6, 6, 6, 1, 5 });
+            Vector vec13 = new Vector(15, new double[] { 9, 8, 0, 0, 5 });
 
-            Vector[] mass = new Vector[] { vec1, vec2, vec3, vec4, vec5 };
+            int size = vec13.GetSize();
+            bool res = vec4.Equals(vec5);
 
-            foreach (Vector val in mass)
-            {
-                Console.WriteLine(val + " " + val.GetSize());
-            }
+            double component = vec3.GetComponent(3);
+
+            vec4.Sum(vec5);
+            vec6.Difference(vec7);
+            vec8.Multiplication(10);
+
+            vec3.SetComponent(100, 0);
+
+            Vector vector1 = Vector.Sum(vec4, vec5);
+            Vector vector2 = Vector.Difference(vec5, vec4);
+
+            Vector vector3 = Vector.Multiplication(vec4, vec5);
+            Vector vector4 = Vector.Multiplication(vec5, vec4);
+
+            Vector[] vectors = new Vector[] { vec1, vec2, vec3, vec4, vec5, vec6, vec7, vec8, vec9, vec10, vec11, vec12, vec13 };
 
             Console.WriteLine();
 
-            Vector vec = Vector.Sum(vec4, vec5);
-            Vector vecc = Vector.Difference(vec5, vec4);
-
-            Vector ver = Vector.Multiplication(vec4, vec5);
-            Vector ver1 = Vector.Multiplication(vec5, vec4);
-
-
-            mass = new Vector[] { vec1, vec2, vec3, vec4, vec5 };
-
-            foreach (Vector val in mass)
+            foreach (Vector value in vectors)
             {
-                Console.WriteLine(val + " " + val.GetSize());
+                Console.WriteLine(value + " " + value.GetSize());
             }
             Console.ReadKey();
         }

@@ -2,10 +2,10 @@
 
 namespace Shape
 {
-    class Circle : Shape, IShape
+    class Circle : IShape
     {
         public double Radius { get; set; }
-        
+
         public double Diameter
         {
             get
@@ -19,22 +19,22 @@ namespace Shape
             Radius = radius;
         }
 
-        public override double GetArea()
+        public double GetArea()
         {
             return Math.PI * Math.Pow(Radius, 2);
         }
 
-        public override double GetHeight()
+        public double GetHeight()
         {
             return Diameter;
         }
 
-        public override double GetPerimeter()
+        public double GetPerimeter()
         {
             return Math.PI * Diameter;
         }
 
-        public override double GetWidth()
+        public double GetWidth()
         {
             return Diameter;
         }
@@ -60,9 +60,8 @@ namespace Shape
 
         public override int GetHashCode()
         {
-            int prime = 37;
             int hash = 1;
-            hash = prime * hash + (int)Radius;
+            hash += Radius.GetHashCode();
             return hash;
         }
     }

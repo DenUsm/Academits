@@ -1,6 +1,6 @@
 ﻿namespace Shape
 {
-    class Rectangle : Shape, IShape
+    class Rectangle : IShape
     {
         public double SideWidth { get; set; }
         public double SideHeight { get; set; }
@@ -11,22 +11,22 @@
             SideHeight = sideHeight;
         }
 
-        public override double GetWidth()
+        public double GetWidth()
         {
             return SideWidth;
         }
 
-        public override double GetHeight()
+        public double GetHeight()
         {
             return SideHeight;
         }
 
-        public override double GetArea()
+        public double GetArea()
         {
             return SideHeight * SideWidth;
         }
 
-        public override double GetPerimeter()
+        public double GetPerimeter()
         {
             return 2 * (SideWidth + SideHeight);
         }
@@ -54,8 +54,8 @@
         {
             int prime = 37;
             int hash = 1;
-            hash = prime * hash + (int)SideWidth;
-            hash = prime * hash + (int)SideHeight;
+            hash = prime * hash + SideWidth.GetHashCode();
+            hash = prime * hash + SideHeight.GetHashCode();
             return hash;
         }
     }

@@ -2,7 +2,7 @@
 
 namespace Shape
 {
-    class Square: Shape, IShape
+    class Square : IShape
     {
         public double Side { get; set; }
 
@@ -11,22 +11,22 @@ namespace Shape
             Side = side;
         }
 
-        public override double GetWidth()
+        public double GetWidth()
         {
             return Side;
         }
 
-        public override double GetHeight()
+        public double GetHeight()
         {
             return Side;
         }
 
-        public override double GetArea()
+        public double GetArea()
         {
             return Math.Pow(Side, 2);
         }
 
-        public override double GetPerimeter()
+        public double GetPerimeter()
         {
             return 4 * Side;
         }
@@ -52,10 +52,10 @@ namespace Shape
 
         public override int GetHashCode()
         {
-            int prime = 37;
             int hash = 1;
-            hash = prime * hash + (int)Side;
+            hash += Side.GetHashCode();
             return hash;
         }
+
     }
 }

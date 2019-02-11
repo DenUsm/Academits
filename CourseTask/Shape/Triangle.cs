@@ -2,7 +2,7 @@
 
 namespace Shape
 {
-    class Triangle : Shape, IShape
+    class Triangle : IShape
     {
         public double X1 { get; set; }
         public double Y1 { get; set; }
@@ -13,7 +13,7 @@ namespace Shape
         public double X3 { get; set; }
         public double Y3 { get; set; }
 
-        public double FirstSlide
+        public double FirstSide
         {
             get
             {
@@ -21,7 +21,7 @@ namespace Shape
             }
         }
 
-        public double SecondSlide
+        public double SecondSide
         {
             get
             {
@@ -29,7 +29,7 @@ namespace Shape
             }
         }
 
-        public double ThirdSlide
+        public double ThirdSide
         {
             get
             {
@@ -47,25 +47,30 @@ namespace Shape
             Y3 = y3;
         }
 
-        public override double GetWidth()
+        private double SegmentLength()
         {
             return Math.Max(Math.Max(X1, X2), X3) - Math.Min(Math.Min(X1, X2), X3);
         }
 
-        public override double GetHeight()
+        public double GetWidth()
         {
-            return Math.Max(Math.Max(X1, X2), X3) - Math.Min(Math.Min(X1, X2), X3);
+            return SegmentLength();
         }
 
-        public override double GetArea()
+        public double GetHeight()
         {
-            double halfPerimeter = (FirstSlide + SecondSlide + ThirdSlide) / 2;
-            return Math.Sqrt(halfPerimeter * (halfPerimeter - FirstSlide) * (halfPerimeter - SecondSlide) * (halfPerimeter - ThirdSlide));
+            return SegmentLength();
         }
 
-        public override double GetPerimeter()
+        public double GetArea()
         {
-            return FirstSlide + SecondSlide + ThirdSlide;
+            double halfPerimeter = GetPerimeter() / 2;
+            return Math.Sqrt(halfPerimeter * (halfPerimeter - FirstSide) * (halfPerimeter - SecondSide) * (halfPerimeter - ThirdSide));
+        }
+
+        public double GetPerimeter()
+        {
+            return FirstSide + SecondSide + ThirdSide;
         }
 
         public override string ToString()
@@ -75,28 +80,28 @@ namespace Shape
 
         public override bool Equals(object obj)
         {
-            if(ReferenceEquals(obj, this))
+            if (ReferenceEquals(obj, this))
             {
                 return true;
             }
-            if(ReferenceEquals(obj, null) || GetType() != obj.GetType())
+            if (ReferenceEquals(obj, null) || GetType() != obj.GetType())
             {
                 return false;
             }
             Triangle t = (Triangle)obj;
-            return (X1 == t.X1) && (Y1 == t.Y1) && (X2 == t.X2) && (Y2 == t.Y2) && (X3 == t.X3) && (Y1 == t.Y3);
+            return (X1 == t.X1) && (Y1 == t.Y1) && (X2 == t.X2) && (Y2 == t.Y2) && (X3 == t.X3) && (Y3 == t.Y3);
         }
 
         public override int GetHashCode()
         {
             int prime = 37;
             int hash = 1;
-            hash = prime * hash + (int)X1;
-            hash = prime * hash + (int)Y1;
-            hash = prime * hash + (int)X2;
-            hash = prime * hash + (int)Y2;
-            hash = prime * hash + (int)X3;
-            hash = prime * hash + (int)Y3;
+            hash = prime * hash + X1.GetHashCode();
+            hash = prime * hash + Y1.GetHashCode();
+            hash = prime * hash + X2.GetHashCode();
+            hash = prime * hash + Y2.GetHashCode();
+            hash = prime * hash + X3.GetHashCode();
+            hash = prime * hash + Y3.GetHashCode();
             return hash;
         }
     }

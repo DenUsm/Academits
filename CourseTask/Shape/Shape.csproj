@@ -48,9 +48,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rectangle.cs" />
-    <Compile Include="Shape.cs" />
-    <Compile Include="ShapesComparerArea.cs" />
-    <Compile Include="ShapesComparerPerimeter.cs" />
+    <Compile Include="ShapesAreaComparer.cs" />
+    <Compile Include="ShapesPerimeterComparer.cs" />
     <Compile Include="Square.cs" />
     <Compile Include="Triangle.cs" />
   </ItemGroup>

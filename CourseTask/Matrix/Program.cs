@@ -9,9 +9,10 @@ namespace Matrix
             Matrix mat1 = new Matrix(5, 5);
             Matrix mat2 = new Matrix(new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } });
             Matrix mat3 = new Matrix(mat2);
+            Matrix mat4 = new Matrix(new Vector[] { new Vector(2, new double[] { 1 }), new Vector(5, new double[] { 2 }) });
 
-            Matrix [] array = new Matrix[] { mat1, mat2, mat3 };
-            foreach(Matrix val in array)
+            Matrix[] array = new Matrix[] { mat1, mat2, mat3, mat4 };
+            foreach (Matrix val in array)
             {
                 Console.WriteLine(val.ToString());
             }

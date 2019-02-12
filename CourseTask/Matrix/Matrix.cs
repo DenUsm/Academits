@@ -42,6 +42,26 @@
             }
         }
 
+        public Matrix(Vector [] vector)
+        {
+            int maxSizeVector = 0;
+            int length = vector.Length;
+            for (int t = 1; t < length; t++)
+            {
+                if(vector[t].GetSize() > maxSizeVector)
+                {
+                    maxSizeVector = t;
+                }
+            }
+            Vectors = new Vector[length];
+            for (int i = 0; i < length; i++)
+            {
+                Vector copyVector = new Vector(vector[i]);
+                copyVector.VectorAligment(vector[maxSizeVector]);
+                Vectors[i] = new Vector(copyVector);
+            }
+        }
+
         public int GetN()
         {
             return Vectors.Length;
@@ -52,18 +72,6 @@
             return Vectors[0].GetSize();
         }
 
-
-        //public Matrix(Vector [] vector)
-        //{
-        //    //TODO: find max vector
-        //    for(int i = 0; i < vector.Length; i++)
-        //    {
-        //        for(int j = 0; j < vector[i].GetSize(); j++)
-        //        {
-        //            Components[i, j] = vector[i].Components[j].AlignVector(maxVector);
-        //        }
-        //    }
-        //}
 
         public override string ToString()
         {

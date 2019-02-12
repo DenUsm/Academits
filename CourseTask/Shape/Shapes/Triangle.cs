@@ -37,9 +37,9 @@ namespace Shape.Shapes
             }
         }
 
-        private double GetSideLength(double coordinate1, double coordinate2, double coordinate3, double coordinate4)
+        private static double GetSideLength(double firstPointX, double secondPointX, double firstPointY, double seconfPointY)
         {
-            return Math.Sqrt(Math.Pow(coordinate1 - coordinate2, 2) + Math.Pow(coordinate3 - coordinate4, 2));
+            return Math.Sqrt(Math.Pow(firstPointX - secondPointX, 2) + Math.Pow(firstPointY - seconfPointY, 2));
         }
 
         public Triangle(double x1, double y1, double x2, double y2, double x3, double y3)

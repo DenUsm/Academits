@@ -1,71 +1,79 @@
-﻿using System;
-using System.Text;
-
-
-namespace Matrix
+﻿namespace Matrix
 {
     class Matrix
     {
-        public double[,] Components { get; set; }
-
-        public int N => Components.GetLength(0);
-
-        public int M => Components.GetLength(1);
+        public Vector[] Vectors { get; set; }
 
         public Matrix(int n, int m)
         {
-            Components = new double[n, m];
-            for (int i = 0; i < N; i++)
+            int legth = n;
+            Vectors = new Vector[legth];
+            for (int i = 0; i < legth; i++)
             {
-                for (int j = 0; j < M; j++)
-                {
-                    Components[i, j] = 0;
-                }
+                Vectors[i] = new Vector(m);
             }
         }
 
         public Matrix(Matrix matrix)
         {
-            Components = new double[matrix.N, matrix.M];
-            for (int i = 0; i < N; i++)
+            int legth = matrix.GetN();
+            Vectors = new Vector[legth];
+            for (int i = 0; i < legth; i++)
             {
-                for (int j = 0; j < M; j++)
-                {
-                    Components[i, j] = matrix.Components[i, j];
-                }
+                Vectors[i] = new Vector(matrix.Vectors[i]);
             }
         }
 
-        public Matrix(double [,] array)
+        public Matrix(double[,] array)
         {
-            Components = new double[array.GetLength(0), array.GetLength(1)];
-            for (int i = 0; i < N; i++)
+            int lengthWigth = array.GetLength(0);
+            int lengthHeugth = array.GetLength(1);
+
+            Vectors = new Vector[lengthWigth];
+            double[] line = new double[lengthHeugth];
+
+            for (int i = 0; i < lengthWigth; i++)
             {
-                for (int j = 0; j < M; j++)
+                for (int j = 0; j < lengthHeugth; j++)
                 {
-                    Components[i, j] = array[i, j];
+                    line[j] = array[i, j];
                 }
+                Vectors[i] = new Vector(line);
             }
         }
 
+        public int GetN()
+        {
+            return Vectors.Length;
+        }
+
+        public int GetM()
+        {
+            return Vectors[0].GetSize();
+        }
+
+
+        //public Matrix(Vector [] vector)
+        //{
+        //    //TODO: find max vector
+        //    for(int i = 0; i < vector.Length; i++)
+        //    {
+        //        for(int j = 0; j < vector[i].GetSize(); j++)
+        //        {
+        //            Components[i, j] = vector[i].Components[j].AlignVector(maxVector);
+        //        }
+        //    }
+        //}
 
         public override string ToString()
         {
-            string strReturn = "{ ";
-            double[] line = new double[Components.GetLength(1)];
-            for (int i = 0; i < Components.GetLength(0); i++)
+            int length = Vectors.Length;
+            string[] strVectors = new string [length];
+            for(int i = 0; i < length; i++)
             {
-                for (int j = 0; j < Components.GetLength(1); j++)
-                {
-                    line[j] = Components[i, j];
-                }
-                if (i != Components.GetLength(0) - 1)
-                {
-                    strReturn += "{" + string.Join(",", line) + "}, ";
-                }
+                strVectors[i] = Vectors[i].ToString();
             }
-            strReturn += "{" + string.Join(",", line) + "}";
-            return strReturn + " }";
+            return "{ " + string.Join(", ", strVectors) + " }";
         }
     }
 }

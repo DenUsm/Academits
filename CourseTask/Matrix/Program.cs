@@ -6,11 +6,15 @@ namespace Matrix
     {
         static void Main(string[] args)
         {
-            Matrix matrix = new Matrix(5, 5);
-            Console.WriteLine(matrix.ToString());
+            Matrix mat1 = new Matrix(5, 5);
+            Matrix mat2 = new Matrix(new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } });
+            Matrix mat3 = new Matrix(mat2);
 
-            int n = matrix.N;
-            int m = matrix.M;
+            Matrix [] array = new Matrix[] { mat1, mat2, mat3 };
+            foreach(Matrix val in array)
+            {
+                Console.WriteLine(val.ToString());
+            }
 
             Console.ReadKey();
         }

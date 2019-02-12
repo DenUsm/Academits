@@ -9,8 +9,7 @@ namespace Vector
             Vector vec1 = new Vector(5);
             Vector vec2 = new Vector(vec1);
             Vector vec3 = new Vector(new double[] { 1.2, 5.5, 4.7, 8, 6.4 });
-            Vector vec4 = new Vector(3, new double[] {1, 2});
-
+            Vector vec4 = new Vector(5, new double[] { 1, 2, 5, 4, 5 });
 
             Vector sumTest1 = new Vector(7, new double[] { 1, 2, 3, 4, 5 });
             Vector sumTest2 = new Vector(5, new double[] { 1, 2, 3, 4, 5 });
@@ -28,26 +27,22 @@ namespace Vector
 
 
             sumTest1.Sum(sumTest2);
-
-            //Vector res = new Vector(0);
-            //Vector res1 = new Vector(res);
-
-            int size = vec13.GetSize();
-            bool result = vec4.Equals(vec5);
-
-            double component = vec3.GetComponent(3);
-
-            vec4.Sum(vec5);
             vec6.Difference(vec7);
             vec8.Multiplication(10);
 
+            int size = vec13.GetSize();
+            bool equals = vec4.Equals(vec5);
+            double component = vec3.GetComponent(3);
             vec3.SetComponent(0, 100);
+
+            vec12.Turn();
+            double length = vec11.GetLength();
 
             Vector vector1 = Vector.Sum(vec5, vec7);
             Vector vector2 = Vector.Difference(vec5, vec4);
-            //
-            //Vector vector3 = Vector.Multiplication(vec4, vec5);
-            //Vector vector4 = Vector.Multiplication(vec5, vec4);
+            Vector vector3 = Vector.Multiplication(vec4, vec5);
+            Vector vector4 = Vector.Multiplication(vec5, vec4);
+            bool equals1 = vector3.Equals(vector4);
 
             Vector[] vectors = new Vector[] { vec1, vec2, vec3, vec4, vec5, vec6, vec7, vec8, vec9, vec10, vec11, vec12, vec13 };
 

@@ -92,10 +92,7 @@ namespace Vector
 
         public void Turn()
         {
-            for (int i = 0; i < GetSize(); i++)
-            {
-                Components[i] *= -1;
-            }
+            Multiplication(-1);
         }
 
         public double GetLength()
@@ -132,44 +129,16 @@ namespace Vector
             return vector;
         }
 
-        //TODO: Сделать умножение 
         public static Vector Multiplication(Vector firstVector, Vector secondVector)
         {
             Vector vector = new Vector(firstVector.Components);
-            vector.Difference(secondVector);
+            vector.VectorAligment(secondVector);
+            for (int i = 0; i < vector.GetSize(); i++)
+            {
+                vector.Components[i] *= secondVector.Components[i];
+            }
             return vector;
         }
-
-
-        //public static Vector Sum(Vector firstVector, Vector secondVector)
-        //{
-        //    Vector vector = VectorAligment(firstVector, secondVector);
-        //    for (int i = 0; i < secondVector.GetSize(); i++)
-        //    {
-        //        vector.Components[i] += secondVector.Components[i];
-        //    }
-        //    return vector;
-        //}
-        //
-        //public static Vector Difference(Vector firstVector, Vector secondVector)
-        //{
-        //    Vector vector = VectorAligment(firstVector, secondVector);
-        //    for (int i = 0; i < secondVector.GetSize(); i++)
-        //    {
-        //        vector.Components[i] -= secondVector.Components[i];
-        //    }
-        //    return vector;
-        //}
-        //
-        //public static Vector Multiplication(Vector firstVector, Vector secondVector)
-        //{
-        //    Vector vector = VectorAligment(firstVector, secondVector);
-        //    for (int i = 0; i < secondVector.GetSize(); i++)
-        //    {
-        //        vector.Components[i] *= secondVector.Components[i];
-        //    }
-        //    return vector;
-        //}
 
         public override string ToString()
         {
@@ -200,10 +169,7 @@ namespace Vector
                 {
                     continue;
                 }
-                else
-                {
-                    return false;
-                }
+                return false;
             }
             return true;
         }

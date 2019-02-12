@@ -4,62 +4,48 @@ namespace Vector
 {
     class Vector
     {
-        public double[] Components { get; set; }
+        private double[] Components { get; set; }
 
         public Vector(int n)
         {
-            try
+            if (n <= 0)
             {
-                if (n <= 0)
-                {
-                    throw new ArgumentException("Size of vector must be > 0", nameof(n));
-                }
-                Components = new double[n];
-                Components.SetValue(0, Components.Length - 1);
+                throw new ArgumentException("Size of vector must be > 0", nameof(n));
             }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine("{0} do not create {1}", GetType().Name, ex);
-            }
+            Components = new double[n];
         }
 
         public Vector(Vector vector)
         {
-            Components = new double[vector.GetSize()];
-            for(int i = 0; i< vector.GetSize(); i++)
-            {
-                Components[i] = vector.Components[i];
-            }
+            int length = vector.GetSize();
+            Components = new double[length];
+            Array.Copy(vector.Components, Components, length);
         }
 
         public Vector(double[] components)
         {
-            Components = new double[components.Length];
-            for (int i = 0; i < components.Length; i++)
+            int length = components.Length;
+            if (length == 0)
             {
-                Components[i] = components[i];
+                throw new ArgumentException("Size of vector must be > 0", nameof(components));
             }
+            Components = new double[length];
+            Array.Copy(components, Components, length);
         }
 
         public Vector(int n, double[] components)
         {
-            try
+            int length = components.Length;
+            if (length > n)
             {
-                if (components.Length > n)
-                {
-                    throw new ArgumentException("Components count must be <= size of vector", nameof(components));
-                }
-                Components = new double[n];
-                Components.SetValue(0, Components.Length - 1);
-                for (int i = 0; i < components.Length; i++)
-                {
-                    Components[i] = components[i];
-                }
+                throw new ArgumentException("Components count must be <= size of vector", nameof(components));
             }
-            catch (ArgumentException ex)
+            if (n <= 0)
             {
-                Console.WriteLine("{0} do not create {1}", GetType().Name, ex);
+                throw new ArgumentException("Size of vector must be > 0", nameof(n));
             }
+            Components = new double[n];
+            Array.Copy(components, Components, length);
         }
 
         public int GetSize()
@@ -67,18 +53,15 @@ namespace Vector
             return Components.Length;
         }
 
-        private void VectorAligment(Vector vector)
+        public void VectorAligment(Vector vector)
         {
             if (GetSize() < vector.GetSize())
             {
                 double[] copy = Components;
                 Components = new double[vector.GetSize()];
-                Components.SetValue(0, Components.Length - 1);
-                for (int i = 0; i < copy.Length; i++)
-                {
-                    Components[i] = copy[i];
-                }
-            } 
+                Components.SetValue(0, GetSize() - 1);
+                Array.Copy(copy, Components, copy.Length);
+            }
         }
 
         public void Sum(Vector vector)
@@ -130,57 +113,63 @@ namespace Vector
             return Components[index];
         }
 
-        public void SetComponent(double value, int index)
+        public void SetComponent(int index, double value)
         {
             Components[index] = value;
         }
 
-        private static Vector VectorAligment(Vector firstVector, Vector secondVector)
-        {
-            Vector vector = new Vector(firstVector.Components);
-            if (firstVector.GetSize() < secondVector.GetSize())
-            {
-                double[] copy = firstVector.Components;
-
-                vector = new Vector(secondVector.GetSize());
-                vector.Components.SetValue(0, vector.GetSize() - 1);
-                for (int i = 0; i < copy.Length; i++)
-                {
-                    vector.Components[i] = copy[i];
-                }
-            }
-            return vector;
-        }
-
         public static Vector Sum(Vector firstVector, Vector secondVector)
         {
-            Vector vector = VectorAligment(firstVector, secondVector);
-            for (int i = 0; i < secondVector.GetSize(); i++)
-            {
-                vector.Components[i] += secondVector.Components[i];
-            }
+            Vector vector = new Vector(firstVector.Components);
+            vector.Sum(secondVector);
             return vector;
         }
 
         public static Vector Difference(Vector firstVector, Vector secondVector)
         {
-            Vector vector = VectorAligment(firstVector, secondVector);
-            for (int i = 0; i < secondVector.GetSize(); i++)
-            {
-                vector.Components[i] -= secondVector.Components[i];
-            }
+            Vector vector = new Vector(firstVector.Components);
+            vector.Difference(secondVector);
             return vector;
         }
 
+        //TODO: Сделать умножение 
         public static Vector Multiplication(Vector firstVector, Vector secondVector)
         {
-            Vector vector = VectorAligment(firstVector, secondVector);
-            for (int i = 0; i < secondVector.GetSize(); i++)
-            {
-                vector.Components[i] *= secondVector.Components[i];
-            }
+            Vector vector = new Vector(firstVector.Components);
+            vector.Difference(secondVector);
             return vector;
         }
+
+
+        //public static Vector Sum(Vector firstVector, Vector secondVector)
+        //{
+        //    Vector vector = VectorAligment(firstVector, secondVector);
+        //    for (int i = 0; i < secondVector.GetSize(); i++)
+        //    {
+        //        vector.Components[i] += secondVector.Components[i];
+        //    }
+        //    return vector;
+        //}
+        //
+        //public static Vector Difference(Vector firstVector, Vector secondVector)
+        //{
+        //    Vector vector = VectorAligment(firstVector, secondVector);
+        //    for (int i = 0; i < secondVector.GetSize(); i++)
+        //    {
+        //        vector.Components[i] -= secondVector.Components[i];
+        //    }
+        //    return vector;
+        //}
+        //
+        //public static Vector Multiplication(Vector firstVector, Vector secondVector)
+        //{
+        //    Vector vector = VectorAligment(firstVector, secondVector);
+        //    for (int i = 0; i < secondVector.GetSize(); i++)
+        //    {
+        //        vector.Components[i] *= secondVector.Components[i];
+        //    }
+        //    return vector;
+        //}
 
         public override string ToString()
         {
@@ -197,9 +186,15 @@ namespace Vector
             {
                 return false;
             }
+
             Vector vector = (Vector)obj;
-            bool equals = true;
-            for(int i = 0; i < GetSize(); i++)
+
+            if (GetSize() != vector.GetSize())
+            {
+                return false;
+            }
+
+            for (int i = 0; i < GetSize(); i++)
             {
                 if (Components[i] == vector.Components[i])
                 {
@@ -207,18 +202,19 @@ namespace Vector
                 }
                 else
                 {
-                    equals = false;
+                    return false;
                 }
             }
-            return equals && GetSize() == vector.GetSize();
+            return true;
         }
 
         public override int GetHashCode()
         {
+            int prime = 37;
             int hash = 1;
-            for (int i = 0; i < GetSize(); i++)
+            foreach (double value in Components)
             {
-                hash += Components[i].GetHashCode();
+                hash += prime * hash + value.GetHashCode();
             }
             return hash;
         }

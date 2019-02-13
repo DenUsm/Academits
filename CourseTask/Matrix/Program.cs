@@ -42,6 +42,15 @@ namespace Matrix
             mat7.Transposition();
             Console.WriteLine("Transposition" + mat7.ToString());
 
+            Matrix mat8 = new Matrix(new double[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } });
+            Matrix mat9 = new Matrix(new double[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } });
+            mat9.Sum(mat8);
+            Console.WriteLine("Sum" + mat9.ToString());
+
+            Matrix mat10 = new Matrix(new double[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } });
+            Matrix mat11 = new Matrix(new double[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } });
+            mat10.Sum(mat11);
+
             Matrix[] array = new Matrix[] { mat1, mat2, mat3, mat4 };
             foreach (Matrix val in array)
             {

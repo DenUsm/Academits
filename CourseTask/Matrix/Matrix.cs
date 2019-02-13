@@ -139,14 +139,64 @@ namespace Matrix
             }
         }
 
+        //TODO: Доделать детерменант
         public double GetDeterminant()
         {
             return 1;
         }
 
+        //TODO: Доделать матрицу на вектор
         public void MatrixOnVectorMultiplication(Vector vector)
         {
 
+        }
+
+        public void Sum(Matrix matrix)
+        {
+            for (int j = 0; j < Vectors.Length; j++)
+            {
+                Vectors[j].Sum(matrix.Vectors[j]);
+            }
+        }
+
+        public void Difference(Matrix matrix)
+        {
+            for (int j = 0; j < Vectors.Length; j++)
+            {
+                Vectors[j].Difference(matrix.Vectors[j]);
+            }
+        }
+
+        public static Matrix Sum(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            Matrix matrix = new Matrix(firstMatrix.Vectors.Length, secondMatrix.Vectors.Length);
+            for(int i = 0; i < matrix.Vectors.Length; i++)
+            {
+                matrix.Vectors[i] = Vector.Sum(firstMatrix.Vectors[i], secondMatrix.Vectors[i]);
+            }
+            return matrix;
+        }
+
+        public static Matrix Difference(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            Matrix matrix = new Matrix(firstMatrix.Vectors.Length, secondMatrix.Vectors.Length);
+            for (int i = 0; i < matrix.Vectors.Length; i++)
+            {
+                matrix.Vectors[i] = Vector.Difference(firstMatrix.Vectors[i], secondMatrix.Vectors[i]);
+            }
+            return matrix;
+        }
+
+        //TODO: Доделать умножение суть понятна
+        public static Matrix Multiplication(Matrix firstMatrix, Matrix secondMatrix)
+        {
+            Matrix matrix = new Matrix(firstMatrix.Vectors.Length, secondMatrix.Vectors.Length);
+            for (int i = 0; i < matrix.Vectors.Length; i++)
+            {
+                Vector vec2 = firstMatrix.GetColumVector(1);
+                matrix.Vectors[i] = Vector.Sum(firstMatrix.GetColumVector(i), secondMatrix.GetColumVector(i));
+            }
+            return matrix;
         }
 
         public override string ToString()

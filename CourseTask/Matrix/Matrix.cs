@@ -79,6 +79,18 @@ namespace Matrix
             return Vectors[index];
         }
 
+        public void SetLineVector(int index, Vector vector)
+        {
+            if ((index < 0) || (index >= Vectors.Length))
+            {
+                throw new ArgumentOutOfRangeException("Index must be range [0; Matrix Line count - 1]", nameof(index));
+            }
+            if(vector.GetSize() > Vectors[index].GetSize())
+            {
+                throw new ArgumentOutOfRangeException("Vector must be less or equals line size matrix", nameof(vector));
+            }
+            Vectors[index] = new Vector(vector);
+        }
 
 
         public override string ToString()

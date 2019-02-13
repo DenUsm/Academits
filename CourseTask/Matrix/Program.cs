@@ -14,6 +14,14 @@ namespace Matrix
             Vector vec1 = mat4.GetLineVector(2);
             Console.WriteLine(vec1.ToString());
 
+            Console.WriteLine();
+
+            Console.WriteLine(mat4.ToString());
+            mat4.SetLineVector(1, new Vector(5, new double[] { 5, 5, 5, 5, 5 }));
+            Console.WriteLine(mat4.ToString());
+
+            Console.WriteLine();
+
             Matrix[] array = new Matrix[] { mat1, mat2, mat3, mat4 };
             foreach (Matrix val in array)
             {

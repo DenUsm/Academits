@@ -1,4 +1,6 @@
-﻿namespace Matrix
+﻿using System;
+
+namespace Matrix
 {
     class Matrix
     {
@@ -27,14 +29,14 @@
         public Matrix(double[,] array)
         {
             int lengthWigth = array.GetLength(0);
-            int lengthHeugth = array.GetLength(1);
+            int lengthHeigth = array.GetLength(1);
 
             Vectors = new Vector[lengthWigth];
-            double[] line = new double[lengthHeugth];
+            double[] line = new double[lengthHeigth];
 
             for (int i = 0; i < lengthWigth; i++)
             {
-                for (int j = 0; j < lengthHeugth; j++)
+                for (int j = 0; j < lengthHeigth; j++)
                 {
                     line[j] = array[i, j];
                 }
@@ -42,23 +44,19 @@
             }
         }
 
-        public Matrix(Vector [] vector)
+        public Matrix(Vector[] vector)
         {
-            int maxSizeVector = 0;
             int length = vector.Length;
-            for (int t = 1; t < length; t++)
-            {
-                if(vector[t].GetSize() > maxSizeVector)
-                {
-                    maxSizeVector = t;
-                }
-            }
+            Vector[] copy = new Vector[length];
+            Array.Copy(vector, copy, length);
+            Array.Sort(copy, new VectorSizeComparer());
+
             Vectors = new Vector[length];
             for (int i = 0; i < length; i++)
             {
-                Vector copyVector = new Vector(vector[i]);
-                copyVector.VectorAligment(vector[maxSizeVector]);
-                Vectors[i] = new Vector(copyVector);
+                Vector aligmentVector = new Vector(vector[i]);
+                aligmentVector.VectorAligment(copy[0]);
+                Vectors[i] = new Vector(aligmentVector);
             }
         }
 
@@ -72,12 +70,22 @@
             return Vectors[0].GetSize();
         }
 
+        public Vector GetLineVector(int index)
+        {
+            if ((index < 0) || (index >= Vectors.Length))
+            {
+                throw new ArgumentOutOfRangeException("Index must be range [0; Matrix Line count - 1]", nameof(index));
+            }
+            return Vectors[index];
+        }
+
+
 
         public override string ToString()
         {
             int length = Vectors.Length;
-            string[] strVectors = new string [length];
-            for(int i = 0; i < length; i++)
+            string[] strVectors = new string[length];
+            for (int i = 0; i < length; i++)
             {
                 strVectors[i] = Vectors[i].ToString();
             }

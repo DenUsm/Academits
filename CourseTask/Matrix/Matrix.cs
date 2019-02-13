@@ -4,7 +4,7 @@ namespace Matrix
 {
     class Matrix
     {
-        public Vector[] Vectors { get; set; }
+        private Vector[] Vectors { get; set; }
 
         public Matrix(int n, int m)
         {
@@ -108,13 +108,20 @@ namespace Matrix
 
         public void Transposition()
         {
-            for (int i = 0; i < Vectors.Length; i++)
+            Matrix copy = new Matrix(Vectors);
+            Vectors = new Vector[Vectors[0].GetSize()];
+
+            for(int k = 0; k < Vectors.Length; k++)
             {
-                for (int j = i; j < Vectors[i].GetSize(); j++)
+                Vectors[k] = new Vector(copy.Vectors.Length);
+            }
+
+            for (int i = 0; i < Vectors[i].GetSize(); i++)
+            {
+                Vector line = copy.GetLineVector(i);
+                for (int j = 0; j < Vectors.Length; j++)
                 {
-                    double temp = Vectors[i].GetComponent(j);
-                    Vectors[i].SetComponent(j, Vectors[j].GetComponent(i));
-                    Vectors[j].SetComponent(i, temp);
+                    Vectors[j].SetComponent(i, copy.Vectors[i].GetComponent(j));
                 }
             }
         }
@@ -129,6 +136,11 @@ namespace Matrix
                     Vectors[i].SetComponent(j, temp * value);
                 }
             }
+        }
+
+        public void MatrixOnVectorMultiplication(Vector vector)
+        {
+
         }
 
         public override string ToString()

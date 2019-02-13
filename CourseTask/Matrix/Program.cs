@@ -31,9 +31,15 @@ namespace Matrix
 
             Console.WriteLine();
 
-            Matrix mat6 = new Matrix(new double[,] { { 1, 2, 3, 4}, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 13, 14, 15, 16 } });
+            Matrix mat6 = new Matrix(new double[,] { { 4, 7, 2, 1}, { 3, 9, 8, 6 } });
             mat6.Transposition();
             Console.WriteLine("Transposition" + mat6.ToString());
+
+            Console.WriteLine();
+
+            Matrix mat7 = new Matrix(new double[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } });
+            mat7.Transposition();
+            Console.WriteLine("Transposition" + mat7.ToString());
 
             Matrix[] array = new Matrix[] { mat1, mat2, mat3, mat4 };
             foreach (Matrix val in array)

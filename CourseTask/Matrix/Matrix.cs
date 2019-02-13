@@ -94,7 +94,7 @@ namespace Matrix
 
         public Vector GetColumVector(int index)
         {
-            if((index < 0) || (index >= Vectors[0].GetSize()))
+            if ((index < 0) || (index >= Vectors[0].GetSize()))
             {
                 throw new ArgumentOutOfRangeException("Index must be range [0; Matrix Line count - 1]", nameof(index));
             }
@@ -104,6 +104,19 @@ namespace Matrix
                 copyValue[i] = Vectors[i].GetComponent(index);
             }
             return new Vector(copyValue);
+        }
+
+        public void Transposition()
+        {
+            for (int i = 0; i < Vectors.Length; i++)
+            {
+                for (int j = i; j < Vectors[i].GetSize(); j++)
+                {
+                    double temp = Vectors[i].GetComponent(j);
+                    Vectors[i].SetComponent(j, Vectors[j].GetComponent(i));
+                    Vectors[j].SetComponent(i, temp);
+                }
+            }
         }
 
         public override string ToString()

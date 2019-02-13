@@ -42,13 +42,7 @@ namespace VectorTask
                 throw new ArgumentException("Size of vector must be > 0", nameof(n));
             }
 
-            int length = components.Length;
-            if (length < n)
-            {
-                length = n;
-            }
-
-            Components = new double[length];
+            Components = new double[n];
             Array.Copy(components, Components, components.Length);
         }
 
@@ -134,13 +128,16 @@ namespace VectorTask
 
         public static double Multiplication(Vector firstVector, Vector secondVector)
         {
-            Vector vector = new Vector(firstVector);
-            vector.VectorAligment(secondVector);
+            if (firstVector.GetSize() < secondVector.GetSize())
+            {
+                firstVector.Components = new double[secondVector.GetSize()];
+                Array.Copy(secondVector.Components, firstVector.Components, secondVector.GetSize());
+            }
 
             double sumMultiplicationComponent = 0;
-            for (int i = 0; i < vector.GetSize(); i++)
+            for (int i = 0; i < firstVector.GetSize(); i++)
             {
-                sumMultiplicationComponent += vector.Components[i] * secondVector.Components[i];
+                sumMultiplicationComponent += firstVector.Components[i] * secondVector.Components[i];
             }
             return sumMultiplicationComponent;
         }

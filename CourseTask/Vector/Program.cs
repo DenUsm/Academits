@@ -14,7 +14,7 @@ namespace VectorTask
             Vector sumTest1 = new Vector(7, new double[] { 1, 2, 3, 4, 5 });
             Vector sumTest2 = new Vector(5, new double[] { 1, 2, 3, 4, 5 });
 
-            Vector vec5 = new Vector(2, new double[] { 1, 2, 5, 4, 5 });
+            Vector vec5 = new Vector(5, new double[] { 1, 2, 5, 4, 5 });
             Vector vec6 = new Vector(7, new double[] { 1, 2, 5, 4, 5 });
 
             Vector vec7 = new Vector(7, new double[] { 1, 2, 5, 4, 5 });

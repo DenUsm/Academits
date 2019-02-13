@@ -85,13 +85,26 @@ namespace Matrix
             {
                 throw new ArgumentOutOfRangeException("Index must be range [0; Matrix Line count - 1]", nameof(index));
             }
-            if(vector.GetSize() > Vectors[index].GetSize())
+            if (vector.GetSize() > Vectors[index].GetSize())
             {
                 throw new ArgumentOutOfRangeException("Vector must be less or equals line size matrix", nameof(vector));
             }
             Vectors[index] = new Vector(vector);
         }
 
+        public Vector GetColumVector(int index)
+        {
+            if((index < 0) || (index >= Vectors[0].GetSize()))
+            {
+                throw new ArgumentOutOfRangeException("Index must be range [0; Matrix Line count - 1]", nameof(index));
+            }
+            double[] copyValue = new double[Vectors.Length];
+            for (int i = 0; i < Vectors.Length; i++)
+            {
+                copyValue[i] = Vectors[i].GetComponent(index);
+            }
+            return new Vector(copyValue);
+        }
 
         public override string ToString()
         {

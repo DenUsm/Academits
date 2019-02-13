@@ -17,8 +17,14 @@ namespace Matrix
             Console.WriteLine();
 
             Console.WriteLine(mat4.ToString());
-            mat4.SetLineVector(1, new Vector(5, new double[] { 5, 5, 5, 5, 5 }));
+            mat4.SetLineVector(2, new Vector(5, new double[] { 5, 5, 5, 5, 5 }));
             Console.WriteLine(mat4.ToString());
+
+            Matrix mat5 = new Matrix(new Vector[] { new Vector(5, new double[] { 1, 2, 3, 4, 5 }), new Vector(5, new double[] { 1, 2, 3, 4, 5 }),
+                                                    new Vector(5, new double[] { 1, 2, 3, 4, 5 }), new Vector(5, new double[] { 1, 2, 3, 4, 5 }),
+                                                    new Vector(5, new double[] { 1, 2, 3, 4, 5 })});
+            Vector vec2 = mat5.GetColumVector(1);
+            Console.WriteLine(vec2.ToString());
 
             Console.WriteLine();
 

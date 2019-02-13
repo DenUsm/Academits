@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vector
+namespace VectorTask
 {
     class Vector
     {
@@ -12,6 +12,7 @@ namespace Vector
             {
                 throw new ArgumentException("Size of vector must be > 0", nameof(n));
             }
+
             Components = new double[n];
         }
 
@@ -29,23 +30,26 @@ namespace Vector
             {
                 throw new ArgumentException("Size of vector must be > 0", nameof(components));
             }
+
             Components = new double[length];
             Array.Copy(components, Components, length);
         }
 
         public Vector(int n, double[] components)
         {
-            int length = components.Length;
-            if (length > n)
-            {
-                throw new ArgumentException("Components count must be <= size of vector", nameof(components));
-            }
             if (n <= 0)
             {
                 throw new ArgumentException("Size of vector must be > 0", nameof(n));
             }
-            Components = new double[n];
-            Array.Copy(components, Components, length);
+
+            int length = components.Length;
+            if (length < n)
+            {
+                length = n;
+            }
+
+            Components = new double[length];
+            Array.Copy(components, Components, components.Length);
         }
 
         public int GetSize()
@@ -59,7 +63,6 @@ namespace Vector
             {
                 double[] copy = Components;
                 Components = new double[vector.GetSize()];
-                Components.SetValue(0, GetSize() - 1);
                 Array.Copy(copy, Components, copy.Length);
             }
         }
@@ -117,27 +120,29 @@ namespace Vector
 
         public static Vector Sum(Vector firstVector, Vector secondVector)
         {
-            Vector vector = new Vector(firstVector.Components);
+            Vector vector = new Vector(firstVector);
             vector.Sum(secondVector);
             return vector;
         }
 
         public static Vector Difference(Vector firstVector, Vector secondVector)
         {
-            Vector vector = new Vector(firstVector.Components);
+            Vector vector = new Vector(firstVector);
             vector.Difference(secondVector);
             return vector;
         }
 
-        public static Vector Multiplication(Vector firstVector, Vector secondVector)
+        public static double Multiplication(Vector firstVector, Vector secondVector)
         {
-            Vector vector = new Vector(firstVector.Components);
+            Vector vector = new Vector(firstVector);
             vector.VectorAligment(secondVector);
+
+            double sumMultiplicationComponent = 0;
             for (int i = 0; i < vector.GetSize(); i++)
             {
-                vector.Components[i] *= secondVector.Components[i];
+                sumMultiplicationComponent += vector.Components[i] * secondVector.Components[i];
             }
-            return vector;
+            return sumMultiplicationComponent;
         }
 
         public override string ToString()
@@ -165,11 +170,10 @@ namespace Vector
 
             for (int i = 0; i < GetSize(); i++)
             {
-                if (Components[i] == vector.Components[i])
+                if (Components[i] != vector.Components[i])
                 {
-                    continue;
+                    return false;
                 }
-                return false;
             }
             return true;
         }

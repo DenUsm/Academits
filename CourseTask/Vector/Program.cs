@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vector
+namespace VectorTask
 {
     class Program
     {
@@ -14,7 +14,7 @@ namespace Vector
             Vector sumTest1 = new Vector(7, new double[] { 1, 2, 3, 4, 5 });
             Vector sumTest2 = new Vector(5, new double[] { 1, 2, 3, 4, 5 });
 
-            Vector vec5 = new Vector(5, new double[] { 1, 2, 5, 4, 5 });
+            Vector vec5 = new Vector(2, new double[] { 1, 2, 5, 4, 5 });
             Vector vec6 = new Vector(7, new double[] { 1, 2, 5, 4, 5 });
 
             Vector vec7 = new Vector(7, new double[] { 1, 2, 5, 4, 5 });
@@ -40,8 +40,8 @@ namespace Vector
 
             Vector vector1 = Vector.Sum(vec5, vec7);
             Vector vector2 = Vector.Difference(vec5, vec4);
-            Vector vector3 = Vector.Multiplication(vec4, vec5);
-            Vector vector4 = Vector.Multiplication(vec5, vec4);
+            double vector3 = Vector.Multiplication(vec4, vec5);
+            double vector4 = Vector.Multiplication(vec5, vec4);
             bool equals1 = vector3.Equals(vector4);
 
             Vector[] vectors = new Vector[] { vec1, vec2, vec3, vec4, vec5, vec6, vec7, vec8, vec9, vec10, vec11, vec12, vec13 };

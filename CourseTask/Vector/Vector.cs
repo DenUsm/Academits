@@ -2,7 +2,7 @@
 
 namespace VectorTask
 {
-    class Vector
+    public class Vector
     {
         private double[] Components { get; set; }
 

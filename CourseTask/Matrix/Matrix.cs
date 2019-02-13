@@ -1,4 +1,5 @@
 ﻿using System;
+using VectorTask;
 
 namespace Matrix
 {
@@ -111,7 +112,7 @@ namespace Matrix
             Matrix copy = new Matrix(Vectors);
             Vectors = new Vector[Vectors[0].GetSize()];
 
-            for(int k = 0; k < Vectors.Length; k++)
+            for (int k = 0; k < Vectors.Length; k++)
             {
                 Vectors[k] = new Vector(copy.Vectors.Length);
             }
@@ -136,6 +137,11 @@ namespace Matrix
                     Vectors[i].SetComponent(j, temp * value);
                 }
             }
+        }
+
+        public double GetDeterminant()
+        {
+            return 1;
         }
 
         public void MatrixOnVectorMultiplication(Vector vector)

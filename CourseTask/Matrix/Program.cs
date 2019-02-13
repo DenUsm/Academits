@@ -26,6 +26,9 @@ namespace Matrix
             Vector vec2 = mat5.GetColumVector(1);
             Console.WriteLine(vec2.ToString());
 
+            mat5.Multiplication(2);
+            Console.WriteLine("Multiplication" + mat5.ToString());
+
             Console.WriteLine();
 
             Matrix mat6 = new Matrix(new double[,] { { 1, 2, 3, 4}, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 13, 14, 15, 16 } });

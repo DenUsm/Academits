@@ -119,6 +119,18 @@ namespace Matrix
             }
         }
 
+        public void Multiplication(int value)
+        {
+            for (int i = 0; i < Vectors.Length; i++)
+            {
+                for (int j = 0; j < Vectors[i].GetSize(); j++)
+                {
+                    double temp = Vectors[i].GetComponent(j);
+                    Vectors[i].SetComponent(j, temp * value);
+                }
+            }
+        }
+
         public override string ToString()
         {
             int length = Vectors.Length;

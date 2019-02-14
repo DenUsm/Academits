@@ -67,8 +67,12 @@ namespace Matrix
             Console.WriteLine("Multiplication new matrix" + matResult1.ToString());
 
             Matrix mat17 = new Matrix(new double[,] { { 5, 7, 6 }, { 3, 16, 19 }, { 13, 10, 7 } });
-            mat17.GetDeterminant();
-            Console.WriteLine("Transposition matrix" + mat17.ToString());
+            double res = mat17.GetDeterminant();
+            Console.WriteLine("Determenet matrix " + res);
+
+            Matrix mat18 = new Matrix(new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 10 } });
+            double res1 = mat18.GetDeterminant();
+            Console.WriteLine("Determenet matrix " + res1);
 
 
             Matrix[] array = new Matrix[] { mat1, mat2, mat3, mat4 };

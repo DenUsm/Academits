@@ -145,12 +145,12 @@ namespace Matrix
                 }
             }
 
-            double resultMultiplication = 0;
+            double resultMultiplication = 1;
             for (int i = 0; i < GetN(); i++)
             {
-
+                resultMultiplication *= Vectors[i].GetComponent(i);
             }
-            return 1;
+            return resultMultiplication;
         }
 
         public void MatrixOnVectorMultiplication(Vector vector)

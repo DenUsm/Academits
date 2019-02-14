@@ -66,6 +66,11 @@ namespace Matrix
             Matrix matResult1 = Matrix.Multiplication(mat15, mat16);
             Console.WriteLine("Multiplication new matrix" + matResult1.ToString());
 
+            Matrix mat17 = new Matrix(new double[,] { { 5, 7, 6 }, { 3, 16, 19 }, { 13, 10, 7 } });
+            mat17.GetDeterminant();
+            Console.WriteLine("Transposition matrix" + mat17.ToString());
+
+
             Matrix[] array = new Matrix[] { mat1, mat2, mat3, mat4 };
             foreach (Matrix val in array)
             {

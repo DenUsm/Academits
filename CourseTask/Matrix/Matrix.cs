@@ -91,7 +91,7 @@ namespace Matrix
 
         public Vector GetColumVector(int index)
         {
-            if ((index < 0) || (index >= Vectors[0].GetSize()))
+            if ((index < 0) || (index >= GetM()))
             {
                 throw new ArgumentOutOfRangeException("Index must be range [0; Matrix Line count - 1]", nameof(index));
             }
@@ -106,14 +106,14 @@ namespace Matrix
         public void Transposition()
         {
             Matrix copy = new Matrix(Vectors);
-            Vectors = new Vector[Vectors[0].GetSize()];
+            Vectors = new Vector[GetM()];
 
             for (int k = 0; k < Vectors.Length; k++)
             {
                 Vectors[k] = new Vector(copy.Vectors.Length);
             }
 
-            for (int i = 0; i < Vectors[i].GetSize(); i++)
+            for (int i = 0; i < GetM(); i++)
             {
                 Vector line = copy.GetLineVector(i);
                 for (int j = 0; j < Vectors.Length; j++)
@@ -131,9 +131,25 @@ namespace Matrix
             }
         }
 
-        //TODO: Доделать детерменант
         public double GetDeterminant()
         {
+            for (int i = 0; i < GetM(); i++)
+            {
+                for (int j = i + 1; j < GetN(); j++)
+                {
+                    Vector vector = new Vector(Vectors[i]);
+                    double value = -Vectors[j].GetComponent(i) / Vectors[i].GetComponent(i);
+                    Vectors[i].Multiplication(value);
+                    Vectors[j].Sum(Vectors[i]);
+                    Vectors[i] = vector;
+                }
+            }
+
+            double resultMultiplication = 0;
+            for (int i = 0; i < GetN(); i++)
+            {
+
+            }
             return 1;
         }
 
@@ -194,7 +210,7 @@ namespace Matrix
 
         public static Matrix Multiplication(Matrix firstMatrix, Matrix secondMatrix)
         {
-            int columsCount = Math.Max(firstMatrix.Vectors[0].GetSize(), secondMatrix.Vectors[0].GetSize());
+            int columsCount = Math.Max(firstMatrix.GetM(), secondMatrix.GetM());
             int rowsCount = Math.Max(firstMatrix.Vectors.Length, secondMatrix.Vectors.Length);
 
             if (columsCount != rowsCount)

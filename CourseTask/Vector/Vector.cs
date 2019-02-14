@@ -43,7 +43,7 @@ namespace VectorTask
             }
 
             Components = new double[n];
-            Array.Copy(components, Components, (n > components.Length) ? components.Length : n);
+            Array.Copy(components, Components, Math.Min(n, components.Length));
         }
 
         public int GetSize()

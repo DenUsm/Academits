@@ -19,9 +19,9 @@ namespace Matrix
 
         public Matrix(Matrix matrix)
         {
-            int legth = matrix.GetN();
-            Vectors = new Vector[legth];
-            for (int i = 0; i < legth; i++)
+            int length = matrix.GetN();
+            Vectors = new Vector[length];
+            for (int i = 0; i < length; i++)
             {
                 Vectors[i] = new Vector(matrix.Vectors[i]);
             }
@@ -30,14 +30,14 @@ namespace Matrix
         public Matrix(double[,] array)
         {
             int lengthWigth = array.GetLength(0);
-            int lengthHeigth = array.GetLength(1);
+            int lengthHeight = array.GetLength(1);
 
             Vectors = new Vector[lengthWigth];
-            double[] line = new double[lengthHeigth];
+            double[] line = new double[lengthHeight];
 
             for (int i = 0; i < lengthWigth; i++)
             {
-                for (int j = 0; j < lengthHeigth; j++)
+                for (int j = 0; j < lengthHeight; j++)
                 {
                     line[j] = array[i, j];
                 }
@@ -86,10 +86,6 @@ namespace Matrix
             {
                 throw new ArgumentOutOfRangeException("Index must be range [0; Matrix Line count - 1]", nameof(index));
             }
-            if (vector.GetSize() > Vectors[index].GetSize())
-            {
-                throw new ArgumentOutOfRangeException("Vector must be less or equals line size matrix", nameof(vector));
-            }
             Vectors[index] = new Vector(vector);
         }
 
@@ -129,13 +125,9 @@ namespace Matrix
 
         public void Multiplication(int value)
         {
-            for (int i = 0; i < Vectors.Length; i++)
+            foreach (Vector vector in Vectors)
             {
-                for (int j = 0; j < Vectors[i].GetSize(); j++)
-                {
-                    double temp = Vectors[i].GetComponent(j);
-                    Vectors[i].SetComponent(j, temp * value);
-                }
+                vector.Multiplication(value);
             }
         }
 
@@ -145,14 +137,26 @@ namespace Matrix
             return 1;
         }
 
-        //TODO: Доделать матрицу на вектор
         public void MatrixOnVectorMultiplication(Vector vector)
         {
-
+            int length = vector.GetSize();
+            double[] value = new double[length];
+            for (int i = 0; i < length; i++)
+            {
+                value[i] = Vector.ScalarMultiplication(vector, GetColumVector(i));
+            }
+            Vectors = new Vector[] { new Vector(value) };
         }
 
         public void Sum(Matrix matrix)
         {
+            int currentLength = Vectors.Length;
+            int length = matrix.Vectors.Length;
+
+            if (length != currentLength)
+            {
+                throw new ArgumentOutOfRangeException("Parameter N by matrices must be equals", nameof(matrix.Vectors.Length));
+            }
             for (int j = 0; j < Vectors.Length; j++)
             {
                 Vectors[j].Sum(matrix.Vectors[j]);
@@ -161,6 +165,13 @@ namespace Matrix
 
         public void Difference(Matrix matrix)
         {
+            int currentLength = Vectors.Length;
+            int length = matrix.Vectors.Length;
+
+            if (length != currentLength)
+            {
+                throw new ArgumentOutOfRangeException("Parameter N by matrices must be equals", nameof(matrix.Vectors.Length));
+            }
             for (int j = 0; j < Vectors.Length; j++)
             {
                 Vectors[j].Difference(matrix.Vectors[j]);
@@ -169,32 +180,37 @@ namespace Matrix
 
         public static Matrix Sum(Matrix firstMatrix, Matrix secondMatrix)
         {
-            Matrix matrix = new Matrix(firstMatrix.Vectors.Length, secondMatrix.Vectors.Length);
-            for(int i = 0; i < matrix.Vectors.Length; i++)
-            {
-                matrix.Vectors[i] = Vector.Sum(firstMatrix.Vectors[i], secondMatrix.Vectors[i]);
-            }
+            Matrix matrix = new Matrix(firstMatrix);
+            matrix.Sum(secondMatrix);
             return matrix;
         }
 
         public static Matrix Difference(Matrix firstMatrix, Matrix secondMatrix)
         {
-            Matrix matrix = new Matrix(firstMatrix.Vectors.Length, secondMatrix.Vectors.Length);
-            for (int i = 0; i < matrix.Vectors.Length; i++)
-            {
-                matrix.Vectors[i] = Vector.Difference(firstMatrix.Vectors[i], secondMatrix.Vectors[i]);
-            }
+            Matrix matrix = new Matrix(firstMatrix);
+            matrix.Difference(secondMatrix);
             return matrix;
         }
 
-        //TODO: Доделать умножение суть понятна
         public static Matrix Multiplication(Matrix firstMatrix, Matrix secondMatrix)
         {
-            Matrix matrix = new Matrix(firstMatrix.Vectors.Length, secondMatrix.Vectors.Length);
-            for (int i = 0; i < matrix.Vectors.Length; i++)
+            int columsCount = Math.Max(firstMatrix.Vectors[0].GetSize(), secondMatrix.Vectors[0].GetSize());
+            int rowsCount = Math.Max(firstMatrix.Vectors.Length, secondMatrix.Vectors.Length);
+
+            if (columsCount != rowsCount)
             {
-                Vector vec2 = firstMatrix.GetColumVector(1);
-                matrix.Vectors[i] = Vector.Sum(firstMatrix.GetColumVector(i), secondMatrix.GetColumVector(i));
+                throw new Exception("Colums count first matrix must be equals rows count second matrix");
+            }
+
+            Matrix matrix = new Matrix(rowsCount, columsCount);
+            double[] value = new double[columsCount];
+            for (int i = 0; i < matrix.GetN(); i++)
+            {
+                for (int j = 0; j < matrix.GetM(); j++)
+                {
+                    value[j] = Vector.ScalarMultiplication(firstMatrix.Vectors[i], secondMatrix.GetColumVector(j));
+                }
+                matrix.Vectors[i] = new Vector(value);
             }
             return matrix;
         }

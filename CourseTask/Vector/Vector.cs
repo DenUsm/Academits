@@ -41,17 +41,9 @@ namespace VectorTask
             {
                 throw new ArgumentException("Size of vector must be > 0", nameof(n));
             }
-        
-            Components = new double[n];
 
-            if(n > components.Length)
-            {
-                Array.Copy(components, Components, components.Length);
-            }
-            else
-            {
-                Array.Copy(components, Components, n);
-            }
+            Components = new double[n];
+            Array.Copy(components, Components, (n > components.Length) ? components.Length : n);
         }
 
         public int GetSize()
@@ -134,10 +126,11 @@ namespace VectorTask
             return vector;
         }
 
-        public static double Multiplication(Vector firstVector, Vector secondVector)
+        public static double ScalarMultiplication(Vector firstVector, Vector secondVector)
         {
             double sumMultiplicationComponent = 0;
-            for (int i = 0; i < Math.Min(firstVector.GetSize(), secondVector.GetSize()); i++)
+            int length = Math.Min(firstVector.GetSize(), secondVector.GetSize());
+            for (int i = 0; i < length; i++)
             {
                 sumMultiplicationComponent += firstVector.Components[i] * secondVector.Components[i];
             }

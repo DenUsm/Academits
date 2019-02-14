@@ -79,7 +79,7 @@ namespace VectorTask
             }
         }
 
-        public void Multiplication(int value)
+        public void Multiplication(double value)
         {
             for (int i = 0; i < GetSize(); i++)
             {

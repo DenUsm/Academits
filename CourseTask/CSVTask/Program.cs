@@ -8,8 +8,7 @@ namespace CSVTask
     {
         static void Main(string[] args)
         {
-            string strAllFile;
-            using (StreamReader reader = new StreamReader(@"Example.csv", Encoding.Default))
+            using (StreamReader reader = new StreamReader(@"Test.txt", Encoding.Default))
             {
                 string currentLine;
                 while((currentLine = reader.ReadLine()) != null)

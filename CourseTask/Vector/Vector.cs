@@ -51,7 +51,7 @@ namespace VectorTask
             return Components.Length;
         }
 
-        public void VectorAligment(Vector vector)
+        public void MakeAligment(Vector vector)
         {
             if (GetSize() < vector.GetSize())
             {
@@ -63,7 +63,7 @@ namespace VectorTask
 
         public void Sum(Vector vector)
         {
-            VectorAligment(vector);
+            MakeAligment(vector);
             for (int i = 0; i < vector.GetSize(); i++)
             {
                 Components[i] += vector.Components[i];
@@ -72,7 +72,7 @@ namespace VectorTask
 
         public void Difference(Vector vector)
         {
-            VectorAligment(vector);
+            MakeAligment(vector);
             for (int i = 0; i < vector.GetSize(); i++)
             {
                 Components[i] -= vector.Components[i];

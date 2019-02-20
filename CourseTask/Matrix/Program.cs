@@ -18,7 +18,7 @@ namespace Matrix
             Console.WriteLine();
 
             Console.WriteLine(mat4.ToString());
-            mat4.SetLine(2, new Vector(5, new double[] { 5, 5, 5, 5, 5, 5 }));
+            mat4.SetLine(2, new Vector(5, new double[] { 5, 5, 5, 5, 5 }));
             Console.WriteLine(mat4.ToString());
 
             Matrix mat5 = new Matrix(new Vector[] { new Vector(5, new double[] { 1, 2, 3, 4, 5 }), new Vector(5, new double[] { 1, 2, 3, 4, 5 }),
@@ -51,8 +51,8 @@ namespace Matrix
             Matrix mat11 = new Matrix(new double[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } });
             mat10.Sum(mat11);
 
-            Matrix mat12 = new Matrix(new double[,] { { 1, 2, 3 }, { 4, 5, 6 } });
-            Vector vec3 = new Vector(new double[] { 1, 2, 3 });
+            Matrix mat12 = new Matrix(new double[,] { { 2, 4, 0 }, { -2, 1, 3 }, { -1, 0, 1 } });
+            Vector vec3 = new Vector(new double[] { 1, 2, -1 });
             Vector vector = mat12.MatrixOnVectorMultiplication(vec3);
             Console.WriteLine("Multiplication" + vector.ToString());
 
@@ -62,7 +62,7 @@ namespace Matrix
             Console.WriteLine("Multiplication new matrix" + matResult.ToString());
 
             Matrix mat15 = new Matrix(new double[,] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-            Matrix mat16 = new Matrix(new double[,] { { 1, 2, 3 }, { 4, 5, 6 } });
+            Matrix mat16 = new Matrix(new double[,] { { 1, 2, 3, 5 }, { 4, 5, 6, 5 } });
             Matrix matResult1 = Matrix.Multiplication(mat15, mat16);
             Console.WriteLine("Multiplication new matrix" + matResult1.ToString());
 
@@ -70,7 +70,7 @@ namespace Matrix
             double res = mat17.GetDeterminant();
             Console.WriteLine("Determenet matrix " + res);
 
-            Matrix mat18 = new Matrix(new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 10 } });
+            Matrix mat18 = new Matrix(new double[,] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } });
             double res1 = mat18.GetDeterminant();
             Console.WriteLine("Determenet matrix " + res1);
 

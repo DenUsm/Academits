@@ -51,19 +51,19 @@ namespace VectorTask
             return Components.Length;
         }
 
-        public void MakeAligment(Vector vector)
+        public void MakeAligment(int size)
         {
-            if (GetSize() < vector.GetSize())
+            if (GetSize() < size)
             {
                 double[] copy = Components;
-                Components = new double[vector.GetSize()];
+                Components = new double[size];
                 Array.Copy(copy, Components, copy.Length);
             }
         }
 
         public void Sum(Vector vector)
         {
-            MakeAligment(vector);
+            MakeAligment(vector.GetSize());
             for (int i = 0; i < vector.GetSize(); i++)
             {
                 Components[i] += vector.Components[i];
@@ -72,7 +72,7 @@ namespace VectorTask
 
         public void Difference(Vector vector)
         {
-            MakeAligment(vector);
+            MakeAligment(vector.GetSize());
             for (int i = 0; i < vector.GetSize(); i++)
             {
                 Components[i] -= vector.Components[i];

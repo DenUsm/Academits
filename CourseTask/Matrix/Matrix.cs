@@ -109,7 +109,7 @@ namespace Matrix
                 throw new IndexOutOfRangeException("Index must be >= 0 and <= rows count");
             }
 
-            if (Rows[0].GetSize() != vector.GetSize())
+            if (GetColumnsCount() != vector.GetSize())
             {
                 throw new ArgumentException("Vector size must be <= columns count", nameof(vector));
             }
@@ -142,7 +142,6 @@ namespace Matrix
                 arrayRows[i] = GetColumn(i);
             }
 
-            Rows = new Vector[columsCount];
             Rows = arrayRows;
         }
 
@@ -172,7 +171,7 @@ namespace Matrix
                 {
                     double value2 = copy[i].GetComponent(i);
 
-                    if (value2 <= epsilon)
+                    if ((value2 <= epsilon) || (value2 >= -epsilon))
                     {
                         int rowMaxValue = 0;
                         for (int t = 1; t < GetRowsCount(); t++)
@@ -187,7 +186,7 @@ namespace Matrix
                         copy[rowMaxValue] = temp;
                         value2 = copy[i].GetComponent(i);
 
-                        if (value2 <= epsilon)
+                        if ((value2 <= epsilon) || (value2 >= -epsilon))
                         {
                             break;
                         }

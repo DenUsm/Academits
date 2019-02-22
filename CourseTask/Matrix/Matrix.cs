@@ -62,24 +62,24 @@ namespace Matrix
 
             if (rows <= 0)
             {
-                throw new IndexOutOfRangeException("Array vectors must be > 0");
+                throw new ArgumentException("Array vectors count must be > 0", nameof(vectors));
             }
 
-            Vector maxColumns = vectors[0];
+            int maxColumns = vectors[0].GetSize();
             for (int j = 1; j < rows; j++)
             {
-                if (maxColumns.GetSize() < vectors[j].GetSize())
+                if (maxColumns < vectors[j].GetSize())
                 {
-                    maxColumns = vectors[j];
+                    maxColumns = vectors[j].GetSize();
                 }
             }
 
             Rows = new Vector[rows];
             for (int i = 0; i < rows; i++)
             {
-                Vector aligmentVector = new Vector(vectors[i]);
-                aligmentVector.MakeAligment(maxColumns);
-                Rows[i] = aligmentVector;
+                Vector alignmentVector = new Vector(vectors[i]);
+                alignmentVector.MakeAlignment(maxColumns);
+                Rows[i] = alignmentVector;
             }
         }
 
@@ -93,7 +93,7 @@ namespace Matrix
             return Rows[0].GetSize();
         }
 
-        public Vector GetLine(int index)
+        public Vector GetRow(int index)
         {
             if ((index < 0) || (index >= Rows.Length))
             {
@@ -102,16 +102,16 @@ namespace Matrix
             return new Vector(Rows[index]);
         }
 
-        public void SetLine(int index, Vector vector)
+        public void SetRow(int index, Vector vector)
         {
-            if (Rows[0].GetSize() != vector.GetSize())
-            {
-                throw new ArgumentException("Vector size must be <= columns count", nameof(vector));
-            }
-
             if ((index < 0) || (index >= GetRowsCount()))
             {
                 throw new IndexOutOfRangeException("Index must be >= 0 and <= rows count");
+            }
+
+            if (Rows[0].GetSize() != vector.GetSize())
+            {
+                throw new ArgumentException("Vector size must be <= columns count", nameof(vector));
             }
 
             Rows[index] = new Vector(vector);
@@ -135,25 +135,15 @@ namespace Matrix
         public void Transposition()
         {
             int columsCount = GetColumnsCount();
-            int rowsCount = GetRowsCount();
-
-            double[] temp = new double[rowsCount];
-            Vector[] res = new Vector[columsCount];
+            Vector[] arrayRows = new Vector[columsCount];
 
             for (int i = 0; i < columsCount; i++)
             {
-                for (int j = 0; j < rowsCount; j++)
-                {
-                    temp[j] = Rows[j].GetComponent(i);
-                }
-                res[i] = new Vector(temp);
+                arrayRows[i] = GetColumn(i);
             }
 
             Rows = new Vector[columsCount];
-            for (int k = 0; k < columsCount; k++)
-            {
-                Rows[k] = res[k];
-            }
+            Rows = arrayRows;
         }
 
         public void Multiplication(int value)
@@ -174,6 +164,7 @@ namespace Matrix
             Vector[] copy = new Vector[GetRowsCount()];
             Array.Copy(Rows, copy, GetRowsCount());
             double resultMultiplication = 1;
+            double epsilon = 1.0e-10;
 
             for (int i = 0; i < GetColumnsCount(); i++)
             {
@@ -181,7 +172,7 @@ namespace Matrix
                 {
                     double value2 = copy[i].GetComponent(i);
 
-                    if (value2 == 0)
+                    if (value2 <= epsilon)
                     {
                         int rowMaxValue = 0;
                         for (int t = 1; t < GetRowsCount(); t++)
@@ -196,7 +187,7 @@ namespace Matrix
                         copy[rowMaxValue] = temp;
                         value2 = copy[i].GetComponent(i);
 
-                        if (value2 == 0)
+                        if (value2 <= epsilon)
                         {
                             break;
                         }
@@ -228,11 +219,10 @@ namespace Matrix
                 throw new ArgumentException("Vector must be <= columns count", nameof(vector));
             }
 
-            int columns = vector.GetSize();
-            double[] value = new double[columns];
-            for (int i = 0; i < columns; i++)
+            double[] value = new double[GetRowsCount()];
+            for (int i = 0; i < GetRowsCount(); i++)
             {
-                value[i] = Vector.ScalarMultiplication(vector, GetLine(i));
+                value[i] = Vector.ScalarMultiplication(vector, Rows[i]);
             }
             return new Vector(value);
         }
@@ -247,12 +237,12 @@ namespace Matrix
 
             if (rowsCount != currentRowsCount)
             {
-                throw new IndexOutOfRangeException("Matrix rows must match");
+                throw new ArgumentException("Matrix rows must be match", nameof(matrix));
             }
 
             if (columnsCount != currentColumnsCount)
             {
-                throw new IndexOutOfRangeException("Matrix columns must match");
+                throw new ArgumentException("Matrix columns must be match", nameof(matrix));
             }
 
             for (int j = 0; j < GetRowsCount(); j++)
@@ -271,12 +261,12 @@ namespace Matrix
 
             if (rowsCount != currentRowsCount)
             {
-                throw new IndexOutOfRangeException("Matrix rows must match");
+                throw new ArgumentException("Matrix rows must be match", nameof(matrix));
             }
 
             if (columnsCount != currentColumnsCount)
             {
-                throw new IndexOutOfRangeException("Matrix columns must match");
+                throw new ArgumentException("Matrix columns must be match", nameof(matrix));
             }
 
             for (int j = 0; j < GetRowsCount(); j++)
@@ -289,12 +279,12 @@ namespace Matrix
         {
             if (firstMatrix.GetRowsCount() != secondMatrix.GetRowsCount())
             {
-                throw new IndexOutOfRangeException("Matrix rows must match");
+                throw new Exception("Matrix rows must be match");
             }
 
             if (firstMatrix.GetColumnsCount() != secondMatrix.GetColumnsCount())
             {
-                throw new IndexOutOfRangeException("Matrix columns must match");
+                throw new Exception("Matrix columns must be match");
             }
 
             Matrix matrix = new Matrix(firstMatrix);
@@ -306,12 +296,12 @@ namespace Matrix
         {
             if (firstMatrix.GetRowsCount() != secondMatrix.GetRowsCount())
             {
-                throw new IndexOutOfRangeException("Matrix rows must match");
+                throw new Exception("Matrix rows must be match");
             }
 
             if (firstMatrix.GetColumnsCount() != secondMatrix.GetColumnsCount())
             {
-                throw new IndexOutOfRangeException("Matrix columns must match");
+                throw new Exception("Matrix columns must be match");
             }
 
             Matrix matrix = new Matrix(firstMatrix);

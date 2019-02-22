@@ -12,13 +12,13 @@ namespace Matrix
             Matrix mat3 = new Matrix(mat2);
             Matrix mat4 = new Matrix(new Vector[] { new Vector(3, new double[] { 1 }), new Vector(5, new double[] { 1, 2 }), new Vector(4, new double[] { 1, 2, 3 }) });
 
-            Vector vec1 = mat4.GetLine(2);
+            Vector vec1 = mat4.GetRow(2);
             Console.WriteLine(vec1.ToString());
 
             Console.WriteLine();
 
             Console.WriteLine(mat4.ToString());
-            mat4.SetLine(2, new Vector(5, new double[] { 5, 5, 5, 5, 5 }));
+            mat4.SetRow(2, new Vector(5, new double[] { 5, 5, 5, 5, 5 }));
             Console.WriteLine(mat4.ToString());
 
             Matrix mat5 = new Matrix(new Vector[] { new Vector(5, new double[] { 1, 2, 3, 4, 5 }), new Vector(5, new double[] { 1, 2, 3, 4, 5 }),
@@ -51,8 +51,8 @@ namespace Matrix
             Matrix mat11 = new Matrix(new double[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 } });
             mat10.Sum(mat11);
 
-            Matrix mat12 = new Matrix(new double[,] { { 2, 4, 0 }, { -2, 1, 3 }, { -1, 0, 1 } });
-            Vector vec3 = new Vector(new double[] { 1, 2, -1 });
+            Matrix mat12 = new Matrix(new double[,] { { 1, 2, 3 }, { 4, 5, 6 } });
+            Vector vec3 = new Vector(new double[] { 1, 2, 3 });
             Vector vector = mat12.MatrixOnVectorMultiplication(vec3);
             Console.WriteLine("Multiplication" + vector.ToString());
 

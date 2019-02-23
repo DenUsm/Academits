@@ -38,7 +38,7 @@ namespace Matrix
             int rows = array.GetLength(0);
             int columns = array.GetLength(1);
 
-            if (columns <= 0)
+            if ((columns == 0) || (rows == 0))
             {
                 throw new ArgumentException("Columns must be > 0", nameof(array));
             }
@@ -171,7 +171,7 @@ namespace Matrix
                 {
                     double value2 = copy[i].GetComponent(i);
 
-                    if ((value2 <= epsilon) || (value2 >= -epsilon))
+                    if (Math.Abs(value2) <= epsilon)
                     {
                         int rowMaxValue = 0;
                         for (int t = 1; t < GetRowsCount(); t++)
@@ -186,7 +186,7 @@ namespace Matrix
                         copy[rowMaxValue] = temp;
                         value2 = copy[i].GetComponent(i);
 
-                        if ((value2 <= epsilon) || (value2 >= -epsilon))
+                        if (Math.Abs(value2) <= epsilon)
                         {
                             break;
                         }

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace CSVTask
 {
@@ -12,90 +10,66 @@ namespace CSVTask
         {
             using (StreamReader reader = new StreamReader(@"Example.csv", Encoding.Default))
             {
+                string firstAttributeEndCellWithQuotes = ",\"";
+                string secondAttributeEndCellWithQuotes = "\",";
+                string attributeEndCellWithoutQuotes = ",";
+                string attributeCommaOrBreakLine = "\"";
+
                 string str;
 
                 while ((str = reader.ReadLine()) != null)
                 {
-                    SplitCSV(str);
-                }             
-            }
-            Console.ReadKey();
-        }
+                    int indexInitial = 0;
 
-        public static string[] SplitCSV(string input)
-        {
-            List<string> list = new List<string>();
-            int index = 0;
-            int count = 0;
-
-            while (count != input.Length)
-            {
-                if (char.IsLetter(input[count]))
-                {
-                    int indexEndCell = input.IndexOf(",", index);
-                    string result = input.Substring(index, indexEndCell - index);
-                    count += indexEndCell + 1;
-                    list.Add(result);
-
-                    string test = input[count].ToString();
-                }
-            }
-
-            return list.ToArray();
-        }
-
-
-        public static string [] MySeparatorString(string str)
-        {
-            string attributeCommaOrBreakLine = "\"";
-            string attributeEndCellWithoutQuotes = ",";
-            string attributeEndCellWithQuotes = "\",";
-            string attribute = "<br/>";
-
-            int indexInitial = 0;
-
-            while (true)
-            {
-                //Проверяем начинается ли ячейка с ковычек
-                if (str[indexInitial].ToString().Equals(attributeCommaOrBreakLine))
-                {
-                    int indexEndCell = str.IndexOf(attributeEndCellWithQuotes, indexInitial);
-                    int index = indexEndCell + attributeEndCellWithQuotes.Length;
-
-                    //проверяем на конец ячейки
-                    if ((indexEndCell != -1) && (!str[index].ToString().Equals(",")))
+                    while (true)
                     {
-                        //Проверяем вариант когда конец \",\",
-                        if ((str[index].ToString().Equals(attributeCommaOrBreakLine)) && (str[index + 1].ToString().Equals(attributeEndCellWithoutQuotes)))
-                        {
-                            indexEndCell += 2;
-                        }
+                        //Проверка начинается ли ячейка с кавычек
+                        if (!str[indexInitial].ToString().Equals(attributeCommaOrBreakLine))
+                        {                     
+                            int indexEndCell = str.IndexOf(attributeEndCellWithoutQuotes, indexInitial);
 
-                        int lengthAttribute = attributeEndCellWithQuotes.Length;
-                        string result = "<td>" + str.Substring(indexInitial + 1, indexEndCell - indexInitial - 1) + "</td>";
-                        indexInitial = indexEndCell + 1;
-                        string test = str[indexInitial].ToString();
+                            if (indexEndCell == -1)
+                            {
+                                break;
+                            }
+
+                            int lengthAttribute = attributeEndCellWithoutQuotes.Length;
+                            string result = "<td>" + str.Substring(indexInitial, indexEndCell) + "</td>";
+                            indexInitial = indexEndCell + lengthAttribute;
+                        }
+                        else
+                        {
+                            //Находим индексы возможных вариантов окончания ячейки
+                            int firstIndexEndCell = str.IndexOf(firstAttributeEndCellWithQuotes, indexInitial);
+                            int secondIndexEndCell = str.IndexOf(secondAttributeEndCellWithQuotes, indexInitial);
+
+                            //вариант окончания ячейки ,\" и следом ,
+                            if ((firstIndexEndCell != -1) && (str[firstIndexEndCell + firstAttributeEndCellWithQuotes.Length].ToString() == ","))
+                            {
+                                int lengthAttribute = firstAttributeEndCellWithQuotes.Length;
+                                string result = str.Substring(firstIndexEndCell, str.Length - firstIndexEndCell - lengthAttribute);
+                                indexInitial = firstIndexEndCell + lengthAttribute;
+                            }
+                            //вариант окончания ячейки \", и следом нет ,
+                            else if ((secondIndexEndCell != -1) && (str[secondIndexEndCell + secondAttributeEndCellWithQuotes.Length].ToString() != ","))
+                            {
+                                int lengthAttribute = secondAttributeEndCellWithQuotes.Length;
+                                string result = str.Substring(secondIndexEndCell, str.Length - secondIndexEndCell - lengthAttribute);
+                                indexInitial = secondIndexEndCell + lengthAttribute;
+                            }
+                            //нет окончания значит перенос строки
+                            else
+                            {
+                                int indexEndCell = str.IndexOf(attributeCommaOrBreakLine, indexInitial);
+                                int lengthAttribute = attributeCommaOrBreakLine.Length;
+                                string result = "<td>" + str.Substring(indexInitial + lengthAttribute, str.Length - indexInitial - lengthAttribute) + "<br/>";
+                                indexInitial += lengthAttribute;
+                            }
+                        }
                     }
                 }
-                //Находим конец строки
-                else if (str[indexInitial].ToString().Equals(attributeEndCellWithoutQuotes))
-                {
-                    int indexEndCell = str.IndexOf(attribute, indexInitial);
-                    int lengthAttribute = attribute.Length;
-                    string result = "<td>" + str.Substring(indexInitial + 1, indexEndCell - indexInitial - 1) + "</td></tr>";
-                    indexInitial = indexEndCell + attribute.Length;
-                    string test = str[indexInitial].ToString();
-                }
-                else
-                {
-                    //Ищем данные в ячейки заканчивающиеся запятой
-                    int indexEndCell = str.IndexOf(attributeEndCellWithoutQuotes, indexInitial);
-                    int lengthAttribute = attributeEndCellWithoutQuotes.Length;
-                    string result = "<tr><td>" + str.Substring(indexInitial, indexEndCell - indexInitial) + "</td>";
-                    indexInitial = indexEndCell + lengthAttribute;
-                    string test = str[indexInitial].ToString();
-                }
             }
+            Console.ReadKey();
         }
     }
 }

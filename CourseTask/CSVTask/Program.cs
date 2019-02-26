@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace CSVTask
 {
@@ -10,91 +9,118 @@ namespace CSVTask
     {
         static void Main(string[] args)
         {
-            using (StreamReader reader = new StreamReader(@"Example.csv", Encoding.Default))
+            using (StreamReader reader = new StreamReader(@"D:\example.txt", Encoding.Default))
             {
+                List<string> list = new List<string>();
                 string str;
-
                 while ((str = reader.ReadLine()) != null)
                 {
-                    SplitCSV(str);
+                    string[] res = GetCellsFromCsv(str);
+                    foreach (string value in res)
+                    {
+                        list.Add(value);
+                    }
                 }
             }
             Console.ReadKey();
         }
 
-        public static string[] SplitCSV(string input)
+        public static string[] GetCellsFromCsv(string input)
         {
             List<string> list = new List<string>();
-            int index = 0;
             int count = 0;
+
+            int indexEndCell = 0;
+            string result = "";
+            string test = "";
 
             while (count != input.Length)
             {
+                //Проверяем начинатся ли строка с буквы
                 if (char.IsLetter(input[count]))
                 {
-                    int indexEndCell = input.IndexOf(",", index);
-                    string result = input.Substring(index, indexEndCell - index);
-                    count += indexEndCell + 1;
-                    list.Add(result);
+                    indexEndCell = input.IndexOf(",", count);
 
-                    string test = input[count].ToString();
+                    if (indexEndCell == -1)
+                    {
+                        result = input.Substring(count, input.Length - count);
+                        list.Add(result);
+                        count += input.Length - count;
+                        continue;
+                    }
+
+                    if (!input[indexEndCell - 1].ToString().Equals("\""))
+                    {
+                        result = input.Substring(count, indexEndCell - count);
+                        count += indexEndCell - count + 1;
+                        list.Add(result);
+                    }
+                    else
+                    {
+                        if ((input[count + 2].ToString().Equals("\"")) && (input[count + 3].ToString().Equals(",")))
+                        {
+                            indexEndCell += 3;
+                        }
+
+                        result = input.Substring(count, indexEndCell - count);
+                        count += indexEndCell - count + 1;
+                        list.Add(result);
+                    }
                 }
+                else if (input[count].ToString().Equals("\""))
+                {
+                    indexEndCell = input.IndexOf("\",", count);
+
+                    if (indexEndCell == -1)
+                    {
+                        result = input.Substring(count, input.Length - count);
+                        count += input.Length - count;
+                    }
+                    else if ((input[indexEndCell + 2].ToString().Equals("\"")) && (input[indexEndCell + 3].ToString().Equals(",")))
+                    {
+                        indexEndCell += 3;
+                        result = input.Substring(count, indexEndCell - count);
+                        count += input.Length - count;
+                    }
+                    else
+                    {
+                        result = input.Substring(count, indexEndCell - count + 1);
+                        count += indexEndCell - count + 2;
+                    }
+
+                    list.Add(result);
+                }
+            }
+            //Если запятая последний символ то есть пустая строка
+            if (input[count - 1].ToString().Equals(","))
+            {
+                list.Add("");
             }
 
             return list.ToArray();
         }
 
-
-        public static string[] MySeparatorString(string str)
+        public static void ReplaceSomeSymbol(string input, string [] symbol, string [] replaceSymbol)
         {
-            string attributeCommaOrBreakLine = "\"";
-            string attributeEndCellWithoutQuotes = ",";
-            string attributeEndCellWithQuotes = "\",";
-            string attribute = "<br/>";
+            string beginSymbol = input[0].ToString();
+            string lastSymbol = input[input.Length - 1].ToString();
+            string attribute = "\"";
 
-            int indexInitial = 0;
-
-            while (true)
+            string result;
+            if (!beginSymbol.Equals(attribute) && !lastSymbol.Equals(attribute))
             {
-                //Проверяем начинается ли ячейка с ковычек
-                if (str[indexInitial].ToString().Equals(attributeCommaOrBreakLine))
-                {
-                    int indexEndCell = str.IndexOf(attributeEndCellWithQuotes, indexInitial);
-                    int index = indexEndCell + attributeEndCellWithQuotes.Length;
+                result = input;
+            }
+            else if ()
 
-                    //проверяем на конец ячейки
-                    if ((indexEndCell != -1) && (!str[index].ToString().Equals(",")))
-                    {
-                        //Проверяем вариант когда конец \",\",
-                        if ((str[index].ToString().Equals(attributeCommaOrBreakLine)) && (str[index + 1].ToString().Equals(attributeEndCellWithoutQuotes)))
-                        {
-                            indexEndCell += 2;
-                        }
 
-                        int lengthAttribute = attributeEndCellWithQuotes.Length;
-                        string result = "<td>" + str.Substring(indexInitial + 1, indexEndCell - indexInitial - 1) + "</td>";
-                        indexInitial = indexEndCell + 1;
-                        string test = str[indexInitial].ToString();
-                    }
-                }
-                //Находим конец строки
-                else if (str[indexInitial].ToString().Equals(attributeEndCellWithoutQuotes))
-                {
-                    int indexEndCell = str.IndexOf(attribute, indexInitial);
-                    int lengthAttribute = attribute.Length;
-                    string result = "<td>" + str.Substring(indexInitial + 1, indexEndCell - indexInitial - 1) + "</td></tr>";
-                    indexInitial = indexEndCell + attribute.Length;
-                    string test = str[indexInitial].ToString();
-                }
-                else
-                {
-                    //Ищем данные в ячейки заканчивающиеся запятой
-                    int indexEndCell = str.IndexOf(attributeEndCellWithoutQuotes, indexInitial);
-                    int lengthAttribute = attributeEndCellWithoutQuotes.Length;
-                    string result = "<tr><td>" + str.Substring(indexInitial, indexEndCell - indexInitial) + "</td>";
-                    indexInitial = indexEndCell + lengthAttribute;
-                    string test = str[indexInitial].ToString();
-                }
+            if(!beginSymbol.Equals(symbol[0]))
+            //рассмотреть 4 случая получения строк, получить сами эти строки и потом 
+            int index = input.IndexOf("\"");
+
+            if (input[index].ToString().Equals(input[index + 1].ToString()))
+            {
+                input.Remove(index, 1);
             }
         }
     }

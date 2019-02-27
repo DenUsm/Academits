@@ -9,9 +9,10 @@ namespace CSVTask
     {
         static void Main(string[] args)
         {
-            using (StreamReader reader = new StreamReader(@"D:\example.txt", Encoding.Default))
+            List<string> list = new List<string>();
+
+            using (StreamReader reader = new StreamReader(@"Example.csv", Encoding.Default))
             {
-                List<string> list = new List<string>();
                 string str;
                 while ((str = reader.ReadLine()) != null)
                 {
@@ -22,7 +23,28 @@ namespace CSVTask
                     }
                 }
             }
+            TransformationCellsValue(list);
+            WriteHtmlFile(list);
             Console.ReadKey();
+        }
+
+        public static void WriteHtmlFile(List<string> list)
+        {
+            using (StreamWriter writer = new StreamWriter(@"index.html"))
+            {
+                writer.WriteLine("<html>");
+                writer.WriteLine("<body>");
+                writer.WriteLine("<table border = \"1\" cellspacing = \"0\">");
+                writer.WriteLine("<tr>");
+                for (int i = 0; i < list.Count; i++)
+                {
+                    writer.WriteLine(list[i]);
+                }
+                writer.WriteLine("</table>");
+                writer.WriteLine("</body>");
+                writer.WriteLine("</html>");
+            }
+            Console.WriteLine("Get Html file success");
         }
 
         public static string[] GetCellsFromCsv(string input)
@@ -32,7 +54,6 @@ namespace CSVTask
 
             int indexEndCell = 0;
             string result = "";
-            string test = "";
 
             while (count != input.Length)
             {
@@ -51,7 +72,7 @@ namespace CSVTask
 
                     if (!input[indexEndCell - 1].ToString().Equals("\""))
                     {
-                        result = input.Substring(count, indexEndCell - count);
+                        result = input.Substring(count, indexEndCell - count + 1);
                         count += indexEndCell - count + 1;
                         list.Add(result);
                     }
@@ -62,7 +83,7 @@ namespace CSVTask
                             indexEndCell += 3;
                         }
 
-                        result = input.Substring(count, indexEndCell - count);
+                        result = input.Substring(count, indexEndCell - count + 1);
                         count += indexEndCell - count + 1;
                         list.Add(result);
                     }
@@ -79,12 +100,12 @@ namespace CSVTask
                     else if ((input[indexEndCell + 2].ToString().Equals("\"")) && (input[indexEndCell + 3].ToString().Equals(",")))
                     {
                         indexEndCell += 3;
-                        result = input.Substring(count, indexEndCell - count);
+                        result = input.Substring(count, indexEndCell - count + 1);
                         count += input.Length - count;
                     }
                     else
                     {
-                        result = input.Substring(count, indexEndCell - count + 1);
+                        result = input.Substring(count, indexEndCell - count + 2);
                         count += indexEndCell - count + 2;
                     }
 
@@ -94,34 +115,75 @@ namespace CSVTask
             //Если запятая последний символ то есть пустая строка
             if (input[count - 1].ToString().Equals(","))
             {
-                list.Add("");
+                list.Add(" ");
             }
 
             return list.ToArray();
         }
 
-        public static void ReplaceSomeSymbol(string input, string [] symbol, string [] replaceSymbol)
+        public static void TransformationCellsValue(List<string> list)
         {
-            string beginSymbol = input[0].ToString();
-            string lastSymbol = input[input.Length - 1].ToString();
+            string beginSymbol;
+            string lastSymbol;
             string attribute = "\"";
 
-            string result;
-            if (!beginSymbol.Equals(attribute) && !lastSymbol.Equals(attribute))
+            for (int i = 0; i < list.Count; i++)
             {
-                result = input;
+                string str = list[i];
+                beginSymbol = str[0].ToString();
+                lastSymbol = str[str.Length - 1].ToString();
+
+                if (!beginSymbol.Equals(attribute) && (lastSymbol.Equals(",")))
+                {
+                    list[i] = "<td>" + ReplaceSymbol(str.Substring(0, str.Length - 1)) + "</td>";
+                }
+                if (beginSymbol.Equals(attribute) && !(lastSymbol.Equals(",")))
+                {
+                    if (lastSymbol.Equals(attribute))
+                    {
+                        list[i] = "<td>" + ReplaceSymbol(str.Substring(1, str.Length - 3)) + "</td></tr>";
+                    }
+                    else
+                    {
+                        list[i] = "<td>" + ReplaceSymbol(str.Substring(1, str.Length - 1)) + "<br/>";
+
+                        str = list[i + 1];
+                        beginSymbol = str[0].ToString();
+                        lastSymbol = str[str.Length - 1].ToString();
+
+                        if (lastSymbol.Equals(","))
+                        {
+                            list[i] += ReplaceSymbol(str.Substring(0, str.Length - 2)) + "</td>";
+                        }
+                        else
+                        {
+                            list[i] += ReplaceSymbol(str.Substring(0, str.Length - 2)) + "</td></tr><tr>";
+                        }
+
+                        list.RemoveAt(i + 1);
+                    }
+                }
+                if (!beginSymbol.Equals(attribute) && !(lastSymbol.Equals(",")))
+                {
+                    list[i] = "<td>" + ReplaceSymbol(str.Substring(0, str.Length - 1)) + "</td></tr><tr>";
+                }
+                if (beginSymbol.Equals(attribute) && (lastSymbol.Equals(",")))
+                {
+                    list[i] = "<td>" + ReplaceSymbol(str.Substring(1, str.Length - 3)) + "</td>";
+                }
             }
-            else if ()
+        }
 
+        public static string ReplaceSymbol(string input)
+        {
+            string[] symbol = new string[] { "\"\"", "<", ">", "&" };
+            string[] symbolReplace = new string[] { "\"", "&lt", "&gt", "&amp" };
 
-            if(!beginSymbol.Equals(symbol[0]))
-            //рассмотреть 4 случая получения строк, получить сами эти строки и потом 
-            int index = input.IndexOf("\"");
-
-            if (input[index].ToString().Equals(input[index + 1].ToString()))
+            for (int i = 0; i < symbol.Length; i++)
             {
-                input.Remove(index, 1);
+                input = input.Replace(symbol[i], symbolReplace[i]);
             }
+            return input;
         }
     }
 }

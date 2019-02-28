@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matrix", "Matrix\Matrix.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSVTask", "CSVTask\CSVTask.csproj", "{FF777472-1717-457B-872D-D3E398EFCCAA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayListHome", "ArrayListHome\ArrayListHome.csproj", "{8E4D4575-3F26-4EBC-81B1-5EFDF876B0C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{FF777472-1717-457B-872D-D3E398EFCCAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF777472-1717-457B-872D-D3E398EFCCAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF777472-1717-457B-872D-D3E398EFCCAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E4D4575-3F26-4EBC-81B1-5EFDF876B0C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E4D4575-3F26-4EBC-81B1-5EFDF876B0C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E4D4575-3F26-4EBC-81B1-5EFDF876B0C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E4D4575-3F26-4EBC-81B1-5EFDF876B0C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

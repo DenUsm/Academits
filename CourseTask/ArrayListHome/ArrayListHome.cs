@@ -11,13 +11,20 @@ namespace ArrayListHome
             // 1. Прочитать в список все строки из файла
             List<string> list = new List<string>();
 
-            using (StreamReader reader = new StreamReader(@".\File\TextFile.txt"))
+            try
             {
-                string currentLine;
-                while ((currentLine = reader.ReadLine()) != null)
+                using (StreamReader reader = new StreamReader(@".\File\TextFile.txt"))
                 {
-                    list.Add(currentLine);
+                    string currentLine;
+                    while ((currentLine = reader.ReadLine()) != null)
+                    {
+                        list.Add(currentLine);
+                    }
                 }
+            }
+            catch()
+            {
+
             }
 
             foreach (string str in list)
@@ -28,13 +35,14 @@ namespace ArrayListHome
             Console.WriteLine();
 
             // 2. Есть список из целых чисел. Удалить из него все четные числа
-            List<int> listIntegerValue = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+            List<int> listIntegerValue = new List<int> { 1, 2, 2, 4, 5, 6, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 
             for (int i = 0; i < listIntegerValue.Count; i++)
             {
                 if (listIntegerValue[i] % 2 == 0)
                 {
                     listIntegerValue.RemoveAt(i);
+                    i--;
                 }
             }
 

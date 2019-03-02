@@ -10,7 +10,6 @@ namespace ArrayListHome
         {
             // 1. Прочитать в список все строки из файла
             List<string> list = new List<string>();
-
             try
             {
                 using (StreamReader reader = new StreamReader(@".\File\TextFile.txt"))
@@ -22,9 +21,9 @@ namespace ArrayListHome
                     }
                 }
             }
-            catch()
+            catch (DirectoryNotFoundException)
             {
-
+                Console.WriteLine("File not found, please check string path");
             }
 
             foreach (string str in list)
@@ -57,11 +56,11 @@ namespace ArrayListHome
             List<int> listRepeat = new List<int> { 1, 1, 1, 2, 2, 3, 4, 4, 4, 5, 6, 6, 7, 4, 4, 9, 2, 2, 2 };
             List<int> listWithoutRepeat = new List<int>();
 
-            for (int i = 0; i < listRepeat.Count; i++)
+            foreach (int value in listRepeat)
             {
-                if (!listWithoutRepeat.Contains(listRepeat[i]))
+                if (!listWithoutRepeat.Contains(value))
                 {
-                    listWithoutRepeat.Add(listRepeat[i]);
+                    listWithoutRepeat.Add(value);
                 }
             }
 

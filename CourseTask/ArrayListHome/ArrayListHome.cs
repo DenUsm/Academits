@@ -23,6 +23,10 @@ namespace ArrayListHome
             }
             catch (DirectoryNotFoundException)
             {
+                Console.WriteLine("Directory not found, please check string path");
+            }
+            catch (FileNotFoundException)
+            {
                 Console.WriteLine("File not found, please check string path");
             }
 

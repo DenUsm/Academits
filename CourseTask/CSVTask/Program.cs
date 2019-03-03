@@ -9,42 +9,72 @@ namespace CSVTask
     {
         static void Main(string[] args)
         {
+            string inputCsvPath = args[0];
             List<string> list = new List<string>();
 
-            using (StreamReader reader = new StreamReader(@"Example.csv", Encoding.Default))
+            try
             {
-                string str;
-                while ((str = reader.ReadLine()) != null)
+                using (StreamReader reader = new StreamReader(inputCsvPath, Encoding.Default))
                 {
-                    string[] res = GetCellsFromCsv(str);
-                    foreach (string value in res)
+                    string str;
+                    while ((str = reader.ReadLine()) != null)
                     {
-                        list.Add(value);
+                        Html(str);
                     }
                 }
+                TransformationCellsValue(list);
+                //WriteHtmlFile(list, args[1]);
+                Console.ReadKey();
             }
-            TransformationCellsValue(list);
-            WriteHtmlFile(list);
-            Console.ReadKey();
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("Directory not found, please check string path");
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("File not found, please check string path");
+            }
         }
 
-        public static void WriteHtmlFile(List<string> list)
+
+        public static void Html(string str)
         {
-            using (StreamWriter writer = new StreamWriter(@"index.html"))
+            string res = "";
+            int length = str.Length;
+
+            for (int i = 0; i < length; i++)
             {
-                writer.WriteLine("<html>");
-                writer.WriteLine("<body>");
-                writer.WriteLine("<table border = \"1\" cellspacing = \"0\">");
-                writer.WriteLine("<tr>");
-                for (int i = 0; i < list.Count; i++)
+                if (!str[i].ToString().Equals("\""))
                 {
-                    writer.WriteLine(list[i]);
+                    while (i < length)
+                    {
+                        if (!str[i].ToString().Equals(",")) 
+                        {
+                            if (str[i].ToString().Equals("\"")
+                            res += str[i];
+                            i++;
+                        }
+                        else
+                        {
+                            res += "</td><td>";
+                            break;
+                        }
+                    }
                 }
-                writer.WriteLine("</table>");
-                writer.WriteLine("</body>");
-                writer.WriteLine("</html>");
+                else
+                {
+                    i++;
+                    while (i < length)
+                    {
+                        if(!str[i].ToString().Equals(","))
+                        {
+                            res += str[i];
+                            i++;
+                        }
+                    }
+                    res += "<br/>";
+                }
             }
-            Console.WriteLine("Get Html file success");
         }
 
         public static string[] GetCellsFromCsv(string input)

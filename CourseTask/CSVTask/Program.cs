@@ -40,36 +40,60 @@ namespace CSVTask
         public static void Html(string str)
         {
             string res = "";
-            int length = str.Length;
+            int length = str.Length - 1;
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i <= length; i++)
             {
                 if (!str[i].ToString().Equals("\""))
                 {
-                    while (i < length)
+                    while (i <= length)
                     {
-                        if (!str[i].ToString().Equals(",")) 
+                        if (!str[i].ToString().Equals(","))
                         {
-                            if (str[i].ToString().Equals("\"")
-                            res += str[i];
+                            if (str[i].ToString().Equals("\""))
+                            {
+                                i++;
+                                break;
+                            }
+                            else
+                            {
+                                res += str[i].ToString();
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    res += "</td><td>";
+                }
+                else
+                {
+                    while (i <= length)
+                    {
+                        if (!str[i].ToString().Equals(","))
+                        {
+                            if (i < length)
+                            {
+                                i++;
+                                res += str[i];
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        else if ((str[i + 1].ToString().Equals("\"") && str[i + 2].ToString().Equals(",")))
+                        {
+                            res += str[i].ToString();
+                            res += "</td><td>";
                             i++;
+                            break;
                         }
                         else
                         {
                             res += "</td><td>";
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    i++;
-                    while (i < length)
-                    {
-                        if(!str[i].ToString().Equals(","))
-                        {
-                            res += str[i];
-                            i++;
                         }
                     }
                     res += "<br/>";

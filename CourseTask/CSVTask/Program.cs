@@ -113,7 +113,7 @@ namespace CSVTask
                                                 if (str[j + 1].ToString().Equals("\""))
                                                 {
                                                     writer.Write(str[j].ToString());
-                                                    j ++;
+                                                    j++;
                                                     break;
                                                 }
                                                 else if (str[j + 1].ToString().Equals(","))

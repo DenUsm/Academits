@@ -10,20 +10,158 @@ namespace CSVTask
         static void Main(string[] args)
         {
             string inputCsvPath = args[0];
+            string outputHtmlPath = args[1];
+
             List<string> list = new List<string>();
 
             try
             {
                 using (StreamReader reader = new StreamReader(inputCsvPath, Encoding.Default))
                 {
-                    string str;
-                    while ((str = reader.ReadLine()) != null)
+                    using (StreamWriter writer = new StreamWriter(outputHtmlPath))
                     {
-                        Html(str);
+                        string str;
+                        bool lineBreak = false;
+
+                        writer.Write("<!DOCTYPE html>");
+                        writer.Write("<html>");
+                        writer.Write("<head>");
+                        writer.Write("<meta charset=\"UTF-8\">");
+                        writer.Write("<meta name=\"description\" content=\"CSV to HTML\">");
+                        writer.Write("<meta name=\"author\" content=\"Denis Usmanov\">");
+                        writer.Write("</head>");
+                        writer.Write("<body>");
+                        writer.Write("<table border=\"1\" cellspacing=\"0\">");
+                        writer.Write("<tr>");
+                        writer.Write("<td>");
+
+                        while ((str = reader.ReadLine()) != null)
+                        {
+                            //string res = "";
+                            int length = str.Length - 1;
+
+                            for (int i = 0; i <= length; i++)
+                            {
+                                //If cells initial by "\""
+                                if (!str[i].ToString().Equals("\""))
+                                {
+                                    for (int j = i; j <= length; j++)
+                                    {
+                                        if (!str[j].ToString().Equals(","))
+                                        {
+                                            //Check and replace exception symbol
+                                            switch (str[j].ToString())
+                                            {
+                                                case "\"":
+                                                    if (lineBreak)
+                                                    {
+                                                        writer.Write("</td><td>");
+                                                        j++;
+                                                        lineBreak = false;
+                                                        continue;
+                                                    }
+                                                    else if ((str[j].ToString() + str[j + 1].ToString()) == "\"")
+                                                    {
+                                                        writer.Write("\"");
+                                                        j++;
+                                                    }
+                                                    break;
+                                                case "<":
+                                                    writer.Write("&lt;");
+                                                    break;
+                                                case ">":
+                                                    writer.Write("&gt;");
+                                                    break;
+                                                case "&":
+                                                    writer.Write("&amp;");
+                                                    break;
+                                                default:
+                                                    writer.Write(str[j].ToString());
+                                                    break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            writer.Write("</td><td>");
+                                            i = j;
+                                            break;
+                                        }
+                                        if (j == length)
+                                        {
+                                            writer.Write("</td></tr><tr><td>");
+                                            i = j;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    for (int j = i + 1; j <= length; j++)
+                                    {
+                                        string test1 = str[j - 1].ToString();
+                                        string test2 = str[j].ToString();
+
+                                        //Check and replace exception symbol
+                                        switch (str[j].ToString())
+                                        {
+                                            case "\"":
+                                                if (j == length)
+                                                {
+                                                    writer.Write("</td>");
+                                                    i = j;
+                                                    break;
+                                                }
+                                                if (str[j + 1].ToString().Equals("\""))
+                                                {
+                                                    writer.Write(str[j].ToString());
+                                                    j ++;
+                                                    break;
+                                                }
+                                                else if (str[j + 1].ToString().Equals(","))
+                                                {
+                                                    if (j + 1 == length)
+                                                    {
+                                                        writer.Write("</td><td><tr>");
+                                                    }
+                                                    writer.Write("</td><td>");
+                                                    j += 2;
+                                                    i = j;
+                                                    break;
+                                                }
+                                                break;
+                                            case "<":
+                                                writer.Write("&lt;");
+                                                break;
+                                            case ">":
+                                                writer.Write("&gt;");
+                                                break;
+                                            case "&":
+                                                writer.Write("&amp;");
+                                                break;
+                                            default:
+                                                if (j == length)
+                                                {
+                                                    writer.Write(str[j].ToString() + "<br/>");
+                                                    lineBreak = true;
+                                                    i = j;
+                                                }
+                                                else
+                                                {
+                                                    writer.Write(str[j].ToString());
+                                                }
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        writer.Write("</tr>");
+                        writer.Write("</table>");
+                        writer.Write("</body>");
+                        writer.Write("</html>");
                     }
                 }
-                TransformationCellsValue(list);
-                //WriteHtmlFile(list, args[1]);
+                Console.WriteLine("Html file create. Press any key");
                 Console.ReadKey();
             }
             catch (DirectoryNotFoundException)
@@ -34,210 +172,6 @@ namespace CSVTask
             {
                 Console.WriteLine("File not found, please check string path");
             }
-        }
-
-
-        public static void Html(string str)
-        {
-            string res = "";
-            int length = str.Length - 1;
-
-            for (int i = 0; i <= length; i++)
-            {
-                if (!str[i].ToString().Equals("\""))
-                {
-                    while (i <= length)
-                    {
-                        if (!str[i].ToString().Equals(","))
-                        {
-                            if (str[i].ToString().Equals("\""))
-                            {
-                                i++;
-                                break;
-                            }
-                            else
-                            {
-                                res += str[i].ToString();
-                                i++;
-                            }
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    res += "</td><td>";
-                }
-                else
-                {
-                    while (i <= length)
-                    {
-                        if (!str[i].ToString().Equals(","))
-                        {
-                            if (i < length)
-                            {
-                                i++;
-                                res += str[i];
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                        else if ((str[i + 1].ToString().Equals("\"") && str[i + 2].ToString().Equals(",")))
-                        {
-                            res += str[i].ToString();
-                            res += "</td><td>";
-                            i++;
-                            break;
-                        }
-                        else
-                        {
-                            res += "</td><td>";
-                        }
-                    }
-                    res += "<br/>";
-                }
-            }
-        }
-
-        public static string[] GetCellsFromCsv(string input)
-        {
-            List<string> list = new List<string>();
-            int count = 0;
-
-            int indexEndCell = 0;
-            string result = "";
-
-            while (count != input.Length)
-            {
-                //Проверяем начинатся ли строка с буквы
-                if (char.IsLetter(input[count]))
-                {
-                    indexEndCell = input.IndexOf(",", count);
-
-                    if (indexEndCell == -1)
-                    {
-                        result = input.Substring(count, input.Length - count);
-                        list.Add(result);
-                        count += input.Length - count;
-                        continue;
-                    }
-
-                    if (!input[indexEndCell - 1].ToString().Equals("\""))
-                    {
-                        result = input.Substring(count, indexEndCell - count + 1);
-                        count += indexEndCell - count + 1;
-                        list.Add(result);
-                    }
-                    else
-                    {
-                        if ((input[count + 2].ToString().Equals("\"")) && (input[count + 3].ToString().Equals(",")))
-                        {
-                            indexEndCell += 3;
-                        }
-
-                        result = input.Substring(count, indexEndCell - count + 1);
-                        count += indexEndCell - count + 1;
-                        list.Add(result);
-                    }
-                }
-                else if (input[count].ToString().Equals("\""))
-                {
-                    indexEndCell = input.IndexOf("\",", count);
-
-                    if (indexEndCell == -1)
-                    {
-                        result = input.Substring(count, input.Length - count);
-                        count += input.Length - count;
-                    }
-                    else if ((input[indexEndCell + 2].ToString().Equals("\"")) && (input[indexEndCell + 3].ToString().Equals(",")))
-                    {
-                        indexEndCell += 3;
-                        result = input.Substring(count, indexEndCell - count + 1);
-                        count += input.Length - count;
-                    }
-                    else
-                    {
-                        result = input.Substring(count, indexEndCell - count + 2);
-                        count += indexEndCell - count + 2;
-                    }
-
-                    list.Add(result);
-                }
-            }
-            //Если запятая последний символ то есть пустая строка
-            if (input[count - 1].ToString().Equals(","))
-            {
-                list.Add(" ");
-            }
-
-            return list.ToArray();
-        }
-
-        public static void TransformationCellsValue(List<string> list)
-        {
-            string beginSymbol;
-            string lastSymbol;
-            string attribute = "\"";
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                string str = list[i];
-                beginSymbol = str[0].ToString();
-                lastSymbol = str[str.Length - 1].ToString();
-
-                if (!beginSymbol.Equals(attribute) && (lastSymbol.Equals(",")))
-                {
-                    list[i] = "<td>" + ReplaceSymbol(str.Substring(0, str.Length - 1)) + "</td>";
-                }
-                if (beginSymbol.Equals(attribute) && !(lastSymbol.Equals(",")))
-                {
-                    if (lastSymbol.Equals(attribute))
-                    {
-                        list[i] = "<td>" + ReplaceSymbol(str.Substring(1, str.Length - 3)) + "</td></tr>";
-                    }
-                    else
-                    {
-                        list[i] = "<td>" + ReplaceSymbol(str.Substring(1, str.Length - 1)) + "<br/>";
-
-                        str = list[i + 1];
-                        beginSymbol = str[0].ToString();
-                        lastSymbol = str[str.Length - 1].ToString();
-
-                        if (lastSymbol.Equals(","))
-                        {
-                            list[i] += ReplaceSymbol(str.Substring(0, str.Length - 2)) + "</td>";
-                        }
-                        else
-                        {
-                            list[i] += ReplaceSymbol(str.Substring(0, str.Length - 2)) + "</td></tr><tr>";
-                        }
-
-                        list.RemoveAt(i + 1);
-                    }
-                }
-                if (!beginSymbol.Equals(attribute) && !(lastSymbol.Equals(",")))
-                {
-                    list[i] = "<td>" + ReplaceSymbol(str.Substring(0, str.Length - 1)) + "</td></tr><tr>";
-                }
-                if (beginSymbol.Equals(attribute) && (lastSymbol.Equals(",")))
-                {
-                    list[i] = "<td>" + ReplaceSymbol(str.Substring(1, str.Length - 3)) + "</td>";
-                }
-            }
-        }
-
-        public static string ReplaceSymbol(string input)
-        {
-            string[] symbol = new string[] { "\"\"", "<", ">", "&" };
-            string[] symbolReplace = new string[] { "\"", "&lt", "&gt", "&amp" };
-
-            for (int i = 0; i < symbol.Length; i++)
-            {
-                input = input.Replace(symbol[i], symbolReplace[i]);
-            }
-            return input;
         }
     }
 }

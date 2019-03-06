@@ -158,18 +158,19 @@ namespace ListTask
         //Разворот списка
         public void Reverse()
         {
-
+            for (int i = 0; i < Count - 1; i++)
+            {
+                
+            }
         }
 
         //Копирование списка
         public SinglyLinkedList<T> Copy()
         {
             SinglyLinkedList<T> copy = new SinglyLinkedList<T>();
-            ListItem<T> node = Head;
-            copy.Add(node.GetData());
-            for(int i = 0; i < Count - 1; i++)
+            for(int i = Count - 1; i >= 0; i--)
             {
-                copy.Add(node.GetNext().GetData());
+                copy.Add(GetValueAt(i));
             }
             return copy;
         }

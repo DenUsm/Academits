@@ -115,10 +115,39 @@ namespace ListTask
             Console.WriteLine();
             Console.WriteLine("{0} = {1}", my.ToString(), my.GetCount());
 
-            Console.WriteLine("------------------------------RemoveAt(value)---------------------------------------------------------");
+            Console.WriteLine("------------------------------CopyList---------------------------------------------------------");
             SinglyLinkedList<int> myNew = new SinglyLinkedList<int>();
             myNew = my.Copy();
 
+            Console.WriteLine("Get values by indexes");
+            for (int i = 0; i < myNew.GetCount(); i++)
+            {
+                Console.Write("{0} ", myNew.GetValueAt(i));
+            }
+            Console.WriteLine();
+            Console.WriteLine("{0} = {1}", myNew.ToString(), myNew.GetCount());
+
+            int value1 = 888;
+            Console.WriteLine("Change value by index old value - {0}, new value - {1}", my.ChangeValueAt(4, value1), my.GetValueAt(4));
+
+            Console.WriteLine("Get values by indexes");
+            for (int i = 0; i < my.GetCount(); i++)
+            {
+                Console.Write("{0} ", my.GetValueAt(i));
+            }
+            Console.WriteLine();
+            Console.WriteLine("{0} = {1}", my.ToString(), my.GetCount());
+
+            Console.WriteLine("Get values by indexes");
+            for (int i = 0; i < myNew.GetCount(); i++)
+            {
+                Console.Write("{0} ", myNew.GetValueAt(i));
+            }
+            Console.WriteLine();
+            Console.WriteLine("{0} = {1}", myNew.ToString(), myNew.GetCount());
+
+            Console.WriteLine("------------------------------Reverse---------------------------------------------------------");
+            myNew.Reverse();
             Console.WriteLine("Get values by indexes");
             for (int i = 0; i < myNew.GetCount(); i++)
             {

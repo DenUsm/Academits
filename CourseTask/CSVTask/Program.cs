@@ -43,16 +43,16 @@ namespace CSVTask
                             for (int i = 0; i <= length; i++)
                             {
                                 //If cells initial by "\""
-                                if (!str[i].ToString().Equals("\""))
+                                if (str[i] != '\"')
                                 {
                                     for (int j = i; j <= length; j++)
                                     {
-                                        if (!str[j].ToString().Equals(","))
+                                        if (str[j] != ',')
                                         {
                                             //Check and replace exception symbol
-                                            switch (str[j].ToString())
+                                            switch (str[j])
                                             {
-                                                case "\"":
+                                                case '\"':
                                                     if (lineBreak)
                                                     {
                                                         writer.Write("</td><td>");
@@ -66,13 +66,13 @@ namespace CSVTask
                                                         j++;
                                                     }
                                                     break;
-                                                case "<":
+                                                case '<':
                                                     writer.Write("&lt;");
                                                     break;
-                                                case ">":
+                                                case '>':
                                                     writer.Write("&gt;");
                                                     break;
-                                                case "&":
+                                                case '&':
                                                     writer.Write("&amp;");
                                                     break;
                                                 default:
@@ -97,13 +97,10 @@ namespace CSVTask
                                 {
                                     for (int j = i + 1; j <= length; j++)
                                     {
-                                        string test1 = str[j - 1].ToString();
-                                        string test2 = str[j].ToString();
-
                                         //Check and replace exception symbol
-                                        switch (str[j].ToString())
+                                        switch (str[j])
                                         {
-                                            case "\"":
+                                            case '\"':
                                                 if (j == length)
                                                 {
                                                     writer.Write("</td>");

@@ -9,7 +9,7 @@ namespace CSVTask
     {
         static void Main(string[] args)
         {
-            if(args.Length != 2)
+            if (args.Length != 2)
             {
                 Console.WriteLine("Must be two arguments entered:");
                 Console.WriteLine("1 - input csv file path");
@@ -112,9 +112,12 @@ namespace CSVTask
                                                 {
                                                     if (j + 1 == length)
                                                     {
-                                                        writer.Write("</td><td><tr>");
+                                                        writer.Write("</td><td></td></tr><tr><td>");
                                                     }
-                                                    writer.Write("</td><td>");
+                                                    else
+                                                    {
+                                                        writer.Write("</td><td>");
+                                                    }
                                                     j += 2;
                                                     i = j;
                                                     break;
@@ -145,7 +148,6 @@ namespace CSVTask
                     }
                 }
                 Console.WriteLine("Html file create. Press any key");
-                Console.ReadKey();
             }
             catch (DirectoryNotFoundException)
             {
@@ -154,6 +156,10 @@ namespace CSVTask
             catch (FileNotFoundException)
             {
                 Console.WriteLine("File not found, please check string path");
+            }
+            finally
+            {
+                Console.ReadKey();
             }
         }
 

@@ -104,6 +104,11 @@ namespace ListTask
         //Удаление первого элемента
         public T Remove()
         {
+            if (Head == null)
+            {
+                throw new NullReferenceException("Head must be not null");
+            }
+
             T value = Head.GetData();
             Head = Head.GetNext();
             Count--;
@@ -158,9 +163,27 @@ namespace ListTask
         //Разворот списка
         public void Reverse()
         {
+            if (Head == null)
+            {
+                throw new NullReferenceException("Head must be not null");
+            }
+
             for (int i = 0; i < Count - 1; i++)
             {
-                
+                ListItem<T> node = Head;
+                ListItem<T> temp = Head.GetNext();
+
+                for (int j = 0; j < Count - i - 1; j++)
+                {
+                    T value = temp.GetData();
+                    T value1 = node.GetData();
+
+                    temp.SetData(value1);
+                    node.SetData(value);
+
+                    temp = temp.GetNext();
+                    node = node.GetNext();
+                }
             }
         }
 

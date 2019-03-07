@@ -4,8 +4,8 @@ namespace ListTask
 {
     class ListItem<T>
     {
-        private T Data { get; set; }
-        private ListItem<T> Next { get; set; }
+        private T Data;
+        private ListItem<T> Next;
 
         public ListItem(T data, ListItem<T> next)
         {

@@ -1,24 +1,27 @@
 ﻿using System;
+using System.Text;
 
 namespace ListTask
 {
     class SinglyLinkedList<T>
     {
         private ListItem<T> Head { get; set; }
-        private int Count { get; set; }
+        public int Count
+        {
+            get
+            {
+                return Count;
+            }
 
-        private const int nodePrevious = 1;
-        private const int nodeCurrent = 0;
+            private set
+            {
+                Count = value;
+            }
+        }
 
         public SinglyLinkedList()
         {
 
-        }
-
-        //Получение размера списка
-        public int GetCount()
-        {
-            return Count;
         }
 
         //Вставка элемента вначало
@@ -32,34 +35,38 @@ namespace ListTask
         //Вставка элемента по индексу
         public void Insert(int index, T value)
         {
-            ListItem<T>[] nodes = GetNodesByIndex(index);
+            ListItem<T> node = GetNodeByIndex(index - 1);
 
             if (index == 0)
             {
                 Add(value);
             }
-            else if (index == Count - 1)
+            else if (index == Count)
             {
-                nodes[nodeCurrent].SetNext(new ListItem<T>(value, null));
+                node.GetNext().SetNext(new ListItem<T>(value, null));
                 Count++;
             }
             else
             {
-                nodes[nodePrevious].SetNext(new ListItem<T>(value, nodes[nodeCurrent]));
+                node.SetNext(new ListItem<T>(value, node.GetNext()));
                 Count++;
             }
         }
 
         //удаление элемента по значению
-        public bool RemoveAtValue(T value)
+        public bool RemoveByValue(T value)
         {
-            ListItem<T> node = Head;
-            bool valueIs = false;
-
-            int index = 0;
-            for(int i = 0; i < Count - 1; i++)
+            if (Head == null)
             {
-                if(node.GetData().Equals(value))
+                throw new ArgumentNullException("The list must have at least one item", nameof(Head));
+            }
+
+            ListItem<T> node = Head;
+
+            int index = 1;
+            for (int i = 1; i <= Count; i++)
+            {
+                if (node.GetData().Equals(value))
                 {
                     valueIs = true;
                     index = i;
@@ -68,45 +75,40 @@ namespace ListTask
                 node = node.GetNext();
             }
 
-            if (valueIs)
-            {
-                T removeValue = RemoveAt(index);
-            }
-
             return valueIs;
         }
 
         //удаление элемента по индексу
         public T RemoveAt(int index)
         {
-            ListItem<T>[] nodes = GetNodesByIndex(index);
+            ListItem<T> node = GetNodeByIndex(index - 1);
 
             T value = Head.GetData();
             if (index == 0)
             {
-                value = Remove();
+                value = RemoveFirst();
             }
-            else if (index == Count - 1)
+            else if (index == Count)
             {
-                value = nodes[nodeCurrent].GetData();
-                nodes[nodePrevious].SetNext(null);
+                value = node.GetNext().GetData();
+                node.SetNext(null);
                 Count--;
             }
             else
             {
-                value = nodes[nodeCurrent].GetData();
-                nodes[nodePrevious].SetNext(nodes[nodeCurrent].GetNext());
+                value = node.GetNext().GetData();
+                node.SetNext(node.GetNext().GetNext());
                 Count--;
             }
             return value;
         }
 
         //Удаление первого элемента
-        public T Remove()
+        public T RemoveFirst()
         {
             if (Head == null)
             {
-                throw new NullReferenceException("Head must be not null");
+                throw new ArgumentNullException("The list must have at least one item", nameof(Head));
             }
 
             T value = Head.GetData();
@@ -118,9 +120,9 @@ namespace ListTask
         //Изменение значения по указанному индексу
         public T ChangeValueAt(int index, T value)
         {
-            ListItem<T>[] nodes = GetNodesByIndex(index);
-            T data = nodes[nodeCurrent].GetData();
-            nodes[nodeCurrent].SetData(value);
+            ListItem<T> node = GetNodeByIndex(index);
+            T data = node.GetData();
+            node.SetData(value);
             return data;
         }
 
@@ -129,7 +131,7 @@ namespace ListTask
         {
             if (Head == null)
             {
-                throw new NullReferenceException("Head must be not null");
+                throw new ArgumentNullException("The list must have at least one item", nameof(Head));
             }
 
             return Head.GetData();
@@ -138,48 +140,38 @@ namespace ListTask
         //Получение занчения по указанному индексу
         public T GetValueAt(int index)
         {
-            ListItem<T>[] nodes = GetNodesByIndex(index);
-            return nodes[nodeCurrent].GetData();
+            ListItem<T> node = GetNodeByIndex(index);
+            return node.GetData();
         }
 
         //получение узла по индексу
-        private ListItem<T>[] GetNodesByIndex(int index)
+        private ListItem<T> GetNodeByIndex(int index)
         {
-            if ((index < 0) || (index > Count - 1))
+            if ((index < 0) || (index > Count))
             {
-                throw new IndexOutOfRangeException("index must be >= 0 and  <= Count - 1");
+                throw new IndexOutOfRangeException("index must be > 0 and  <= Count");
             }
 
             ListItem<T> nodeCurrent = Head;
-            ListItem<T> nodePrevious = null;
-            for (int i = 0; i <= index - 1; i++)
+            for (int i = 1; i <= index; i++)
             {
-                nodePrevious = nodeCurrent;
                 nodeCurrent = nodeCurrent.GetNext();
             }
-            return new ListItem<T>[] { nodeCurrent, nodePrevious };
+            return nodeCurrent;
         }
 
         //Разворот списка
         public void Reverse()
         {
-            if (Head == null)
-            {
-                throw new NullReferenceException("Head must be not null");
-            }
-
-            for (int i = 0; i < Count - 1; i++)
+            for (int i = 1; i <= Count; i++)
             {
                 ListItem<T> node = Head;
                 ListItem<T> temp = Head.GetNext();
 
-                for (int j = 0; j < Count - i - 1; j++)
+                for (int j = 1; j <= Count - i; j++)
                 {
-                    T value = temp.GetData();
-                    T value1 = node.GetData();
-
-                    temp.SetData(value1);
-                    node.SetData(value);
+                    temp.SetData(node.GetData());
+                    node.SetData(temp.GetData());
 
                     temp = temp.GetNext();
                     node = node.GetNext();
@@ -191,7 +183,7 @@ namespace ListTask
         public SinglyLinkedList<T> Copy()
         {
             SinglyLinkedList<T> copy = new SinglyLinkedList<T>();
-            for(int i = Count - 1; i >= 0; i--)
+            for (int i = Count; i >= 1; i--)
             {
                 copy.Add(GetValueAt(i));
             }
@@ -200,14 +192,14 @@ namespace ListTask
 
         public override string ToString()
         {
-            string res = "";
+            StringBuilder str = new StringBuilder();
             ListItem<T> nodeCurrent = Head;
-            for (int i = 0; i <= Count - 1; i++)
+            for (int i = 1; i <= Count; i++)
             {
-                res += nodeCurrent.ToString();
+                str.Append(nodeCurrent.ToString());
                 nodeCurrent = nodeCurrent.GetNext();
             }
-            return res;
+            return str.ToString();
         }
     }
 }

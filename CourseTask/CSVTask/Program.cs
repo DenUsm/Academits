@@ -9,6 +9,15 @@ namespace CSVTask
     {
         static void Main(string[] args)
         {
+            if(args.Length != 2)
+            {
+                Console.WriteLine("Must be two arguments entered:");
+                Console.WriteLine("1 - input csv file path");
+                Console.WriteLine("2 - output html file path");
+                Console.ReadKey();
+                return;
+            }
+
             string inputCsvPath = args[0];
             string outputHtmlPath = args[1];
 
@@ -60,23 +69,9 @@ namespace CSVTask
                                                         lineBreak = false;
                                                         continue;
                                                     }
-                                                    else if ((str[j].ToString() + str[j + 1].ToString()) == "\"")
-                                                    {
-                                                        writer.Write("\"");
-                                                        j++;
-                                                    }
-                                                    break;
-                                                case '<':
-                                                    writer.Write("&lt;");
-                                                    break;
-                                                case '>':
-                                                    writer.Write("&gt;");
-                                                    break;
-                                                case '&':
-                                                    writer.Write("&amp;");
                                                     break;
                                                 default:
-                                                    writer.Write(str[j].ToString());
+                                                    writer.Write(ReplaceSymbol(str[j]));
                                                     break;
                                             }
                                         }
@@ -107,13 +102,13 @@ namespace CSVTask
                                                     i = j;
                                                     break;
                                                 }
-                                                if (str[j + 1].ToString().Equals("\""))
+                                                if (str[j + 1] == '\"')
                                                 {
-                                                    writer.Write(str[j].ToString());
+                                                    writer.Write(str[j]);
                                                     j++;
                                                     break;
                                                 }
-                                                else if (str[j + 1].ToString().Equals(","))
+                                                else if (str[j + 1] == ',')
                                                 {
                                                     if (j + 1 == length)
                                                     {
@@ -125,25 +120,16 @@ namespace CSVTask
                                                     break;
                                                 }
                                                 break;
-                                            case "<":
-                                                writer.Write("&lt;");
-                                                break;
-                                            case ">":
-                                                writer.Write("&gt;");
-                                                break;
-                                            case "&":
-                                                writer.Write("&amp;");
-                                                break;
                                             default:
                                                 if (j == length)
                                                 {
-                                                    writer.Write(str[j].ToString() + "<br/>");
+                                                    writer.Write(ReplaceSymbol(str[j]) + "<br/>");
                                                     lineBreak = true;
                                                     i = j;
                                                 }
                                                 else
                                                 {
-                                                    writer.Write(str[j].ToString());
+                                                    writer.Write(ReplaceSymbol(str[j]));
                                                 }
                                                 break;
                                         }
@@ -168,6 +154,21 @@ namespace CSVTask
             catch (FileNotFoundException)
             {
                 Console.WriteLine("File not found, please check string path");
+            }
+        }
+
+        public static string ReplaceSymbol(char symbol)
+        {
+            switch (symbol)
+            {
+                case '<':
+                    return "&lt;";
+                case '>':
+                    return "&gt;";
+                case '&':
+                    return "&amp;";
+                default:
+                    return symbol.ToString();
             }
         }
     }

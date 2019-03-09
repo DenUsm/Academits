@@ -21,8 +21,6 @@ namespace CSVTask
             string inputCsvPath = args[0];
             string outputHtmlPath = args[1];
 
-            List<string> list = new List<string>();
-
             try
             {
                 using (StreamReader reader = new StreamReader(inputCsvPath, Encoding.Default))
@@ -85,13 +83,20 @@ namespace CSVTask
                                         {
                                             if (j == length)
                                             {
-                                                writer.Write("</td></tr>");
-                                                i = j;
-                                                break;
+                                                if (str[j] == ',')
+                                                {
+                                                    writer.Write("</td><td>");
+                                                }
+                                                else
+                                                {
+                                                    writer.Write("</td></tr>");
+                                                    i = j;
+                                                    break;
+                                                }
                                             }
                                             else if (str[j + 1] == ',')
                                             {
-                                                writer.Write("</td><td></td><td>");
+                                                writer.Write("</td><td>");
                                             }
                                             else
                                             {

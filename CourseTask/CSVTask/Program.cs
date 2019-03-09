@@ -41,16 +41,22 @@ namespace CSVTask
                         writer.Write("</head>");
                         writer.Write("<body>");
                         writer.Write("<table border=\"1\" cellspacing=\"0\">");
-                        writer.Write("<tr>");
-                        writer.Write("<td>");
 
                         while ((str = reader.ReadLine()) != null)
                         {
-                            //string res = "";
                             int length = str.Length - 1;
+
+                            if (!lineBreak)
+                            {
+                                writer.Write("<tr>");
+                            }
 
                             for (int i = 0; i <= length; i++)
                             {
+                                if (!lineBreak)
+                                {
+                                    writer.Write("<td>");
+                                }
                                 //If cells initial by "\""
                                 if (str[i] != '\"')
                                 {
@@ -79,21 +85,24 @@ namespace CSVTask
                                         {
                                             if (j == length)
                                             {
-                                                writer.Write("</td></tr><tr><td>");
+                                                writer.Write("</td></tr>");
                                                 i = j;
                                                 break;
                                             }
                                             else if (str[j + 1] == ',')
                                             {
-                                                writer.Write("</td><td>");
+                                                writer.Write("</td><td></td><td>");
                                             }
-                                            writer.Write("</td><td>");
-                                            i = j;
-                                            break;
+                                            else
+                                            {
+                                                writer.Write("</td>");
+                                                i = j;
+                                                break;
+                                            }
                                         }
                                         if (j == length)
                                         {
-                                            writer.Write("</td></tr><tr><td>");
+                                            writer.Write("</td></tr>");
                                             i = j;
                                         }
                                     }
@@ -108,7 +117,7 @@ namespace CSVTask
                                             case '\"':
                                                 if (j == length)
                                                 {
-                                                    writer.Write("</td>");
+                                                    writer.Write("</td></tr>");
                                                     i = j;
                                                     break;
                                                 }
@@ -122,7 +131,7 @@ namespace CSVTask
                                                 {
                                                     if (j + 1 == length)
                                                     {
-                                                        writer.Write("</td><td></td></tr><tr><td>");
+                                                        writer.Write("</td><td></td></tr>");
                                                     }
                                                     else
                                                     {
@@ -151,7 +160,6 @@ namespace CSVTask
                             }
                         }
 
-                        writer.Write("</tr>");
                         writer.Write("</table>");
                         writer.Write("</body>");
                         writer.Write("</html>");

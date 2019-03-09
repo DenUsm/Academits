@@ -77,6 +77,16 @@ namespace CSVTask
                                         }
                                         else
                                         {
+                                            if (j == length)
+                                            {
+                                                writer.Write("</td></tr><tr><td>");
+                                                i = j;
+                                                break;
+                                            }
+                                            else if (str[j + 1] == ',')
+                                            {
+                                                writer.Write("</td><td>");
+                                            }
                                             writer.Write("</td><td>");
                                             i = j;
                                             break;

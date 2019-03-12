@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Text;
 
 namespace ListTask
@@ -202,10 +203,28 @@ namespace ListTask
         public SinglyLinkedList<T> Copy()
         {
             SinglyLinkedList<T> copy = new SinglyLinkedList<T>();
-            for (int i = Count; i >= 1; i--)
+
+            ListItem<T> node = Head;
+
+            while (node != null)
             {
-                copy.Add(GetValueAt(i));
+                copy.Add(node.GetData());
+                node = node.GetNext();
             }
+
+            ListItem<T> current = copy.Head;
+            ListItem<T> next = null;
+            ListItem<T> temp = null;
+
+            for (int i = 0; i < Count; i++)
+            {
+                next = current.GetNext();
+                current.SetNext(temp);
+                temp = current;
+                current = next;
+            }
+            copy.Head = temp;
+
             return copy;
         }
 

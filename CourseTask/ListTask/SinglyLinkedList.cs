@@ -216,18 +216,7 @@ namespace ListTask
                 node = node.GetNext();
             }
 
-            ListItem<T> current = copy.Head;
-            ListItem<T> next = null;
-            ListItem<T> temp = null;
-
-            for (int i = 0; i < Count; i++)
-            {
-                next = current.GetNext();
-                current.SetNext(temp);
-                temp = current;
-                current = next;
-            }
-            copy.Head = temp;
+            copy.Reverse();
 
             return copy;
         }

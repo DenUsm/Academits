@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Text;
 
 namespace ListTask
@@ -95,6 +94,11 @@ namespace ListTask
         //удаление элемента по индексу
         public T RemoveAt(int index)
         {
+            if ((index <= 0) || (index > Count))
+            {
+                throw new IndexOutOfRangeException("index must be > 0 and  <= Count");
+            }
+
             ListItem<T> node = Head;
             ListItem<T> previous = null;
 

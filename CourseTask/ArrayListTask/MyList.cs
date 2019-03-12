@@ -23,7 +23,7 @@ namespace ArrayListTask
         private void IncreaseCapacity()
         {
             T[] old = Items;
-            Items = new T[old.Length * 2];
+            Items = new T[Length * 2];
             Array.Copy(old, 0, Items, 0, old.Length);
         }
 
@@ -71,21 +71,33 @@ namespace ArrayListTask
 
         public int Count => Length;
 
-
-
-
+        private void TrimToSize()
+        {
+            if(Items.Length / Length > 2)
+            {
+                T[] old = Items;
+                Items = new T[Length * 2];
+                Array.Copy(old, 0, Items, 0, Items.Length);
+            }
+        }
 
         public bool IsReadOnly => throw new NotImplementedException();
-
-     
+   
         public void Clear()
         {
-            throw new NotImplementedException();
+            Items = new T[10];
         }
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            foreach(T value in Items)
+            {
+                if(value.Equals(item))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -124,7 +136,7 @@ namespace ArrayListTask
         {
             StringBuilder str = new StringBuilder();
             str.Append("[");
-            str.Append(String.Join(", ", Items));
+            str.Append(string.Join(", ", Items));
             str.Append("]");
 
             return str.ToString();

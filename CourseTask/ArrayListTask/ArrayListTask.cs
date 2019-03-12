@@ -21,6 +21,12 @@ namespace ArrayListTask
             my.RemoveAt(3);
             Console.WriteLine("Values {0} - {1}", my.ToString(), my.Count);
 
+            Console.WriteLine("---------------------------------------Test Contains---------------------------------");
+            int value = 10;
+            Console.WriteLine("Value {0} {1}", value, my.Contains(value).ToString());
+            value = 40;
+            Console.WriteLine("Value {0} {1}", value, my.Contains(value).ToString());
+
             Console.ReadKey();
         }
     }

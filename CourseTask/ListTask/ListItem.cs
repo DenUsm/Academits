@@ -2,32 +2,12 @@
 {
     class ListItem<T>
     {
-        private T Data;
-        private ListItem<T> Next;
+        public T Data { get; set; }
+        public ListItem<T> Next { get; set; }
 
         public ListItem(T data, ListItem<T> next)
         {
             Data = data;
-            Next = next;
-        }
-
-        public T GetData()
-        {
-            return Data;
-        }
-
-        public void SetData(T data)
-        {
-            Data = data;
-        }
-
-        public ListItem<T> GetNext()
-        {
-            return Next;
-        }
-
-        public void SetNext(ListItem<T> next)
-        {
             Next = next;
         }
 

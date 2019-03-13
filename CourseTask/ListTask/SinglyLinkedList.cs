@@ -15,7 +15,7 @@ namespace ListTask
         }
 
         //Вставка элемента вначало
-        public void Add(T data)
+        public void AddFirst(T data)
         {
             ListItem<T> node = new ListItem<T>(data, Head);
             Head = node;
@@ -27,30 +27,22 @@ namespace ListTask
         {
             if (Head == null)
             {
-                throw new ArgumentNullException("The list must have at least one item", nameof(Head));
+                throw new NullReferenceException("The list must have at least one item");
             }
 
-            ListItem<T> node = Head;
-            ListItem<T> previous = null;
-
-            for (int i = 1; i < index; i++)
+            if (index == 0)
             {
-                previous = node;
-                node = node.GetNext();
+                AddFirst(value);
             }
-
-            if (index == 1)
+            else if (index == Count - 1)
             {
-                Add(value);
-            }
-            else if (index == Count)
-            {
-                node.SetNext(new ListItem<T>(value, null));
+                GetNodeByIndex(index).Next = new ListItem<T>(value, null);
                 Count++;
             }
             else
             {
-                previous.SetNext(new ListItem<T>(value, node));
+                ListItem<T> previous = GetNodeByIndex(index - 1);
+                previous.Next = new ListItem<T>(value, previous.Next);
                 Count++;
             }
         }
@@ -58,35 +50,30 @@ namespace ListTask
         //удаление элемента по значению
         public bool RemoveByValue(T value)
         {
-            if (Head == null)
-            {
-                throw new ArgumentNullException("The list must have at least one item", nameof(Head));
-            }
-
             ListItem<T> node = Head;
             ListItem<T> previous = null;
 
-            for (int i = 1; i <= Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                if (node.GetData().Equals(value))
+                if (node.Data.Equals(value))
                 {
                     if (previous == null)
                     {
-                        Head = node.GetNext();
+                        Head = node.Next;
                     }
                     else if (i == Count)
                     {
-                        previous.SetNext(null);
+                        previous.Next = null;
                     }
                     else
                     {
-                        previous.SetNext(node.GetNext());
+                        previous.Next = node.Next;
                     }
                     Count--;
                     return true;
                 }
                 previous = node;
-                node = node.GetNext();
+                node = node.Next;
             }
             return false;
         }
@@ -94,35 +81,28 @@ namespace ListTask
         //удаление элемента по индексу
         public T RemoveAt(int index)
         {
-            if ((index <= 0) || (index > Count))
+            if ((index < 0) || (index >= Count))
             {
                 throw new IndexOutOfRangeException("index must be > 0 and  <= Count");
             }
 
-            ListItem<T> node = Head;
-            ListItem<T> previous = null;
-
-            for (int i = 1; i < index; i++)
-            {
-                previous = node;
-                node = node.GetNext();
-            }
-
-            T value = Head.GetData();
-            if (index == 1)
+            T value = Head.Data;
+            if (index == 0)
             {
                 value = RemoveFirst();
             }
-            else if (index == Count)
+            else if (index == Count - 1)
             {
-                value = node.GetData();
-                previous.SetNext(null);
+                ListItem<T> previous = GetNodeByIndex(index - 1);
+                value = previous.Next.Data;
+                previous.Next = null;
                 Count--;
             }
             else
             {
-                value = node.GetData();
-                previous.SetNext(node.GetNext());
+                ListItem<T> previous = GetNodeByIndex(index - 1);
+                value = previous.Next.Data;
+                previous.Next = previous.Next.Next;
                 Count--;
             }
             return value;
@@ -133,11 +113,11 @@ namespace ListTask
         {
             if (Head == null)
             {
-                throw new ArgumentNullException("The list must have at least one item", nameof(Head));
+                throw new NullReferenceException("The list must have at least one item");
             }
 
-            T value = Head.GetData();
-            Head = Head.GetNext();
+            T value = Head.Data;
+            Head = Head.Next;
             Count--;
             return value;
         }
@@ -146,8 +126,8 @@ namespace ListTask
         public T ChangeValueAt(int index, T value)
         {
             ListItem<T> node = GetNodeByIndex(index);
-            T data = node.GetData();
-            node.SetData(value);
+            T data = node.Data;
+            node.Data = value;
             return data;
         }
 
@@ -156,32 +136,32 @@ namespace ListTask
         {
             if (Head == null)
             {
-                throw new ArgumentNullException("The list must have at least one item", nameof(Head));
+                throw new NullReferenceException("The list must have at least one item");
             }
 
-            return Head.GetData();
+            return Head.Data;
         }
 
         //Получение занчения по указанному индексу
         public T GetValueAt(int index)
         {
             ListItem<T> node = GetNodeByIndex(index);
-            return node.GetData();
+            return node.Data;
         }
 
         //получение узла по индексу
         private ListItem<T> GetNodeByIndex(int index)
         {
-            if ((index <= 0) || (index > Count))
+            if ((index < 0) || (index >= Count))
             {
                 throw new IndexOutOfRangeException("index must be > 0 and  <= Count");
             }
 
             ListItem<T> nodeCurrent = Head;
 
-            for (int i = 1; i < index; i++)
+            for (int i = 1; i <= index; i++)
             {
-                nodeCurrent = nodeCurrent.GetNext();
+                nodeCurrent = nodeCurrent.Next;
             }
             return nodeCurrent;
         }
@@ -195,8 +175,8 @@ namespace ListTask
 
             for (int i = 0; i < Count; i++)
             {
-                next = node.GetNext();
-                node.SetNext(temp);
+                next = node.Next;
+                node.Next = temp;
                 temp = node;
                 node = next;
             }
@@ -212,8 +192,8 @@ namespace ListTask
 
             while (node != null)
             {
-                copy.Add(node.GetData());
-                node = node.GetNext();
+                copy.AddFirst(node.Data);
+                node = node.Next;
             }
 
             copy.Reverse();
@@ -225,10 +205,10 @@ namespace ListTask
         {
             StringBuilder str = new StringBuilder();
             ListItem<T> nodeCurrent = Head;
-            for (int i = 1; i <= Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                str.Append(nodeCurrent.ToString());
-                nodeCurrent = nodeCurrent.GetNext();
+                str.Append(nodeCurrent);
+                nodeCurrent = nodeCurrent.Next;
             }
             return str.ToString();
         }

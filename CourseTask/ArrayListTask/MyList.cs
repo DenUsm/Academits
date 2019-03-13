@@ -8,30 +8,31 @@ namespace ArrayListTask
     class MyList<T> : IList<T>
     {
         private T[] Items = new T[10];
-        private int Length;
+        private int modCount = 0;
 
         public MyList()
         {
-
+            Count = 0;
         }
 
         public MyList(int capacity)
         {
             Items = new T[capacity];
+            Count = 0;
         }
 
         private void IncreaseCapacity()
         {
             T[] old = Items;
-            Items = new T[Length * 2];
+            Items = new T[Items.Length * 2];
             Array.Copy(old, 0, Items, 0, old.Length);
         }
 
         private void Check(int index)
         {
-            if ((index > Items.Length) || (index < 0))
+            if ((index >= Count) || (index < 0))
             {
-                throw new ArgumentException("index must be less of items array length", nameof(index));
+                throw new ArgumentException("index must be less of Length", nameof(index));
             }
         }
 
@@ -51,48 +52,52 @@ namespace ArrayListTask
 
         public void Add(T value)
         {
-            if (Length >= Items.Length)
+            if (Count >= Items.Length)
             {
                 IncreaseCapacity();
             }
-            Items[Length] = value;
-            Length++;
+            Items[Count] = value;
+            Count++;
+            modCount++;
         }
 
         public void RemoveAt(int index)
         {
             Check(index);
-            if (index < Length)
+            if (index < Count - 1)
             {
-                Array.Copy(Items, index + 1, Items, index, Length - index);
+                Array.Copy(Items, index + 1, Items, index, Count - index - 1);
             }
-            Length--;
+            Count--;
+            modCount++;
+            TrimToSize();
         }
 
-        public int Count => Length;
+        public int Count { get; private set; }
 
         private void TrimToSize()
         {
-            if(Items.Length / Length > 2)
+            if (Items.Length / Count > 2)
             {
                 T[] old = Items;
-                Items = new T[Length * 2];
+                Items = new T[Count * 2];
                 Array.Copy(old, 0, Items, 0, Items.Length);
             }
         }
 
-        public bool IsReadOnly => throw new NotImplementedException();
-   
+        public bool IsReadOnly => false;
+
         public void Clear()
         {
-            Items = new T[10];
+            Count = 0;
+            TrimToSize();
         }
 
         public bool Contains(T item)
         {
-            foreach(T value in Items)
+            foreach (T value in Items)
             {
-                if(value.Equals(item))
+                if (value.Equals(item))
                 {
                     return true;
                 }
@@ -100,36 +105,77 @@ namespace ArrayListTask
             return false;
         }
 
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
         public int IndexOf(T item)
         {
-            throw new NotImplementedException();
+            int indexEntry = -1;
+            for (int i = 0; i < Count; i++)
+            {
+                if (Items[i].Equals(item))
+                {
+                    indexEntry = i;
+                    break;
+                }
+            }
+            return indexEntry;
         }
 
         public void Insert(int index, T item)
         {
-            throw new NotImplementedException();
+            Check(index);
+            Array.Copy(Items, index, Items, index + 1, Count - index);
+            Items[index] = item;
+            Count++;
+            modCount++;
         }
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            int index = IndexOf(item);
+
+            if (index == -1)
+            {
+                return false;
+            }
+
+            RemoveAt(IndexOf(item));
+            TrimToSize();
+
+            return true;
+
         }
 
-        
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            if((array.Length - arrayIndex - 1) < Count)
+            {
+                throw new ArgumentException("Current array must be less destanation array", nameof(Count));
+            }
+
+            int j = arrayIndex;
+            for(int i = 0; i < Count; i++)
+            {
+                array[j] = Items[i];
+                j++;
+            }
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            int modCountSave = modCount;
+
+            for(int i = 0; i < Count; i++)
+            {
+                if (modCount != modCountSave)
+                {
+                    throw new InvalidOperationException("There were changes in the collection");
+                }
+                yield return Items[i];
+            }
+        }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
 
         public override string ToString()

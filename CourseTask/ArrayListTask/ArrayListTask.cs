@@ -9,6 +9,9 @@ namespace ArrayListTask
         {
             MyList<int> my = new MyList<int>() { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120 };
 
+            MyList<string> my1 = new MyList<string>() { "str", "sre" };
+            my1.Clear();
+
             Console.WriteLine("---------------------------------------Test Add---------------------------------");
             Console.WriteLine("Values {0} - {1}", my.ToString(), my.Count);
 
@@ -32,7 +35,7 @@ namespace ArrayListTask
             Console.WriteLine("---------------------------------------Test Contains---------------------------------");
             int value = 10;
             Console.WriteLine("Value {0} {1}", value, my.Contains(value).ToString());
-            value = 40;
+            value = 55;
             Console.WriteLine("Value {0} {1}", value, my.Contains(value).ToString());
 
             Console.WriteLine();
@@ -47,13 +50,17 @@ namespace ArrayListTask
             my.Insert(index2, value4);
             Console.WriteLine("Insert value {0} to index {1} {2} {3}", value4, index2, my.ToString(), my.Count);
 
+            int value5 = 22;
+            my.Insert(index2, value4);
+            Console.WriteLine("Insert value {0} to index {1} {2} {3}", value5, my.Count - 1, my.ToString(), my.Count);
+
             Console.WriteLine();
             Console.WriteLine("---------------------------------------Test Remove---------------------------------");
-            int value5 = 88;
-            Console.WriteLine("Remove value {0} {1} {2} {3}", value5, my.Remove(value5).ToString(), my.ToString(), my.Count);
-
-            int value6 = 111;
+            int value6 = 88;
             Console.WriteLine("Remove value {0} {1} {2} {3}", value6, my.Remove(value6).ToString(), my.ToString(), my.Count);
+
+            int value7 = 111;
+            Console.WriteLine("Remove value {0} {1} {2} {3}", value7, my.Remove(value7).ToString(), my.ToString(), my.Count);
 
             Console.WriteLine();
             Console.WriteLine("---------------------------------------Test CopyTo---------------------------------");

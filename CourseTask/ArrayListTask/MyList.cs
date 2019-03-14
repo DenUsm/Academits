@@ -7,32 +7,33 @@ namespace ArrayListTask
 {
     class MyList<T> : IList<T>
     {
-        private T[] Items = new T[10];
+        private T[] items;
         private int modCount = 0;
 
         public MyList()
         {
+            items = new T[10];
             Count = 0;
         }
 
         public MyList(int capacity)
         {
-            Items = new T[capacity];
+            items = new T[capacity];
             Count = 0;
         }
 
         private void IncreaseCapacity()
         {
-            T[] old = Items;
-            Items = new T[Items.Length * 2];
-            Array.Copy(old, 0, Items, 0, old.Length);
+            T[] old = items;
+            items = new T[items.Length * 2];
+            Array.Copy(old, 0, items, 0, old.Length);
         }
 
-        private void Check(int index)
+        private void CheckIndex(int index)
         {
             if ((index >= Count) || (index < 0))
             {
-                throw new ArgumentException("index must be less of Length", nameof(index));
+                throw new IndexOutOfRangeException("index must be less of Length");
             }
         }
 
@@ -40,48 +41,47 @@ namespace ArrayListTask
         {
             get
             {
-                Check(index);
-                return Items[index];
+                CheckIndex(index);
+                return items[index];
             }
             set
             {
-                Check(index);
-                Items[index] = value;
+                CheckIndex(index);
+                items[index] = value;
             }
         }
 
         public void Add(T value)
         {
-            if (Count >= Items.Length)
+            if (Count >= items.Length)
             {
                 IncreaseCapacity();
             }
-            Items[Count] = value;
+            items[Count] = value;
             Count++;
             modCount++;
         }
 
         public void RemoveAt(int index)
         {
-            Check(index);
+            CheckIndex(index);
             if (index < Count - 1)
             {
-                Array.Copy(Items, index + 1, Items, index, Count - index - 1);
+                Array.Copy(items, index + 1, items, index, Count - index - 1);
             }
             Count--;
             modCount++;
-            TrimToSize();
         }
 
         public int Count { get; private set; }
 
-        private void TrimToSize()
+        public void TrimToSize()
         {
-            if (Items.Length / Count > 2)
+            if (items.Length / Count > 2)
             {
-                T[] old = Items;
-                Items = new T[Count * 2];
-                Array.Copy(old, 0, Items, 0, Items.Length);
+                T[] old = items;
+                items = new T[Count * 2];
+                Array.Copy(old, 0, items, 0, items.Length);
             }
         }
 
@@ -90,40 +90,35 @@ namespace ArrayListTask
         public void Clear()
         {
             Count = 0;
-            TrimToSize();
+            Array.Clear(items, 0, items.Length);
         }
 
         public bool Contains(T item)
         {
-            foreach (T value in Items)
+            if (IndexOf(item) != -1)
             {
-                if (value.Equals(item))
-                {
-                    return true;
-                }
+                return true;
             }
             return false;
         }
 
         public int IndexOf(T item)
         {
-            int indexEntry = -1;
             for (int i = 0; i < Count; i++)
             {
-                if (Items[i].Equals(item))
+                if (item.Equals(items[i]))
                 {
-                    indexEntry = i;
-                    break;
+                    return i;
                 }
             }
-            return indexEntry;
+            return -1;
         }
 
         public void Insert(int index, T item)
         {
-            Check(index);
-            Array.Copy(Items, index, Items, index + 1, Count - index);
-            Items[index] = item;
+            CheckIndex(index);
+            Array.Copy(items, index, items, index + 1, Count - index);
+            items[index] = item;
             Count++;
             modCount++;
         }
@@ -138,7 +133,6 @@ namespace ArrayListTask
             }
 
             RemoveAt(IndexOf(item));
-            TrimToSize();
 
             return true;
 
@@ -146,15 +140,15 @@ namespace ArrayListTask
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            if((array.Length - arrayIndex - 1) < Count)
+            if ((array.Length - arrayIndex - 1) < Count)
             {
                 throw new ArgumentException("Current array must be less destanation array", nameof(Count));
             }
 
             int j = arrayIndex;
-            for(int i = 0; i < Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                array[j] = Items[i];
+                array[j] = items[i];
                 j++;
             }
         }
@@ -163,13 +157,13 @@ namespace ArrayListTask
         {
             int modCountSave = modCount;
 
-            for(int i = 0; i < Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 if (modCount != modCountSave)
                 {
                     throw new InvalidOperationException("There were changes in the collection");
                 }
-                yield return Items[i];
+                yield return items[i];
             }
         }
 
@@ -182,7 +176,7 @@ namespace ArrayListTask
         {
             StringBuilder str = new StringBuilder();
             str.Append("[");
-            str.Append(string.Join(", ", Items));
+            str.Append(string.Join(", ", items));
             str.Append("]");
 
             return str.ToString();

@@ -24,7 +24,7 @@ namespace ListTask
             Console.WriteLine();
             Console.WriteLine("{0} = {1}", my.ToString(), my.Count);
 
-            Console.WriteLine("----------------------------------ChangeValueAt--------------------------------------------------------------");
+            Console.WriteLine("----------------------------------ChangeValueAt------------------------------------------");
             int value = 500;
             Console.WriteLine("Change value by index old value - {0}, new value - {1}", my.ChangeValueAt(my.Count - 1, value), my.GetValueAt(my.Count - 1));
 
@@ -36,7 +36,7 @@ namespace ListTask
             Console.WriteLine();
             Console.WriteLine("{0} = {1}", my.ToString(), my.Count);
 
-            Console.WriteLine("------------------------------Test-Remove--------------------------------------------------------");
+            Console.WriteLine("------------------------------Test-Remove-------------------------------------------------");
             Console.WriteLine("RemoveAt value {0}", my.RemoveAt(0));
             Console.WriteLine("Get values by indexes");
             for (int i = 0; i < my.Count; i++)
@@ -67,7 +67,7 @@ namespace ListTask
             Console.WriteLine();
             Console.WriteLine("{0} = {1}", my.ToString(), my.Count);
 
-            Console.WriteLine("------------------------------Test-Insert---------------------------------------------------------");
+            Console.WriteLine("------------------------------Test-Insert---------------------------------------------------");
             my.Insert(0, 100);
             Console.WriteLine("Get values by indexes");
             for (int i = 0; i < my.Count; i++)
@@ -95,7 +95,7 @@ namespace ListTask
             Console.WriteLine();
             Console.WriteLine("{0} = {1}", my.ToString(), my.Count);
 
-            Console.WriteLine("------------------------------RemoveByValue---------------------------------------------------------");
+            Console.WriteLine("------------------------------RemoveByValue--------------------------------------------------");
             Console.WriteLine(my.RemoveByValue(400).ToString());
             Console.WriteLine("Get values by indexes");
             for (int i = 0; i < my.Count; i++)
@@ -114,6 +114,33 @@ namespace ListTask
             Console.WriteLine();
             Console.WriteLine("{0} = {1}", my.ToString(), my.Count);
 
+            Console.WriteLine();
+            Console.WriteLine("------------------------------RemoveByValue with null value-----------------------------------");
+            SinglyLinkedList<string> testNull = new SinglyLinkedList<string>();
+
+            testNull.AddFirst(null);
+            testNull.AddFirst("test");
+            testNull.AddFirst(null);
+
+            Console.WriteLine("Get values by indexes");
+            for (int i = 0; i < testNull.Count; i++)
+            {
+                Console.Write("{0} ", testNull.GetValueAt(i));
+            }
+            Console.WriteLine();
+            Console.WriteLine("{0} = {1}", testNull.ToString(), testNull.Count);
+
+            Console.WriteLine(testNull.RemoveByValue(null).ToString());
+            Console.WriteLine(testNull.RemoveByValue("test").ToString());
+
+            Console.WriteLine("Get values by indexes");
+            for (int i = 0; i < testNull.Count; i++)
+            {
+                Console.Write("{0} ", testNull.GetValueAt(i));
+            }
+            Console.WriteLine();
+            Console.WriteLine("{0} = {1}", testNull.ToString(), testNull.Count);
+
             Console.WriteLine("------------------------------CopyList---------------------------------------------------------");
             SinglyLinkedList<int> myNew = new SinglyLinkedList<int>();
             myNew = my.Copy();
@@ -127,7 +154,7 @@ namespace ListTask
             Console.WriteLine("{0} = {1}", myNew.ToString(), myNew.Count);
 
             int value1 = 888;
-            Console.WriteLine("Change value by index old value - {0}, new value - {1}", my.ChangeValueAt(5, value1), my.GetValueAt(5));
+            Console.WriteLine("Change value by index old value - {0}, new value - {1}", my.ChangeValueAt(my.Count - 1, value1), my.GetValueAt(my.Count - 1));
 
             Console.WriteLine("Get values by indexes");
             for (int i = 0; i < my.Count; i++)

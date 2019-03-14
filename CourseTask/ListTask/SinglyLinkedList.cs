@@ -55,7 +55,7 @@ namespace ListTask
 
             for (int i = 0; i < Count; i++)
             {
-                if (node.Data.Equals(value))
+                if (ReferenceEquals(node.Data, value))
                 {
                     if (previous == null)
                     {
@@ -170,12 +170,11 @@ namespace ListTask
         public void Reverse()
         {
             ListItem<T> node = Head;
-            ListItem<T> next = null;
             ListItem<T> temp = null;
 
             for (int i = 0; i < Count; i++)
             {
-                next = node.Next;
+                ListItem<T> next = node.Next;
                 node.Next = temp;
                 temp = node;
                 node = next;
@@ -192,11 +191,20 @@ namespace ListTask
 
             while (node != null)
             {
-                copy.AddFirst(node.Data);
+                T value = node.Data;
+                copy.AddFirst(value);
                 node = node.Next;
             }
 
-            copy.Reverse();
+            ListItem<T> next = copy.Head;
+            node = Head;
+
+            for (int i = 0; i < Count; i++)
+            {
+                next.Data = node.Data;
+                node = node.Next;
+                next = next.Next;
+            }
 
             return copy;
         }

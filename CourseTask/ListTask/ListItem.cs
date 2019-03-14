@@ -13,7 +13,7 @@
 
         public override string ToString()
         {
-            return string.Format("[{0}, {1}]", Data, (Next == null) ? "null" : Next.ToString());
+            return string.Format("[{0}, {1}]", (Data == null) ? "null" : Data.ToString(), (Next == null) ? "null" : Next.ToString());
         }
     }
 }

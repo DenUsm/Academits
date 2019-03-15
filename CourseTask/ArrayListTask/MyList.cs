@@ -15,7 +15,15 @@ namespace ArrayListTask
             get => items.Length;
             set
             {
-                Array.Resize(ref items, value);
+                if(Capacity < Count)
+                {
+                    throw new ArgumentOutOfRangeException("Сapacity is less than the current array");
+                }
+
+                if (Capacity > items.Length)
+                {
+                    Array.Resize(ref items, value);
+                }
             }
         }
 

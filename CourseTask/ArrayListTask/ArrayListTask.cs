@@ -104,6 +104,18 @@ namespace ArrayListTask
             my5.TrimExcess();
             Console.WriteLine(my5.Capacity);
 
+            // Test for capasity
+            List<int> test4 = new List<int>(20);
+            test4.Add(1);
+            test4.Add(2);
+            test4.Add(3);
+            test4.Add(4);
+            int res = test4.Capacity;
+
+            test4.Capacity = 15;
+
+            int res1 = test4.Capacity;
+
             Console.ReadKey();
         }
     }

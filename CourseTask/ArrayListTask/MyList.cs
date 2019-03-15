@@ -10,7 +10,14 @@ namespace ArrayListTask
         private T[] items;
         private int modCount = 0;
         public int Count { get; private set; }
-        public int Capacity { get => items.Length; }
+        public int Capacity
+        {
+            get => items.Length;
+            set
+            {
+                Array.Resize(ref items, value);
+            }
+        }
 
         public MyList()
         {

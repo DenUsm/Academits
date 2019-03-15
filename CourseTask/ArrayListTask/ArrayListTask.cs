@@ -103,6 +103,7 @@ namespace ArrayListTask
             MyList<int> my5 = new MyList<int>();
             my5.TrimExcess();
             Console.WriteLine(my5.Capacity);
+
             Console.ReadKey();
         }
     }

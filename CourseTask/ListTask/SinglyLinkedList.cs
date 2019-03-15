@@ -25,11 +25,6 @@ namespace ListTask
         //Вставка элемента по индексу
         public void Insert(int index, T value)
         {
-            if (Head == null)
-            {
-                throw new NullReferenceException("The list must have at least one item");
-            }
-
             if (index == 0)
             {
                 AddFirst(value);
@@ -55,7 +50,7 @@ namespace ListTask
 
             for (int i = 0; i < Count; i++)
             {
-                if (ReferenceEquals(node.Data, value))
+                if (Equals(node.Data, value))
                 {
                     if (previous == null)
                     {

@@ -182,6 +182,10 @@ namespace ListTask
             Console.WriteLine();
             Console.WriteLine("{0} = {1}", my.ToString(), my.Count);
 
+            SinglyLinkedList<int> test = new SinglyLinkedList<int>();
+            test.Insert(0, 5);
+            Console.WriteLine("{0} = {1}", test.ToString(), test.Count);
+
             Console.ReadKey();
         }
     }

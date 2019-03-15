@@ -101,7 +101,8 @@ namespace ArrayListTask
             Console.WriteLine("Values {0} - {1}", my4.ToString(), my4.Count);
 
             MyList<int> my5 = new MyList<int>();
-            my5.TrimToSize();
+            my5.TrimExcess();
+            Console.WriteLine(my5.Capacity);
             Console.ReadKey();
         }
     }

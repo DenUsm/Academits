@@ -9,6 +9,8 @@ namespace ArrayListTask
     {
         private T[] items;
         private int modCount = 0;
+        public int Count { get; private set; }
+        public int Capacity { get => items.Length; }
 
         public MyList()
         {
@@ -46,6 +48,7 @@ namespace ArrayListTask
             {
                 CheckIndex(index);
                 items[index] = value;
+                modCount++;
             }
         }
 
@@ -72,18 +75,16 @@ namespace ArrayListTask
             modCount++;
         }
 
-        public int Count { get; private set; }
-
-        public void TrimToSize()
+        public void TrimExcess()
         {
             if (Count == 0)
             {
-                throw new ArgumentException("Items are missing");
+                return;
             }
 
             if (items.Length / Count > 2)
             {
-                Array.Resize(ref items, Count * 2);
+                Array.Resize(ref items, Count);
             }
         }
 
@@ -91,24 +92,21 @@ namespace ArrayListTask
 
         public void Clear()
         {
-            Count = 0;
             Array.Clear(items, 0, items.Length);
+            Count = 0;
+            modCount++;
         }
 
         public bool Contains(T item)
         {
-            if (IndexOf(item) != -1)
-            {
-                return true;
-            }
-            return false;
+            return IndexOf(item) != -1;
         }
 
         public int IndexOf(T item)
         {
             for (int i = 0; i < Count; i++)
             {
-                if (EqualityComparer<T>.Default.Equals(item, items[i]))
+                if (Equals(item, items[i]))
                 {
                     return i;
                 }
@@ -138,10 +136,8 @@ namespace ArrayListTask
                 return false;
             }
 
-            RemoveAt(IndexOf(item));
-
+            RemoveAt(index);
             return true;
-
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -151,7 +147,7 @@ namespace ArrayListTask
                 throw new ArgumentNullException("Array must not be empty", nameof(array));
             }
 
-            if ((arrayIndex < 0) || (arrayIndex > array.Length))
+            if ((arrayIndex < 0) || (arrayIndex >= array.Length))
             {
                 throw new ArgumentOutOfRangeException("ArrayIndex must be less amount of element array", nameof(arrayIndex));
             }

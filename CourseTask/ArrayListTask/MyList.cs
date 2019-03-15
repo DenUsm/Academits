@@ -24,16 +24,14 @@ namespace ArrayListTask
 
         private void IncreaseCapacity()
         {
-            T[] old = items;
-            items = new T[items.Length * 2];
-            Array.Copy(old, 0, items, 0, old.Length);
+            Array.Resize(ref items, items.Length * 2);
         }
 
         private void CheckIndex(int index)
         {
             if ((index >= Count) || (index < 0))
             {
-                throw new IndexOutOfRangeException("index must be less of Length");
+                throw new IndexOutOfRangeException("Index must be less amount of elements");
             }
         }
 
@@ -57,6 +55,7 @@ namespace ArrayListTask
             {
                 IncreaseCapacity();
             }
+
             items[Count] = value;
             Count++;
             modCount++;
@@ -77,11 +76,14 @@ namespace ArrayListTask
 
         public void TrimToSize()
         {
+            if (Count == 0)
+            {
+                throw new ArgumentException("Items are missing");
+            }
+
             if (items.Length / Count > 2)
             {
-                T[] old = items;
-                items = new T[Count * 2];
-                Array.Copy(old, 0, items, 0, items.Length);
+                Array.Resize(ref items, Count * 2);
             }
         }
 
@@ -106,7 +108,7 @@ namespace ArrayListTask
         {
             for (int i = 0; i < Count; i++)
             {
-                if (item.Equals(items[i]))
+                if (EqualityComparer<T>.Default.Equals(item, items[i]))
                 {
                     return i;
                 }
@@ -116,7 +118,11 @@ namespace ArrayListTask
 
         public void Insert(int index, T item)
         {
-            CheckIndex(index);
+            if ((index > Count) || (index < 0))
+            {
+                throw new IndexOutOfRangeException("Index must be less amount of elements");
+            }
+
             Array.Copy(items, index, items, index + 1, Count - index);
             items[index] = item;
             Count++;
@@ -140,7 +146,17 @@ namespace ArrayListTask
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            if ((array.Length - arrayIndex - 1) < Count)
+            if (array == null)
+            {
+                throw new ArgumentNullException("Array must not be empty", nameof(array));
+            }
+
+            if ((arrayIndex < 0) || (arrayIndex > array.Length))
+            {
+                throw new ArgumentOutOfRangeException("ArrayIndex must be less amount of element array", nameof(arrayIndex));
+            }
+
+            if (array.Length - arrayIndex < Count)
             {
                 throw new ArgumentException("Current array must be less destanation array", nameof(Count));
             }

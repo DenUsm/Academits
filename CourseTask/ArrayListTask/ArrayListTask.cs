@@ -9,9 +9,6 @@ namespace ArrayListTask
         {
             MyList<int> my = new MyList<int>() { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120 };
 
-            MyList<string> my1 = new MyList<string>() { "str", "sre" };
-            my1.Clear();
-
             Console.WriteLine("---------------------------------------Test Add---------------------------------");
             Console.WriteLine("Values {0} - {1}", my.ToString(), my.Count);
 
@@ -30,6 +27,17 @@ namespace ArrayListTask
             int index1 = 5;
             my.RemoveAt(index1);
             Console.WriteLine("Remove values by index {0} {1} {2}", index1, my.ToString(), my.Count);
+
+            MyList<string> my1 = new MyList<string>() { "test1", null, "test2", null, "test3", null };
+            Console.WriteLine("Values {0} - {1}", my1.ToString(), my1.Count);
+
+            Console.WriteLine("Index by value {0} is {1}", null, my1.IndexOf(null));
+            my1.Clear();
+            Console.WriteLine("Values {0} - {1}", my1.ToString(), my1.Count);
+
+            MyList<int> my3 = new MyList<int>() { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120 };
+            my3.Clear();
+            Console.WriteLine("Values {0} - {1}", my3.ToString(), my3.Count);
 
             Console.WriteLine();
             Console.WriteLine("---------------------------------------Test Contains---------------------------------");
@@ -51,8 +59,8 @@ namespace ArrayListTask
             Console.WriteLine("Insert value {0} to index {1} {2} {3}", value4, index2, my.ToString(), my.Count);
 
             int value5 = 22;
-            my.Insert(index2, value4);
-            Console.WriteLine("Insert value {0} to index {1} {2} {3}", value5, my.Count - 1, my.ToString(), my.Count);
+            my.Insert(my.Count, value5);
+            Console.WriteLine("Insert value {0} to index {1} {2} {3}", value5, my.Count, my.ToString(), my.Count);
 
             Console.WriteLine();
             Console.WriteLine("---------------------------------------Test Remove---------------------------------");
@@ -65,10 +73,10 @@ namespace ArrayListTask
             Console.WriteLine();
             Console.WriteLine("---------------------------------------Test CopyTo---------------------------------");
 
-            int [] array = new int[20];
+            int[] array = new int[20];
             my.CopyTo(array, 5);
 
-            foreach(int val in array)
+            foreach (int val in array)
             {
                 Console.Write(val + " ");
             }
@@ -83,6 +91,17 @@ namespace ArrayListTask
                 Console.Write(text + " ");
             }
 
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------Test EncreaseCapasity---------------------------------");
+            MyList<int> my4 = new MyList<int>(2);
+            my4.Add(11);
+            my4.Add(22);
+            Console.WriteLine("Values {0} - {1}", my4.ToString(), my4.Count);
+            my4.Add(33);
+            Console.WriteLine("Values {0} - {1}", my4.ToString(), my4.Count);
+
+            MyList<int> my5 = new MyList<int>();
+            my5.TrimToSize();
             Console.ReadKey();
         }
     }

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace HashTableTask
 {
-    class MyHashTable<T> : ICollection<T>
+    class HashLinkedList<T> : ICollection<T>
     {
+
         public int Count => throw new System.NotImplementedException();
 
         public bool IsReadOnly => throw new System.NotImplementedException();

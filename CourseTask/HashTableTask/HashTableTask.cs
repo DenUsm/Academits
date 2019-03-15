@@ -6,6 +6,7 @@ namespace HashTableTask
     {
         static void Main(string[] args)
         {
+            HashLinkedList<string> my = new HashLinkedList<string>();
         }
     }
 }

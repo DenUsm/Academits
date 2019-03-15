@@ -43,8 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HashListItem.cs" />
     <Compile Include="HashTableTask.cs" />
-    <Compile Include="MyHashTable.cs" />
+    <Compile Include="HashLinkedList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

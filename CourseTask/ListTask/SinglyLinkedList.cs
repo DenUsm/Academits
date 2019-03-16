@@ -46,17 +46,22 @@ namespace ListTask
         public bool RemoveByValue(T value)
         {
             ListItem<T> node = Head;
+
+            if (Equals(node.Data, value))
+            {
+                Head = node.Next;
+                Count--;
+                return true;
+            }
+
+            node = node.Next;
             ListItem<T> previous = null;
 
-            for (int i = 0; i < Count; i++)
+            for (int i = 1; i < Count; i++)
             {
                 if (Equals(node.Data, value))
                 {
-                    if (previous == null)
-                    {
-                        Head = node.Next;
-                    }
-                    else if (i == Count)
+                    if (i == Count)
                     {
                         previous.Next = null;
                     }
@@ -81,23 +86,24 @@ namespace ListTask
                 throw new IndexOutOfRangeException("index must be > 0 and  <= Count");
             }
 
-            T value = Head.Data;
+            T value;
             if (index == 0)
             {
                 value = RemoveFirst();
-            }
-            else if (index == Count - 1)
-            {
-                ListItem<T> previous = GetNodeByIndex(index - 1);
-                value = previous.Next.Data;
-                previous.Next = null;
-                Count--;
             }
             else
             {
                 ListItem<T> previous = GetNodeByIndex(index - 1);
                 value = previous.Next.Data;
-                previous.Next = previous.Next.Next;
+
+                if (index == Count - 1)
+                {
+                    previous.Next = null;
+                }
+                else
+                {
+                    previous.Next = previous.Next.Next;
+                }
                 Count--;
             }
             return value;
@@ -127,7 +133,7 @@ namespace ListTask
         }
 
         //Получение значения первого элемента
-        public T GetValue()
+        public T GetFirstValue()
         {
             if (Head == null)
             {
@@ -182,24 +188,20 @@ namespace ListTask
         {
             SinglyLinkedList<T> copy = new SinglyLinkedList<T>();
 
-            ListItem<T> node = Head;
+            ListItem<T> node = Head.Next;
 
-            while (node != null)
+            ListItem<T> firstNode = new ListItem<T>(GetFirstValue(), null);
+            ListItem<T> temp = firstNode;
+
+            while(node != null)
             {
-                T value = node.Data;
-                copy.AddFirst(value);
+                temp.Next = new ListItem<T>(node.Data, node.Next);
+                temp = temp.Next;
                 node = node.Next;
             }
 
-            ListItem<T> next = copy.Head;
-            node = Head;
-
-            for (int i = 0; i < Count; i++)
-            {
-                next.Data = node.Data;
-                node = node.Next;
-                next = next.Next;
-            }
+            copy.Head = firstNode;
+            copy.Count = Count;
 
             return copy;
         }

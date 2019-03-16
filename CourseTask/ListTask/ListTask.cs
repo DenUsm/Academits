@@ -14,7 +14,7 @@ namespace ListTask
             my.AddFirst(10);
 
             Console.WriteLine("Get size of list - {0}", my.Count);
-            Console.WriteLine("Get first value - {0}", my.GetValue());
+            Console.WriteLine("Get first value - {0}", my.GetFirstValue());
 
             Console.WriteLine("------------------------------------------------------------------------------------------------");
             for (int i = 0; i < my.Count; i++)

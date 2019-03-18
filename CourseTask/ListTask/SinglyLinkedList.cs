@@ -29,11 +29,6 @@ namespace ListTask
             {
                 AddFirst(value);
             }
-            else if (index == Count - 1)
-            {
-                GetNodeByIndex(index).Next = new ListItem<T>(value, null);
-                Count++;
-            }
             else
             {
                 ListItem<T> previous = GetNodeByIndex(index - 1);
@@ -45,6 +40,11 @@ namespace ListTask
         //удаление элемента по значению
         public bool RemoveByValue(T value)
         {
+            if (Head == null)
+            {
+                throw new NullReferenceException("The list must have at least one item");
+            }
+
             ListItem<T> node = Head;
 
             if (Equals(node.Data, value))
@@ -61,14 +61,7 @@ namespace ListTask
             {
                 if (Equals(node.Data, value))
                 {
-                    if (i == Count)
-                    {
-                        previous.Next = null;
-                    }
-                    else
-                    {
-                        previous.Next = node.Next;
-                    }
+                    previous.Next = node.Next;
                     Count--;
                     return true;
                 }
@@ -95,15 +88,7 @@ namespace ListTask
             {
                 ListItem<T> previous = GetNodeByIndex(index - 1);
                 value = previous.Next.Data;
-
-                if (index == Count - 1)
-                {
-                    previous.Next = null;
-                }
-                else
-                {
-                    previous.Next = previous.Next.Next;
-                }
+                previous.Next = previous.Next.Next;
                 Count--;
             }
             return value;
@@ -188,14 +173,13 @@ namespace ListTask
         {
             SinglyLinkedList<T> copy = new SinglyLinkedList<T>();
 
-            ListItem<T> node = Head.Next;
-
+            ListItem<T> node = Head;
             ListItem<T> firstNode = new ListItem<T>(GetFirstValue(), null);
             ListItem<T> temp = firstNode;
 
-            while(node != null)
+            while (node != null)
             {
-                temp.Next = new ListItem<T>(node.Data, node.Next);
+                temp.Next = new ListItem<T>(node.Data, null);
                 temp = temp.Next;
                 node = node.Next;
             }

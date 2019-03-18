@@ -105,6 +105,15 @@ namespace ListTask
             Console.WriteLine();
             Console.WriteLine("{0} = {1}", my.ToString(), my.Count);
 
+            Console.WriteLine(my.RemoveByValue(20).ToString());
+            Console.WriteLine("Get values by indexes");
+            for (int i = 0; i < my.Count; i++)
+            {
+                Console.Write("{0} ", my.GetValueAt(i));
+            }
+            Console.WriteLine();
+            Console.WriteLine("{0} = {1}", my.ToString(), my.Count);
+
             Console.WriteLine(my.RemoveByValue(40).ToString());
             Console.WriteLine("Get values by indexes");
             for (int i = 0; i < my.Count; i++)
@@ -185,6 +194,10 @@ namespace ListTask
             SinglyLinkedList<int> test = new SinglyLinkedList<int>();
             test.Insert(0, 5);
             Console.WriteLine("{0} = {1}", test.ToString(), test.Count);
+
+            //SinglyLinkedList<int> testCopy = new SinglyLinkedList<int>();
+            //SinglyLinkedList<int> testCopy1 = new SinglyLinkedList<int>();
+            //testCopy1 = testCopy.Copy();
 
             Console.ReadKey();
         }

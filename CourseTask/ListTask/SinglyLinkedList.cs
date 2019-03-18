@@ -173,7 +173,12 @@ namespace ListTask
         {
             SinglyLinkedList<T> copy = new SinglyLinkedList<T>();
 
-            ListItem<T> node = Head;
+            if (Head == null)
+            {
+                return copy;
+            }
+
+            ListItem<T> node = Head.Next;
             ListItem<T> firstNode = new ListItem<T>(GetFirstValue(), null);
             ListItem<T> temp = firstNode;
 

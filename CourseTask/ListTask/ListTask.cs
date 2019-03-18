@@ -195,9 +195,13 @@ namespace ListTask
             test.Insert(0, 5);
             Console.WriteLine("{0} = {1}", test.ToString(), test.Count);
 
-            //SinglyLinkedList<int> testCopy = new SinglyLinkedList<int>();
-            //SinglyLinkedList<int> testCopy1 = new SinglyLinkedList<int>();
-            //testCopy1 = testCopy.Copy();
+            SinglyLinkedList<string> testCopy = new SinglyLinkedList<string>();
+            testCopy.AddFirst(null);
+            testCopy.AddFirst("test");
+            testCopy.AddFirst(null);
+
+            SinglyLinkedList<string> testCopy1 = new SinglyLinkedList<string>();
+            testCopy1 = testCopy.Copy();
 
             Console.ReadKey();
         }

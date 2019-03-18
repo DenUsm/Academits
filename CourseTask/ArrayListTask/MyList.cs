@@ -20,11 +20,7 @@ namespace ArrayListTask
                     throw new ArgumentOutOfRangeException("Сapacity is less than the current array");
                 }
 
-                if (Capacity == items.Length)
-                {
-                    return;
-                }
-                else
+                if (Capacity != items.Length)
                 {
                     Array.Resize(ref items, value);
                 }

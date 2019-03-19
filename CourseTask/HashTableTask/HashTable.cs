@@ -1,117 +1,176 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace HashTableTask
 {
-    class HashTable<TKey, TValue> : ICollection<T>
+    class HashTable<T> : ICollection<T>
     {
-        HashItem<TKey, TValue> [] KeyValuePair;
-
-        int modCount = 0;
+        List<T> [] HashItems;
 
         public int Count { get; private set; }
 
-        public int Capacity
+        private int modCount = 0;
+
+        public int Capasity
         {
-            get => KeyValuePair.Length;
+            get => HashItems.Length;
             set
             {
-                if(Capacity < Count)
+                if(Capasity < Count)
                 {
-                    throw new ArgumentOutOfRangeException("Сapacity is less than the current array");
+                    throw new ArgumentOutOfRangeException("Capasity is less than the current array");
                 }
 
-                if(Capacity == KeyValuePair.Length)
+                if(Capasity != HashItems.Length)
                 {
-                    return;
-                }
-                else
-                {
-                    Array.Resize(ref KeyValuePair, Capacity);
+                    Array.Resize(ref HashItems, value);
                 }
             }
         }
 
         public HashTable()
         {
-            KeyValuePair = new HashItem<TKey, TValue>[10];
+            HashItems = new List<T>[10];
             Count = 0;
         }
 
         public HashTable(int capasity)
         {
-            KeyValuePair = new HashItem<TKey, TValue>[capasity];
+            HashItems = new List<T>[capasity];
+            Capasity = capasity;
             Count = 0;
         }
 
-        private void IncreaseCapacity()
+        public void IncreaseCapacity()
         {
-            Array.Resize(ref KeyValuePair, KeyValuePair.Length * 2);
+            Array.Resize(ref HashItems, HashItems.Length * 2);
         }
 
         public bool IsReadOnly => false;
 
-        public void Add(HashItem<TKey, TValue> item)
+        //добавление элемента в таблицу
+        public void Add(T item)
         {
-            if (Count > KeyValuePair.Length)
+            int indexInsert = GetHashCode(item);
+
+            while(HashItems[indexInsert] != null)
             {
-                IncreaseCapacity();
+                indexInsert++;
+                if (indexInsert >= HashItems.Length)
+                {
+                    IncreaseCapacity();
+                    HashItems[GetHashCode(item)] = new List<T>();
+                    HashItems[GetHashCode(item)].Add(item);
+                    break;
+                }          
             }
 
-            KeyValuePair[Count] = item;
+            HashItems[indexInsert] = new List<T>();
+            HashItems[indexInsert].Add(item);
+
             Count++;
             modCount++;
         }
 
-        public bool Contains(HashItem<TKey, TValue> item)
+        //получение индекса в масиве на основе хэша
+        public int GetHashCode(T item)
         {
-            for (int i = 0; i < Count; i++)
+            return Math.Abs(item.GetHashCode() % HashItems.Length);
+        }
+
+        //перестройка таблицы после изменения длинны массива списков
+        private void RebuildTable()
+        {
+
+        }
+
+        private void CheckIndexAndInsert()
+        {
+            for(int i = 0; i < HashItems.Length; i++)
             {
-                if (Equals(KeyValuePair[i].Hash, item.Hash))
+                if (HashItems[i] != null)
                 {
-                    return true;
+                    
                 }
             }
-            return false;
         }
 
-
+        //Обнуление списка
         public void Clear()
         {
-            throw new System.NotImplementedException();
-        }
-
-     
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new System.NotImplementedException();
-        }
-
-  
-        public void Add(T item)
-        {
-            throw new NotImplementedException();
+            Array.Clear(HashItems, 0, HashItems.Length);
+            Count = 0;
+            modCount++;
         }
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            int hash = GetHashCode(item);
+
+            int i = hash;
+            while (i <= HashItems.Length || HashItems[i] == null)
+            {
+                if (Equals(HashItems[i], item))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
+
+
+
+
+
 
         public void CopyTo(T[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
 
+        public IEnumerator<T> GetEnumerator()
+        {
+            int originModCount = modCount;
+
+            for(int i = 0; i < HashItems.Length; i++)
+            {
+                if (HashItems[i] != null)
+                {
+                    if (originModCount != modCount)
+                    {
+                        throw new InvalidOperationException("There were changes in the collection");
+                    }
+
+                    yield return HashItems[i][0];
+                }
+            }
+        }
+
         public bool Remove(T item)
         {
             throw new NotImplementedException();
+
         }
 
-        public IEnumerator<T> GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
+        }
+
+        public override string ToString()
+        {
+            StringBuilder str = new StringBuilder();
+            for (int i = 0; i < HashItems.Length; i++)
+            {
+                if (HashItems[i] != null)
+                {
+                    str.Append(string.Format("Hash: {0} Index: {1} Value: {2} \r\n", GetHashCode(HashItems[i][0]), i, HashItems[i][0].ToString()));
+                }
+            }
+            return str.ToString();
         }
     }
 }

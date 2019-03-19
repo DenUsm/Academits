@@ -212,6 +212,36 @@ namespace ListTask
             SinglyLinkedList<string> testCopy1 = new SinglyLinkedList<string>();
             testCopy1 = testCopy.Copy();
 
+
+            Console.WriteLine("------------------------------REMOVE---------------------------------------------------------");
+            SinglyLinkedList<int> rem1 = new SinglyLinkedList<int>();
+            rem1.AddFirst(50);
+            rem1.AddFirst(40);
+            rem1.AddFirst(30);
+            rem1.AddFirst(20);
+            rem1.AddFirst(10);
+
+            for(int i = 0; i < rem1.Count; i = i + 2)
+            {
+                int param = rem1.GetValueAt(i);
+                Console.WriteLine("Remove value {0} status {1} list {2} {3}", param, rem1.RemoveByValue(param), rem1.ToString(), rem1.Count);
+                rem1.Insert(i, param);
+            }
+
+            SinglyLinkedList<string> rem2 = new SinglyLinkedList<string>();
+            rem2.AddFirst("5");
+            rem2.AddFirst("4");
+            rem2.AddFirst("3");
+            rem2.AddFirst("2");
+            rem2.AddFirst("1");
+
+            for (int i = 0; i < rem2.Count; i = i + 2)
+            {
+                string param1 = null;
+                Console.WriteLine("Remove value {0} status {1} list {2} {3}", param1, rem2.RemoveByValue(param1), rem2.ToString(), rem2.Count);
+                rem2.Insert(i, param1);
+            }
+
             Console.ReadKey();
         }
     }

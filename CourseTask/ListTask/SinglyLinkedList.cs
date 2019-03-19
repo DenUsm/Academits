@@ -40,6 +40,11 @@ namespace ListTask
         //удаление элемента по значению
         public bool RemoveByValue(T value)
         {
+            if (Head == null)
+            {
+                return false;
+            }
+
             ListItem<T> node = Head;
 
             if (Equals(node.Data, value))

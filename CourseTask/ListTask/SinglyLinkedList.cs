@@ -40,11 +40,6 @@ namespace ListTask
         //удаление элемента по значению
         public bool RemoveByValue(T value)
         {
-            if (Head == null)
-            {
-                throw new NullReferenceException("The list must have at least one item");
-            }
-
             ListItem<T> node = Head;
 
             if (Equals(node.Data, value))

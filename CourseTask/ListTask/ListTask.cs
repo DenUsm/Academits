@@ -123,6 +123,15 @@ namespace ListTask
             Console.WriteLine();
             Console.WriteLine("{0} = {1}", my.ToString(), my.Count);
 
+            Console.WriteLine(my.RemoveByValue(100).ToString());
+            Console.WriteLine("Get values by indexes");
+            for (int i = 0; i < my.Count; i++)
+            {
+                Console.Write("{0} ", my.GetValueAt(i));
+            }
+            Console.WriteLine();
+            Console.WriteLine("{0} = {1}", my.ToString(), my.Count);
+
             Console.WriteLine();
             Console.WriteLine("------------------------------RemoveByValue with null value-----------------------------------");
             SinglyLinkedList<string> testNull = new SinglyLinkedList<string>();

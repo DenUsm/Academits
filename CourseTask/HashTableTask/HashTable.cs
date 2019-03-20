@@ -43,33 +43,47 @@ namespace HashTableTask
             Count = 0;
         }
 
+        public bool IsReadOnly => false;
+
+        //увелечение длинны списка
         public void IncreaseCapacity()
         {
             Array.Resize(ref HashItems, HashItems.Length * 2);
         }
-
-        public bool IsReadOnly => false;
 
         //добавление элемента в таблицу
         public void Add(T item)
         {
             int indexInsert = GetHashCode(item);
 
-            while(HashItems[indexInsert] != null)
+
+            if(HashItems[indexInsert] == null)
+            {
+                HashItems[indexInsert] = new List<T>();
+                HashItems[indexInsert].Add(item);
+            }
+            else
             {
                 indexInsert++;
-                if (indexInsert >= HashItems.Length)
+                while(indexInsert < HashItems.Length)
+                {
+                    if(HashItems[indexInsert] == null)
+                    {
+                        HashItems[indexInsert] = new List<T>();
+                        HashItems[indexInsert].Add(item);
+                        break;
+                    }
+                    indexInsert++;
+                }
+
+                if (indexInsert == HashItems.Length)
                 {
                     IncreaseCapacity();
-                    HashItems[GetHashCode(item)] = new List<T>();
-                    HashItems[GetHashCode(item)].Add(item);
-                    break;
-                }          
+                    HashItems[indexInsert] = new List<T>();
+                    HashItems[indexInsert].Add(item);
+                    RebuildTable();
+                }
             }
-
-            HashItems[indexInsert] = new List<T>();
-            HashItems[indexInsert].Add(item);
-
             Count++;
             modCount++;
         }
@@ -83,16 +97,14 @@ namespace HashTableTask
         //перестройка таблицы после изменения длинны массива списков
         private void RebuildTable()
         {
-
-        }
-
-        private void CheckIndexAndInsert()
-        {
             for(int i = 0; i < HashItems.Length; i++)
             {
-                if (HashItems[i] != null)
+                if(HashItems[i] != null)
                 {
-                    
+                    T value = HashItems[i][0];
+                    HashItems[i] = null;
+                    Count--;
+                    Add(value);
                 }
             }
         }
@@ -105,30 +117,82 @@ namespace HashTableTask
             modCount++;
         }
 
+        //наличие элемента
         public bool Contains(T item)
         {
+            if (Count == 0)
+            {
+                return false;
+            }
+
             int hash = GetHashCode(item);
 
             int i = hash;
-            while (i <= HashItems.Length || HashItems[i] == null)
+            while (i <= HashItems.Length && HashItems[i] != null)
             {
-                if (Equals(HashItems[i], item))
+                if (Equals(HashItems[i][0], item))
                 {
                     return true;
                 }
+                i++;
             }
 
             return false;
         }
 
+        //удаление элементы
+        public bool Remove(T item)
+        {
+            if(Count == 0)
+            {
+                return false;
+            }
 
+            int hash = GetHashCode(item);
 
+            int i = hash;
+            while (i <= HashItems.Length && HashItems[i] != null)
+            {
+                if (Equals(HashItems[i][0], item))
+                {
+                    HashItems[i] = null;
+                    Count--;
+                    modCount++;
+                    return true;
+                }
+                i++;
+            }
 
+            return false;
+        }
 
-
+        //копирование в массив 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            if(array == null)
+            {
+                throw new ArgumentNullException("Array must not be empty", nameof(array));
+            }
+
+            if((arrayIndex < 0) || (arrayIndex >= array.Length))
+            {
+                throw new ArgumentOutOfRangeException("ArrayIndex must be less amount of element array", nameof(arrayIndex));
+            }
+
+            if(array.Length - arrayIndex < Count)
+            {
+                throw new ArgumentException("Current array must be less destanation array", nameof(Count));
+            }
+
+            int j = arrayIndex;
+            for(int i = 0; i < HashItems.Length; i++)
+            {
+                if (HashItems[i] != null)
+                {
+                    array[j] = HashItems[i][0];
+                    j++;
+                }
+            }
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -149,12 +213,6 @@ namespace HashTableTask
             }
         }
 
-        public bool Remove(T item)
-        {
-            throw new NotImplementedException();
-
-        }
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
@@ -163,11 +221,13 @@ namespace HashTableTask
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();
+            int count = 1;
             for (int i = 0; i < HashItems.Length; i++)
             {
                 if (HashItems[i] != null)
                 {
-                    str.Append(string.Format("Hash: {0} Index: {1} Value: {2} \r\n", GetHashCode(HashItems[i][0]), i, HashItems[i][0].ToString()));
+                    str.Append(string.Format("{0} Hash: {1} Index: {2} Value: {3} \r\n", count, GetHashCode(HashItems[i][0]), i, HashItems[i][0].ToString()));
+                    count++;
                 }
             }
             return str.ToString();

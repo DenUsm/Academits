@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayListTask", "ArrayListT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashTableTask", "HashTableTask\HashTableTask.csproj", "{37FCDBB1-0A19-48FA-97EE-CAF107295EDD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeTask", "TreeTask\TreeTask.csproj", "{3EFD20C3-4500-4CC9-B231-86739794777A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{37FCDBB1-0A19-48FA-97EE-CAF107295EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37FCDBB1-0A19-48FA-97EE-CAF107295EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37FCDBB1-0A19-48FA-97EE-CAF107295EDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EFD20C3-4500-4CC9-B231-86739794777A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EFD20C3-4500-4CC9-B231-86739794777A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EFD20C3-4500-4CC9-B231-86739794777A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EFD20C3-4500-4CC9-B231-86739794777A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -221,7 +221,7 @@ namespace ListTask
             rem1.AddFirst(20);
             rem1.AddFirst(10);
 
-            for(int i = 0; i < rem1.Count; i = i + 2)
+            for (int i = 0; i < rem1.Count; i++)
             {
                 int param = rem1.GetValueAt(i);
                 Console.WriteLine("Remove value {0} status {1} list {2} {3}", param, rem1.RemoveByValue(param), rem1.ToString(), rem1.Count);
@@ -235,9 +235,9 @@ namespace ListTask
             rem2.AddFirst("2");
             rem2.AddFirst("1");
 
-            for (int i = 0; i < rem2.Count; i = i + 2)
+            for (int i = 0; i < rem2.Count; i++)
             {
-                string param1 = null;
+                string param1 = rem2.GetValueAt(i);
                 Console.WriteLine("Remove value {0} status {1} list {2} {3}", param1, rem2.RemoveByValue(param1), rem2.ToString(), rem2.Count);
                 rem2.Insert(i, param1);
             }

@@ -54,8 +54,8 @@ namespace ListTask
                 return true;
             }
 
+            ListItem<T> previous = node;
             node = node.Next;
-            ListItem<T> previous = null;
 
             for (int i = 1; i < Count; i++)
             {

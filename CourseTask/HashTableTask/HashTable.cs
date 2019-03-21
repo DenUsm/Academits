@@ -7,28 +7,11 @@ namespace HashTableTask
 {
     class HashTable<T> : ICollection<T>
     {
-        List<T> [] HashItems;
+        private List<T>[] HashItems;
 
         public int Count { get; private set; }
 
         private int modCount = 0;
-
-        public int Capasity
-        {
-            get => HashItems.Length;
-            set
-            {
-                if(Capasity < Count)
-                {
-                    throw new ArgumentOutOfRangeException("Capasity is less than the current array");
-                }
-
-                if(Capasity != HashItems.Length)
-                {
-                    Array.Resize(ref HashItems, value);
-                }
-            }
-        }
 
         public HashTable()
         {
@@ -39,51 +22,25 @@ namespace HashTableTask
         public HashTable(int capasity)
         {
             HashItems = new List<T>[capasity];
-            Capasity = capasity;
             Count = 0;
         }
 
         public bool IsReadOnly => false;
-
-        //увелечение длинны списка
-        public void IncreaseCapacity()
-        {
-            Array.Resize(ref HashItems, HashItems.Length * 2);
-        }
 
         //добавление элемента в таблицу
         public void Add(T item)
         {
             int indexInsert = GetHashCode(item);
 
-
-            if(HashItems[indexInsert] == null)
+            if (HashItems[indexInsert] != null)
             {
-                HashItems[indexInsert] = new List<T>();
                 HashItems[indexInsert].Add(item);
+                Count++;
+                return;
             }
-            else
-            {
-                indexInsert++;
-                while(indexInsert < HashItems.Length)
-                {
-                    if(HashItems[indexInsert] == null)
-                    {
-                        HashItems[indexInsert] = new List<T>();
-                        HashItems[indexInsert].Add(item);
-                        break;
-                    }
-                    indexInsert++;
-                }
 
-                if (indexInsert == HashItems.Length)
-                {
-                    IncreaseCapacity();
-                    HashItems[indexInsert] = new List<T>();
-                    HashItems[indexInsert].Add(item);
-                    RebuildTable();
-                }
-            }
+            HashItems[indexInsert] = new List<T>();
+            HashItems[indexInsert].Add(item);
             Count++;
             modCount++;
         }
@@ -91,15 +48,15 @@ namespace HashTableTask
         //получение индекса в масиве на основе хэша
         public int GetHashCode(T item)
         {
-            return Math.Abs(item.GetHashCode() % HashItems.Length);
+            return Math.Abs((item == null) ? 0 : item.GetHashCode() % HashItems.Length);
         }
 
         //перестройка таблицы после изменения длинны массива списков
         private void RebuildTable()
         {
-            for(int i = 0; i < HashItems.Length; i++)
+            for (int i = 0; i < HashItems.Length; i++)
             {
-                if(HashItems[i] != null)
+                if (HashItems[i] != null)
                 {
                     T value = HashItems[i][0];
                     HashItems[i] = null;
@@ -127,14 +84,12 @@ namespace HashTableTask
 
             int hash = GetHashCode(item);
 
-            int i = hash;
-            while (i <= HashItems.Length && HashItems[i] != null)
+            for (int i = 0; i < HashItems[hash].Count; i++)
             {
-                if (Equals(HashItems[i][0], item))
+                if (Equals(HashItems[hash][i], item))
                 {
                     return true;
                 }
-                i++;
             }
 
             return false;
@@ -143,24 +98,22 @@ namespace HashTableTask
         //удаление элементы
         public bool Remove(T item)
         {
-            if(Count == 0)
+            if (Count == 0)
             {
                 return false;
             }
 
             int hash = GetHashCode(item);
 
-            int i = hash;
-            while (i <= HashItems.Length && HashItems[i] != null)
+            for (int i = 0; i < HashItems[hash].Count; i++)
             {
-                if (Equals(HashItems[i][0], item))
+                if (Equals(HashItems[hash][i], item))
                 {
-                    HashItems[i] = null;
+                    HashItems[hash].RemoveAt(i);
                     Count--;
                     modCount++;
                     return true;
                 }
-                i++;
             }
 
             return false;
@@ -169,28 +122,27 @@ namespace HashTableTask
         //копирование в массив 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            if(array == null)
+            if (array == null)
             {
                 throw new ArgumentNullException("Array must not be empty", nameof(array));
             }
 
-            if((arrayIndex < 0) || (arrayIndex >= array.Length))
+            if ((arrayIndex < 0) || (arrayIndex >= array.Length))
             {
                 throw new ArgumentOutOfRangeException("ArrayIndex must be less amount of element array", nameof(arrayIndex));
             }
 
-            if(array.Length - arrayIndex < Count)
+            if (array.Length - arrayIndex < Count)
             {
                 throw new ArgumentException("Current array must be less destanation array", nameof(Count));
             }
 
             int j = arrayIndex;
-            for(int i = 0; i < HashItems.Length; i++)
+            for (int i = 0; i < HashItems.Length; i++)
             {
                 if (HashItems[i] != null)
                 {
-                    array[j] = HashItems[i][0];
-                    j++;
+                    HashItems[i].ForEach(value => { array[j] = value; j++; });
                 }
             }
         }
@@ -199,7 +151,7 @@ namespace HashTableTask
         {
             int originModCount = modCount;
 
-            for(int i = 0; i < HashItems.Length; i++)
+            for (int i = 0; i < HashItems.Length; i++)
             {
                 if (HashItems[i] != null)
                 {
@@ -208,7 +160,10 @@ namespace HashTableTask
                         throw new InvalidOperationException("There were changes in the collection");
                     }
 
-                    yield return HashItems[i][0];
+                    for (int j = 0; j < HashItems[i].Count; j++)
+                    {
+                        yield return HashItems[i][j];
+                    }
                 }
             }
         }
@@ -221,15 +176,30 @@ namespace HashTableTask
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();
-            int count = 1;
             for (int i = 0; i < HashItems.Length; i++)
             {
                 if (HashItems[i] != null)
                 {
-                    str.Append(string.Format("{0} Hash: {1} Index: {2} Value: {3} \r\n", count, GetHashCode(HashItems[i][0]), i, HashItems[i][0].ToString()));
-                    count++;
+                    str.Append(string.Format("Hash: {0} [", i));
+                    int count = HashItems[i].Count;
+
+                    if (count == 1)
+                    {
+                        str.Append((HashItems[i][0] == null) ? "null" : HashItems[i][0] + "] \r\n");
+                        continue;
+                    }
+
+                    for (int j = 0; j < count - 1; j++)
+                    {
+                        str.Append(string.Format("{0}, ", (HashItems[i][j] == null) ? "null" : HashItems[i][j].ToString()));
+                    }
+                    str.Append((HashItems[i][count - 1] == null) ? "null" : HashItems[i][count - 1].ToString());
+                    str.Append("] \r\n");
                 }
             }
+            str.Append("Количество элементов в хэш таблицы - ");
+            str.Append(Count + "\r\n");
+
             return str.ToString();
         }
     }

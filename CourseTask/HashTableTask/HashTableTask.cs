@@ -9,17 +9,34 @@ namespace HashTableTask
         {
             Console.WriteLine("--------------------------------Test Add Key Value Pairs-----------------------------");
             HashTable<string> MyHash = new HashTable<string>();
-            MyHash.Add("Мастер и Маргарита");
+            //MyHash.Add("Мастер и Маргарита");
+            //MyHash.Add("Преступление и наказание");
+            //MyHash.Add("Война и мир");
+            //MyHash.Add("Братья Карамазовы");
+            //MyHash.Add("Мёртвые души");
+            //MyHash.Add("Евгений Онегин");
+            //MyHash.Add("Граф Монте-Кристо");
+            //MyHash.Add("Отцы и дети");
+            //MyHash.Add("Воскресение");
+            //MyHash.Add("Анна Каренина");
+            //MyHash.Add("Золотой теленок");
+            //MyHash.Add("Капитанская дочка");
+            //MyHash.Add("Горе от ума");
+            //MyHash.Add("Обломов");
+            //MyHash.Add("Старик и море");
+            //MyHash.Add("Три мушкетера");
+
+            MyHash.Add(null);
             MyHash.Add("Преступление и наказание");
             MyHash.Add("Война и мир");
             MyHash.Add("Братья Карамазовы");
             MyHash.Add("Мёртвые души");
             MyHash.Add("Евгений Онегин");
             MyHash.Add("Граф Монте-Кристо");
-            MyHash.Add("Отцы и дети");
+            MyHash.Add(null);
             MyHash.Add("Воскресение");
             MyHash.Add("Анна Каренина");
-            MyHash.Add("Золотой теленок");
+            MyHash.Add(null);
             MyHash.Add("Капитанская дочка");
             MyHash.Add("Горе от ума");
             MyHash.Add("Обломов");
@@ -57,7 +74,7 @@ namespace HashTableTask
             string[] array = new string[20];
             MyHash.CopyTo(array, 2);
 
-            foreach(string value in array)
+            foreach (string value in array)
             {
                 Console.WriteLine((value == null) ? "null" : value);
             }
@@ -65,10 +82,15 @@ namespace HashTableTask
             Console.WriteLine();
             Console.WriteLine("--------------------------------Test Iterator-----------------------------");
             IEnumerator<string> iterator = MyHash.GetEnumerator();
-            while(iterator.MoveNext())
+            while (iterator.MoveNext())
             {
                 Console.WriteLine("Hash: {0} Value: {1}", MyHash.GetHashCode(iterator.Current), iterator.Current);
             }
+
+            Console.WriteLine();
+            Console.WriteLine("-----------------------------------------Test Clear------------------------------------");
+            MyHash.Clear();
+            Console.Write(MyHash.ToString());
 
             Console.ReadKey();
         }

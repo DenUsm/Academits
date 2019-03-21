@@ -7,7 +7,7 @@ namespace HashTableTask
 {
     class HashTable<T> : ICollection<T>
     {
-        private List<T>[] HashItems;
+        private List<T>[] hashItems;
 
         public int Count { get; private set; }
 
@@ -15,13 +15,13 @@ namespace HashTableTask
 
         public HashTable()
         {
-            HashItems = new List<T>[10];
+            hashItems = new List<T>[10];
             Count = 0;
         }
 
-        public HashTable(int capasity)
+        public HashTable(int size)
         {
-            HashItems = new List<T>[capasity];
+            hashItems = new List<T>[size];
             Count = 0;
         }
 
@@ -32,44 +32,29 @@ namespace HashTableTask
         {
             int indexInsert = GetHashCode(item);
 
-            if (HashItems[indexInsert] != null)
+            if (hashItems[indexInsert] != null)
             {
-                HashItems[indexInsert].Add(item);
+                hashItems[indexInsert].Add(item);
                 Count++;
                 return;
             }
 
-            HashItems[indexInsert] = new List<T>();
-            HashItems[indexInsert].Add(item);
+            hashItems[indexInsert] = new List<T>();
+            hashItems[indexInsert].Add(item);
             Count++;
             modCount++;
         }
 
         //получение индекса в масиве на основе хэша
-        public int GetHashCode(T item)
+        private int GetHashCode(T item)
         {
-            return Math.Abs((item == null) ? 0 : item.GetHashCode() % HashItems.Length);
-        }
-
-        //перестройка таблицы после изменения длинны массива списков
-        private void RebuildTable()
-        {
-            for (int i = 0; i < HashItems.Length; i++)
-            {
-                if (HashItems[i] != null)
-                {
-                    T value = HashItems[i][0];
-                    HashItems[i] = null;
-                    Count--;
-                    Add(value);
-                }
-            }
+            return Math.Abs((item == null) ? 0 : item.GetHashCode() % hashItems.Length);
         }
 
         //Обнуление списка
         public void Clear()
         {
-            Array.Clear(HashItems, 0, HashItems.Length);
+            Array.Clear(hashItems, 0, hashItems.Length);
             Count = 0;
             modCount++;
         }
@@ -84,9 +69,9 @@ namespace HashTableTask
 
             int hash = GetHashCode(item);
 
-            for (int i = 0; i < HashItems[hash].Count; i++)
+            for (int i = 0; i < hashItems[hash].Count; i++)
             {
-                if (Equals(HashItems[hash][i], item))
+                if (Equals(hashItems[hash][i], item))
                 {
                     return true;
                 }
@@ -105,11 +90,11 @@ namespace HashTableTask
 
             int hash = GetHashCode(item);
 
-            for (int i = 0; i < HashItems[hash].Count; i++)
+            for (int i = 0; i < hashItems[hash].Count; i++)
             {
-                if (Equals(HashItems[hash][i], item))
+                if (Equals(hashItems[hash][i], item))
                 {
-                    HashItems[hash].RemoveAt(i);
+                    hashItems[hash].RemoveAt(i);
                     Count--;
                     modCount++;
                     return true;
@@ -138,11 +123,11 @@ namespace HashTableTask
             }
 
             int j = arrayIndex;
-            for (int i = 0; i < HashItems.Length; i++)
+            for (int i = 0; i < hashItems.Length; i++)
             {
-                if (HashItems[i] != null)
+                if (hashItems[i] != null)
                 {
-                    HashItems[i].ForEach(value => { array[j] = value; j++; });
+                    hashItems[i].ForEach(value => { array[j] = value; j++; });
                 }
             }
         }
@@ -151,18 +136,18 @@ namespace HashTableTask
         {
             int originModCount = modCount;
 
-            for (int i = 0; i < HashItems.Length; i++)
+            for (int i = 0; i < hashItems.Length; i++)
             {
-                if (HashItems[i] != null)
+                if (hashItems[i] != null)
                 {
                     if (originModCount != modCount)
                     {
                         throw new InvalidOperationException("There were changes in the collection");
                     }
 
-                    for (int j = 0; j < HashItems[i].Count; j++)
+                    for (int j = 0; j < hashItems[i].Count; j++)
                     {
-                        yield return HashItems[i][j];
+                        yield return hashItems[i][j];
                     }
                 }
             }
@@ -176,29 +161,29 @@ namespace HashTableTask
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();
-            for (int i = 0; i < HashItems.Length; i++)
+            for (int i = 0; i < hashItems.Length; i++)
             {
-                if (HashItems[i] != null)
+                if (hashItems[i] != null)
                 {
                     str.Append(string.Format("Hash: {0} [", i));
-                    int count = HashItems[i].Count;
+                    int count = hashItems[i].Count;
 
                     if (count == 1)
                     {
-                        str.Append((HashItems[i][0] == null) ? "null" : HashItems[i][0] + "] \r\n");
+                        str.Append((hashItems[i][0] == null) ? "null" : hashItems[i][0] + "]" + Environment.NewLine);
                         continue;
                     }
 
                     for (int j = 0; j < count - 1; j++)
                     {
-                        str.Append(string.Format("{0}, ", (HashItems[i][j] == null) ? "null" : HashItems[i][j].ToString()));
+                        str.Append(string.Format("{0}, ", (hashItems[i][j] == null) ? "null" : hashItems[i][j].ToString()));
                     }
-                    str.Append((HashItems[i][count - 1] == null) ? "null" : HashItems[i][count - 1].ToString());
-                    str.Append("] \r\n");
+                    str.Append((hashItems[i][count - 1] == null) ? "null" : hashItems[i][count - 1].ToString());
+                    str.Append("]" + Environment.NewLine);
                 }
             }
             str.Append("Количество элементов в хэш таблицы - ");
-            str.Append(Count + "\r\n");
+            str.Append(Count + Environment.NewLine);
 
             return str.ToString();
         }

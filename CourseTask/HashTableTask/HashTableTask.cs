@@ -84,7 +84,7 @@ namespace HashTableTask
             IEnumerator<string> iterator = MyHash.GetEnumerator();
             while (iterator.MoveNext())
             {
-                Console.WriteLine("Hash: {0} Value: {1}", MyHash.GetHashCode(iterator.Current), iterator.Current);
+                Console.WriteLine("Value: {0}", iterator.Current);
             }
 
             Console.WriteLine();

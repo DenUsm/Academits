@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace HashTableTask
@@ -36,6 +37,7 @@ namespace HashTableTask
             {
                 hashItems[indexInsert].Add(item);
                 Count++;
+                modCount++;
                 return;
             }
 
@@ -69,12 +71,9 @@ namespace HashTableTask
 
             int hash = GetHashCode(item);
 
-            for (int i = 0; i < hashItems[hash].Count; i++)
+            if (hashItems[hash].Contains(item))
             {
-                if (Equals(hashItems[hash][i], item))
-                {
-                    return true;
-                }
+                return true;
             }
 
             return false;
@@ -89,16 +88,12 @@ namespace HashTableTask
             }
 
             int hash = GetHashCode(item);
+            int index = hashItems[hash].IndexOf(item);
 
-            for (int i = 0; i < hashItems[hash].Count; i++)
+            if (index != -1)
             {
-                if (Equals(hashItems[hash][i], item))
-                {
-                    hashItems[hash].RemoveAt(i);
-                    Count--;
-                    modCount++;
-                    return true;
-                }
+                hashItems[hash].RemoveAt(index);
+                return true;
             }
 
             return false;
@@ -123,11 +118,16 @@ namespace HashTableTask
             }
 
             int j = arrayIndex;
-            for (int i = 0; i < hashItems.Length; i++)
+
+            foreach (var value in hashItems)
             {
-                if (hashItems[i] != null)
+                if (value != null)
                 {
-                    hashItems[i].ForEach(value => { array[j] = value; j++; });
+                    value.ForEach(v =>
+                    {
+                        array[j] = v;
+                        j++;
+                    });
                 }
             }
         }
@@ -165,7 +165,7 @@ namespace HashTableTask
             {
                 if (hashItems[i] != null)
                 {
-                    str.Append(string.Format("Hash: {0} [", i));
+                    str.AppendFormat("Hash: {0} [", i);
                     int count = hashItems[i].Count;
 
                     if (count == 1)
@@ -176,7 +176,7 @@ namespace HashTableTask
 
                     for (int j = 0; j < count - 1; j++)
                     {
-                        str.Append(string.Format("{0}, ", (hashItems[i][j] == null) ? "null" : hashItems[i][j].ToString()));
+                        str.AppendFormat("{0}, ", (hashItems[i][j] == null) ? "null" : hashItems[i][j].ToString());
                     }
                     str.Append((hashItems[i][count - 1] == null) ? "null" : hashItems[i][count - 1].ToString());
                     str.Append("]" + Environment.NewLine);

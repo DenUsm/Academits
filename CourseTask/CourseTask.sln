@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeTask", "TreeTask\TreeTa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LambdaTask", "LambdaTask\LambdaTask.csproj", "{C90E8EAF-FBE9-4569-8E1B-3EE3D0C91FFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfinityStream", "InfinityStream\InfinityStream.csproj", "{F3489EE6-FB1A-4741-80EA-FC1268879C5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{C90E8EAF-FBE9-4569-8E1B-3EE3D0C91FFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C90E8EAF-FBE9-4569-8E1B-3EE3D0C91FFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C90E8EAF-FBE9-4569-8E1B-3EE3D0C91FFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3489EE6-FB1A-4741-80EA-FC1268879C5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3489EE6-FB1A-4741-80EA-FC1268879C5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3489EE6-FB1A-4741-80EA-FC1268879C5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3489EE6-FB1A-4741-80EA-FC1268879C5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -64,12 +64,12 @@ namespace HashTableTask
         //наличие элемента
         public bool Contains(T item)
         {
-            if (Count == 0)
+            int hash = GetHashCode(item);
+
+            if (hashItems[hash] == null)
             {
                 return false;
             }
-
-            int hash = GetHashCode(item);
 
             return hashItems[hash].Contains(item);
         }
@@ -77,12 +77,12 @@ namespace HashTableTask
         //удаление элементы
         public bool Remove(T item)
         {
-            if (Count == 0)
+            int hash = GetHashCode(item);
+
+            if (hashItems[hash] == null)
             {
                 return false;
             }
-
-            int hash = GetHashCode(item);
 
             return hashItems[hash].Remove(item);
         }

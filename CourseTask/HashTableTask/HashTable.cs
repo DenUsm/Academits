@@ -64,39 +64,27 @@ namespace HashTableTask
         //наличие элемента
         public bool Contains(T item)
         {
-            if (Count == 0)
+            int hash = GetHashCode(item);
+
+            if (hashItems[hash] == null)
             {
                 return false;
             }
 
-            int hash = GetHashCode(item);
-
-            if (hashItems[hash].Contains(item))
-            {
-                return true;
-            }
-
-            return false;
+            return hashItems[hash].Contains(item);
         }
 
         //удаление элементы
         public bool Remove(T item)
         {
-            if (Count == 0)
+            int hash = GetHashCode(item);
+
+            if (hashItems[hash] == null)
             {
                 return false;
             }
 
-            int hash = GetHashCode(item);
-            int index = hashItems[hash].IndexOf(item);
-
-            if (index != -1)
-            {
-                hashItems[hash].RemoveAt(index);
-                return true;
-            }
-
-            return false;
+            return hashItems[hash].Remove(item);
         }
 
         //копирование в массив 
@@ -119,16 +107,10 @@ namespace HashTableTask
 
             int j = arrayIndex;
 
-            foreach (var value in hashItems)
+            foreach (var value in this)
             {
-                if (value != null)
-                {
-                    value.ForEach(v =>
-                    {
-                        array[j] = v;
-                        j++;
-                    });
-                }
+                array[j] = value;
+                j++;
             }
         }
 
@@ -170,7 +152,9 @@ namespace HashTableTask
 
                     if (count == 1)
                     {
-                        str.Append((hashItems[i][0] == null) ? "null" : hashItems[i][0] + "]" + Environment.NewLine);
+                        str.Append((hashItems[i][0] == null) ? "null" : hashItems[i][0].ToString());
+                        str.Append("]");
+                        str.AppendLine();
                         continue;
                     }
 
@@ -179,11 +163,13 @@ namespace HashTableTask
                         str.AppendFormat("{0}, ", (hashItems[i][j] == null) ? "null" : hashItems[i][j].ToString());
                     }
                     str.Append((hashItems[i][count - 1] == null) ? "null" : hashItems[i][count - 1].ToString());
-                    str.Append("]" + Environment.NewLine);
+                    str.Append("]");
+                    str.AppendLine();
                 }
             }
             str.Append("Количество элементов в хэш таблицы - ");
-            str.Append(Count + Environment.NewLine);
+            str.Append(Count);
+            str.AppendLine();
 
             return str.ToString();
         }

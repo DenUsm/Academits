@@ -93,6 +93,12 @@ namespace TreeTask
         //поиск узла по значению
         public TreeNode<T> FindNodeByValue(T item)
         {
+            //поверка на корень
+            if (Equals(Root.Data, item))
+            {
+                return Root;
+            }
+
             Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
             stack.Push(Root);
 
@@ -101,21 +107,36 @@ namespace TreeTask
             while (stack.Count != 0)
             {
                 TreeNode<T> node = stack.Pop();
-        
-                if (Equals(node.Data, item))
-                {
-                    returnNode = node;
-                    return returnNode;
-                }
 
-                if (node.Left != null)
+                if (node.Data.CompareTo(item) == 1)
                 {
-                    stack.Push(node.Left);
+                    if (node.Left == null)
+                    {
+                        return null;
+                    }
+                    else if (Equals(node.Left.Data, item))
+                    {
+                        return node.Left;
+                    }
+                    else
+                    {
+                        stack.Push(node.Left);
+                    }
                 }
-
-                if (node.Right != null)
+                else
                 {
-                    stack.Push(node.Right);
+                    if (node.Right == null)
+                    {
+                        return null;
+                    }
+                    else if (Equals(node.Right.Data, item))
+                    {
+                        return node.Right;
+                    }
+                    else
+                    {
+                        stack.Push(node.Right);
+                    }
                 }
             }
 
@@ -123,9 +144,17 @@ namespace TreeTask
         }
 
         //удаление первого вхождения узла
-        public bool Remove(T item)
-        {
-
-        }
+        //public bool Remove(T item)
+        //{
+        //    Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
+        //    stack.Push(Root);
+        //
+        //    while(stack.Count != 0)
+        //    {
+        //        TreeNode<T> parent = stack.Pop();
+        //
+        //        if(Equals())
+        //    }
+        //}
     }
 }

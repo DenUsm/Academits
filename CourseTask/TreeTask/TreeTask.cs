@@ -22,12 +22,15 @@ namespace TreeTask
             Console.WriteLine("Количество элементов в дереве {0}", tree.Count);
 
             Console.WriteLine("------------------------------------------Test Find Node-----------------------------------");
-            Console.WriteLine();
-            TreeNode<int> node = tree.FindNodeByValue(3);
+            TreeNode<int> node = tree.FindNodeByValue(1);
             Console.WriteLine(node.ToString());
 
-            Console.WriteLine("------------------------------------------Test Remove-----------------------------------");
-            Console.WriteLine();
+            TreeNode<int> node1 = tree.FindNodeByValue(8);
+            Console.WriteLine(node1.ToString());
+
+            //
+            //Console.WriteLine("------------------------------------------Test Remove-----------------------------------");
+            //Console.WriteLine();
 
             Console.ReadKey();
         }

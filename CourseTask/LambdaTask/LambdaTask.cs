@@ -72,7 +72,7 @@ namespace LambdaTask
 
             foreach (var value in result)
             {
-                Console.WriteLine(value);
+                Console.WriteLine(value.Name);
             }
 
             Console.ReadKey();

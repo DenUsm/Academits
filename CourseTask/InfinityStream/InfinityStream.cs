@@ -43,7 +43,6 @@ namespace InfinityStream
 
         public static IEnumerable<long> GetFibonacci()
         {
-            long fn = 0;
             long fn2 = 0;
             long fn1 = 1;
 
@@ -52,7 +51,7 @@ namespace InfinityStream
 
             while (true)
             {
-                fn = fn1 + fn2;
+                long fn = fn1 + fn2;
                 fn2 = fn1;
                 fn1 = fn;
                 yield return fn;

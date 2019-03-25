@@ -123,6 +123,9 @@ namespace TreeTask
         }
 
         //удаление первого вхождения узла
-        
+        public bool Remove(T item)
+        {
+
+        }
     }
 }

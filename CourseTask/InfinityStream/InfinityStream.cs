@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace InfinityStream
 {
@@ -16,8 +17,8 @@ namespace InfinityStream
                 throw new ArgumentOutOfRangeException("Количество элементов должно быть положительным");
             }
 
-
-            foreach (int value in GetSquares(quantity))
+            IEnumerable<int> stream = GetSquares();
+            foreach (var value in stream.Take(quantity))
             {
                 Console.WriteLine(value);
             }
@@ -31,7 +32,8 @@ namespace InfinityStream
                 throw new ArgumentOutOfRangeException("Количество элементов должно быть положительным");
             }
 
-            foreach (int value in GetFibonacci(quantityFibonacci))
+            IEnumerable<long> streamFibonacci = GetFibonacci();
+            foreach (var value in streamFibonacci.Take(quantityFibonacci))
             {
                 Console.WriteLine(value);
             }
@@ -39,34 +41,29 @@ namespace InfinityStream
             Console.ReadKey();
         }
 
-        public static IEnumerable<long> GetFibonacci(int quantityFibonacci)
+        public static IEnumerable<long> GetFibonacci()
         {
             long fn = 0;
             long fn2 = 0;
             long fn1 = 1;
-            int i = 0;
 
-            while ((i < 2) && (i <= quantityFibonacci))
-            {
-                yield return fn + i;
-                i++;
-            }
+            yield return 0;
+            yield return 1;
 
-            while (i <= quantityFibonacci)
+            while (true)
             {
                 fn = fn1 + fn2;
                 fn2 = fn1;
                 fn1 = fn;
                 yield return fn;
-                i++;
             }
         }
 
 
-        public static IEnumerable<int> GetSquares(int quantity)
+        public static IEnumerable<int> GetSquares()
         {
             int i = 0;
-            while (i <= quantity)
+            while (true)
             {
                 yield return i * i;
                 i++;

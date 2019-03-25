@@ -136,18 +136,18 @@ namespace HashTableTask
         {
             int originModCount = modCount;
 
-            for (int i = 0; i < hashItems.Length; i++)
+            foreach(var value in hashItems)
             {
-                if (hashItems[i] != null)
+                if (value != null)
                 {
                     if (originModCount != modCount)
                     {
                         throw new InvalidOperationException("There were changes in the collection");
                     }
 
-                    for (int j = 0; j < hashItems[i].Count; j++)
+                    foreach(var list in value)
                     {
-                        yield return hashItems[i][j];
+                        yield return list;
                     }
                 }
             }

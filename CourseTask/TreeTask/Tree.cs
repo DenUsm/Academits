@@ -7,7 +7,7 @@ namespace TreeTask
 {
     class Tree<T> where T : IComparable<T>
     {
-        private TreeNode<T> Root { get; set; }
+        private TreeNode<T> root;
 
         public int Count { get; private set; }
 
@@ -21,7 +21,7 @@ namespace TreeTask
             StringBuilder str = new StringBuilder();
 
             Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            stack.Push(Root);
+            stack.Push(root);
 
             while (stack.Count != 0)
             {
@@ -49,15 +49,15 @@ namespace TreeTask
         //вставка элемента в дерево
         public void Add(T item)
         {
-            if (Root == null)
+            if (root == null)
             {
-                Root = new TreeNode<T>(item, null, null);
+                root = new TreeNode<T>(item, null, null);
                 Count++;
                 return;
             }
 
             Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            stack.Push(Root);
+            stack.Push(root);
 
             while (stack.Count != 0)
             {
@@ -95,13 +95,13 @@ namespace TreeTask
         public TreeNode<T> FindNodeByValue(T item)
         {
             //поверка на корень
-            if (Equals(Root.Data, item))
+            if (Equals(root.Data, item))
             {
-                return Root;
+                return root;
             }
 
             Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            stack.Push(Root);
+            stack.Push(root);
 
             TreeNode<T> returnNode = null;
 
@@ -147,13 +147,13 @@ namespace TreeTask
         //удаление первого вхождения узла
         public bool Remove(T item)
         {
-            if (Root == null)
+            if (root == null)
             {
                 return false;
             }
 
             Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            stack.Push(Root);
+            stack.Push(root);
 
             TreeNode<T> parent = null;
             while (stack.Count != 0)
@@ -225,7 +225,7 @@ namespace TreeTask
                         //если parent null значит искомый элемент корень
                         if (parent == null)
                         {
-                            Root.Data = value;
+                            root.Data = value;
                             Count--;
                             return true;
                         }
@@ -279,7 +279,7 @@ namespace TreeTask
         {
             StringBuilder str = new StringBuilder();
             Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
-            queue.Enqueue(Root);
+            queue.Enqueue(root);
 
             while (queue.Count != 0)
             {
@@ -304,7 +304,7 @@ namespace TreeTask
         //выовод узлов с исопльзованием обхода в глубину с рекурсией
         public void ShowWayWithRecursion()
         {
-            Visit(Root);
+            Visit(root);
         }
 
         private void Visit(TreeNode<T> node)

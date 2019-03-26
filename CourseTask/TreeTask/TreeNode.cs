@@ -16,11 +16,31 @@ namespace TreeTask
             Right = right;
         }
 
+        public TreeNode<T>[] GetChildren()
+        {
+            if (Left != null && Right != null)
+            {
+                return new TreeNode<T>[] { Left, Right };
+            }
+
+            if (Left != null && Right == null)
+            {
+                return new TreeNode<T>[] { Left };
+            }
+
+            if (Left == null && Right != null)
+            {
+                return new TreeNode<T>[] { Left };
+            }
+
+            return null;
+        }
+
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();
             str.AppendFormat("Data: {0} ", (Data == null) ? "null" : Data.ToString().PadRight(2, ' '));
-            str.AppendFormat("{0}  {1}", (Left == null) ? "null" : Left.Data.ToString().PadRight(4, ' '), 
+            str.AppendFormat("{0}  {1}", (Left == null) ? "null" : Left.Data.ToString().PadRight(4, ' '),
                                          (Right == null) ? "null" : Right.Data.ToString().PadRight(4, ' '));
             return str.ToString();
         }

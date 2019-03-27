@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LambdaTask", "LambdaTask\La
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfinityStream", "InfinityStream\InfinityStream.csproj", "{F3489EE6-FB1A-4741-80EA-FC1268879C5F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphTask", "GraphTask\GraphTask.csproj", "{13DEDB16-D953-4CD0-BAAD-0D0BA1E5773F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{F3489EE6-FB1A-4741-80EA-FC1268879C5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3489EE6-FB1A-4741-80EA-FC1268879C5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3489EE6-FB1A-4741-80EA-FC1268879C5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13DEDB16-D953-4CD0-BAAD-0D0BA1E5773F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13DEDB16-D953-4CD0-BAAD-0D0BA1E5773F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13DEDB16-D953-4CD0-BAAD-0D0BA1E5773F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13DEDB16-D953-4CD0-BAAD-0D0BA1E5773F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

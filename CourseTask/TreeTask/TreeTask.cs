@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace TreeTask
 {
@@ -20,36 +22,61 @@ namespace TreeTask
             tree.Add(4);
             tree.Add(7);
 
-            Console.WriteLine(tree.ToString());
-            Console.WriteLine("Количество элементов в дереве {0}", tree.Count);
+            //Console.WriteLine(tree.ToString());
+            //Console.WriteLine("Количество элементов в дереве {0}", tree.Count);
+            //
+            //Console.WriteLine("------------------------------------------Test Find Node-----------------------------------");
+            //TreeNode<int> node = tree.FindNodeByValue(1);
+            //Console.WriteLine(node.ToString());
+            //
+            //TreeNode<int> node1 = tree.FindNodeByValue(8);
+            //Console.WriteLine(node1.ToString());
+            //
+            //Console.WriteLine("------------------------------------------Test Remove-----------------------------------");
+            //Console.WriteLine();
+            ////тест удаление листа
+            //int removeValue = 7;
+            //Console.WriteLine("Remove value: {0} status: {1}", removeValue, tree.Remove(removeValue));
+            //Console.WriteLine(tree.ToString());
+            //
+            ////тест удаление с одним ребенком 
+            //int removeValue1 = 14;
+            //Console.WriteLine("Remove value: {0} status: {1}", removeValue1, tree.Remove(removeValue1));
+            //Console.WriteLine(tree.ToString());
+            //
+            ////тест удаление с одним ребенком 
+            //int removeValue2 = 8;
+            //Console.WriteLine("Remove value: {0} status: {1}", removeValue2, tree.Remove(removeValue2));
+            //Console.WriteLine(tree.ToString());
 
-            Console.WriteLine("------------------------------------------Test Find Node-----------------------------------");
-            TreeNode<int> node = tree.FindNodeByValue(1);
-            Console.WriteLine(node.ToString());
 
-            TreeNode<int> node1 = tree.FindNodeByValue(8);
-            Console.WriteLine(node1.ToString());
+            //делегат для получения даты узла
+            Action<TreeNode<int>> getData = delegate (TreeNode<int> data)
+            {
+                Console.WriteLine(data.Data);
+            };
 
-            Console.WriteLine("------------------------------------------Test Remove-----------------------------------");
-            Console.WriteLine();
-            //тест удаление листа
-            int removeValue = 7;
-            Console.WriteLine("Remove value: {0} status: {1}", removeValue, tree.Remove(removeValue));
-            Console.WriteLine(tree.ToString());
+            //делат для получения общей информации по узлу
+            Action<TreeNode<int>> getInfoNode = delegate (TreeNode<int> node)
+            {
+                Console.WriteLine(node.ToString());
+            };
 
-            //тест удаление с одним ребенком 
-            int removeValue1 = 14;
-            Console.WriteLine("Remove value: {0} status: {1}", removeValue1, tree.Remove(removeValue1));
-            Console.WriteLine(tree.ToString());
 
-            //тест удаление с одним ребенком 
-            int removeValue2 = 8;
-            Console.WriteLine("Remove value: {0} status: {1}", removeValue2, tree.Remove(removeValue2));
-            Console.WriteLine(tree.ToString());
+            IEnumerator<TreeNode<int>> iteratorWide = tree.WayGoWide(getData).GetEnumerator();
+            while(iteratorWide.MoveNext())
+            {
 
-            Console.WriteLine(tree.ShowWayByWide());
+            }
 
-            tree.ShowWayWithRecursion();
+            IEnumerator<TreeNode<int>> iteratorDepth = tree.WayGoDepth(getInfoNode).GetEnumerator();
+            while(iteratorDepth.MoveNext())
+            {
+
+            }
+
+
+            //tree.ShowWayWithRecursion();
 
             Console.ReadKey();
         }

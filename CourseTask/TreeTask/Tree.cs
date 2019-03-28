@@ -11,40 +11,50 @@ namespace TreeTask
 
         public int Count { get; private set; }
 
-        public Tree()
-        {
-            Count = 0;
-        }
+        //public override string ToString()
+        //{
+        //    StringBuilder str = new StringBuilder();
+        //
+        //    Action<T> action = delegate (T data)
+        //    {
+        //        str.AppendLine(data.ToString());
+        //    };
+        //
+        //    WayGoWide(action);
+        //
+        //    return str.ToString();
+        //}
 
-        public override string ToString()
-        {
-            StringBuilder str = new StringBuilder();
 
-            Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            stack.Push(root);
-
-            while (stack.Count != 0)
-            {
-                TreeNode<T> node = stack.Pop();
-
-                if (node.Data != null)
-                {
-                    str.Append(node.ToString());
-                    str.AppendLine();
-                }
-
-                if (node.Right != null)
-                {
-                    stack.Push(node.Right);
-                }
-
-                if (node.Left != null)
-                {
-                    stack.Push(node.Left);
-                }
-            }
-            return str.ToString();
-        }
+        //public override string ToString()
+        //{
+        //    StringBuilder str = new StringBuilder();
+        //
+        //    Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
+        //    stack.Push(root);
+        //
+        //    while (stack.Count != 0)
+        //    {
+        //        TreeNode<T> node = stack.Pop();
+        //
+        //        if (node.Data != null)
+        //        {
+        //            str.Append(node.ToString());
+        //            str.AppendLine();
+        //        }
+        //
+        //        if (node.Right != null)
+        //        {
+        //            stack.Push(node.Right);
+        //        }
+        //
+        //        if (node.Left != null)
+        //        {
+        //            stack.Push(node.Left);
+        //        }
+        //    }
+        //    return str.ToString();
+        //}
 
         //вставка элемента в дерево
         public void Add(T item)
@@ -56,23 +66,21 @@ namespace TreeTask
                 return;
             }
 
-            Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            stack.Push(root);
+            TreeNode<T> node = root;
 
-            while (stack.Count != 0)
+            while (node != null)
             {
-                TreeNode<T> node = stack.Pop();
-
-                if (node.Data.CompareTo(item) == 1)
+                if (node.Data.CompareTo(item) > 0)
                 {
                     if (node.Left == null)
                     {
                         node.Left = new TreeNode<T>(item, null, null);
                         Count++;
+                        return;
                     }
                     else
                     {
-                        stack.Push(node.Left);
+                        node = node.Left;
                     }
                 }
                 else
@@ -81,10 +89,11 @@ namespace TreeTask
                     {
                         node.Right = new TreeNode<T>(item, null, null);
                         Count++;
+                        return;
                     }
                     else
                     {
-                        stack.Push(node.Right);
+                        node = node.Right;
                     }
                 }
             }
@@ -274,18 +283,17 @@ namespace TreeTask
             return false;
         }
 
-        //выовод узлов с исопльзованием обхода в ширину
-        public string ShowWayByWide()
+        //метод для обхода дерева в ширину
+        public IEnumerable<TreeNode<T>> WayGoWide(Action<TreeNode<T>> action)
         {
-            StringBuilder str = new StringBuilder();
             Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
             queue.Enqueue(root);
 
             while (queue.Count != 0)
             {
                 TreeNode<T> node = queue.Dequeue();
-                str.Append(node);
-                str.AppendLine();
+                action(node);
+                yield return node;
 
                 if (node.Left != null)
                 {
@@ -297,29 +305,52 @@ namespace TreeTask
                     queue.Enqueue(node.Right);
                 }
             }
-
-            return str.ToString();
         }
 
-        //выовод узлов с исопльзованием обхода в глубину с рекурсией
-        public void ShowWayWithRecursion()
+        //метод для обхода дерева в ширину
+        public IEnumerable<TreeNode<T>> WayGoDepth(Action<TreeNode<T>> action)
         {
-            Visit(root);
-        }
+            Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
+            stack.Push(root);
 
-        private void Visit(TreeNode<T> node)
-        {
-            Console.WriteLine(node);
-
-            if (node.GetChildren() != null)
+            while (stack.Count != 0)
             {
-                TreeNode<T>[] nodes = node.GetChildren();
-                foreach (TreeNode<T> child in nodes)
+                TreeNode<T> node = stack.Pop();
+                action(node);
+                yield return node;
+
+                if (node.Left != null)
                 {
-                    Visit(child);
+                    stack.Push(node.Left);
+                }
+
+                if (node.Right != null)
+                {
+                    stack.Push(node.Right);
                 }
             }
-            return;
         }
+
+
+        ////метод для обхода дерева в глубину с реккурсией
+        //public IEnumerable<T> WayGoDepthWithRecursion(Action<T> action)
+        //{
+        //    Visit(root, action);
+        //}
+        //
+        //public void Visit(TreeNode<T> node, Action<T> action)
+        //{
+        //    action(node.Data);
+        //    yield return node.Data;
+        //
+        //    if (node.GetChildren() != null)
+        //    {
+        //        TreeNode<T>[] nodes = node.GetChildren();
+        //        foreach (TreeNode<T> child in nodes)
+        //        {
+        //            Visit(child, action);
+        //        }
+        //    }
+        //}
     }
 }

@@ -319,38 +319,42 @@ namespace TreeTask
                 action(node);
                 yield return node;
 
-                if (node.Left != null)
-                {
-                    stack.Push(node.Left);
-                }
-
                 if (node.Right != null)
                 {
                     stack.Push(node.Right);
+                }
+
+                if (node.Left != null)
+                {
+                    stack.Push(node.Left);
                 }
             }
         }
 
 
-        ////метод для обхода дерева в глубину с реккурсией
-        //public IEnumerable<T> WayGoDepthWithRecursion(Action<T> action)
-        //{
-        //    Visit(root, action);
-        //}
-        //
-        //public void Visit(TreeNode<T> node, Action<T> action)
-        //{
-        //    action(node.Data);
-        //    yield return node.Data;
-        //
-        //    if (node.GetChildren() != null)
-        //    {
-        //        TreeNode<T>[] nodes = node.GetChildren();
-        //        foreach (TreeNode<T> child in nodes)
-        //        {
-        //            Visit(child, action);
-        //        }
-        //    }
-        //}
+        //метод для обхода дерева в глубину с реккурсией
+        public IEnumerable<TreeNode<T>> WayGoDepthWithRecursion(Action<TreeNode<T>> action)
+        {
+            TreeNode<T> node = root;
+
+            action(node);
+            yield return node;
+
+            while(true)
+            {
+                TreeNode<T>[] nodes = node.GetChildren();
+                foreach (TreeNode<T> child in nodes)
+                {
+                    if(child == null)
+                    {
+                        return;
+                    }
+
+                    node = child;
+                    action(node);
+                    yield return node;
+                }
+            }
+        }
     }
 }

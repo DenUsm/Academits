@@ -75,6 +75,12 @@ namespace TreeTask
 
             }
 
+            IEnumerator<TreeNode<int>> iteratorDepthWithRecursion = tree.WayGoDepthWithRecursion(getInfoNode).GetEnumerator();
+            while (iteratorDepthWithRecursion.MoveNext())
+            {
+
+            }
+
 
             //tree.ShowWayWithRecursion();
 

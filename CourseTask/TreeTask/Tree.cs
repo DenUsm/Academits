@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,66 +6,40 @@ namespace TreeTask
 {
     class Tree<T> where T : IComparable<T>
     {
-        private TreeNode<T> root;
+        public TreeNode<T> Root { get; private set; }
 
         public int Count { get; private set; }
 
-        //public override string ToString()
-        //{
-        //    StringBuilder str = new StringBuilder();
-        //
-        //    Action<T> action = delegate (T data)
-        //    {
-        //        str.AppendLine(data.ToString());
-        //    };
-        //
-        //    WayGoWide(action);
-        //
-        //    return str.ToString();
-        //}
+        public override string ToString()
+        {
+            StringBuilder str = new StringBuilder();
 
+            //Хотим выводить информацию по узлу (Data , Left, Right)
+            Action<TreeNode<T>> action = delegate (TreeNode<T> node)
+            {
+                str.AppendLine(node.ToString());
+            };
 
-        //public override string ToString()
-        //{
-        //    StringBuilder str = new StringBuilder();
-        //
-        //    Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-        //    stack.Push(root);
-        //
-        //    while (stack.Count != 0)
-        //    {
-        //        TreeNode<T> node = stack.Pop();
-        //
-        //        if (node.Data != null)
-        //        {
-        //            str.Append(node.ToString());
-        //            str.AppendLine();
-        //        }
-        //
-        //        if (node.Right != null)
-        //        {
-        //            stack.Push(node.Right);
-        //        }
-        //
-        //        if (node.Left != null)
-        //        {
-        //            stack.Push(node.Left);
-        //        }
-        //    }
-        //    return str.ToString();
-        //}
+            IEnumerable<TreeNode<T>> iteratorWayGoWide = WayGoWide(action);
+            foreach (var value in iteratorWayGoWide)
+            {
+
+            }
+
+            return str.ToString();
+        }
 
         //вставка элемента в дерево
         public void Add(T item)
         {
-            if (root == null)
+            if (Root == null)
             {
-                root = new TreeNode<T>(item, null, null);
+                Root = new TreeNode<T>(item, null, null);
                 Count++;
                 return;
             }
 
-            TreeNode<T> node = root;
+            TreeNode<T> node = Root;
 
             while (node != null)
             {
@@ -101,73 +74,65 @@ namespace TreeTask
         }
 
         //поиск узла по значению
-        public TreeNode<T> FindNodeByValue(T item)
+        public bool FindNodeByValue(T item)
         {
             //поверка на корень
-            if (Equals(root.Data, item))
+            if (Equals(Root.Data, item))
             {
-                return root;
+                return true;
             }
 
-            Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            stack.Push(root);
+            TreeNode<T> node = Root;
 
-            TreeNode<T> returnNode = null;
-
-            while (stack.Count != 0)
+            while (node != null)
             {
-                TreeNode<T> node = stack.Pop();
-
-                if (node.Data.CompareTo(item) == 1)
+                if (node.Data.CompareTo(item) > 0)
                 {
                     if (node.Left == null)
                     {
-                        return null;
+                        return false;
                     }
-                    else if (Equals(node.Left.Data, item))
+
+                    if (Equals(node.Left.Data, item))
                     {
-                        return node.Left;
+                        return true;
                     }
-                    else
-                    {
-                        stack.Push(node.Left);
-                    }
+
+                    node = node.Left;
                 }
                 else
                 {
                     if (node.Right == null)
                     {
-                        return null;
+                        return false;
                     }
-                    else if (Equals(node.Right.Data, item))
+
+                    if (Equals(node.Right.Data, item))
                     {
-                        return node.Right;
+                        return true;
                     }
-                    else
-                    {
-                        stack.Push(node.Right);
-                    }
+
+                    node = node.Right;
                 }
             }
 
-            return returnNode;
+            return false;
         }
 
         //удаление первого вхождения узла
         public bool Remove(T item)
         {
-            if (root == null)
+            if (Root == null)
             {
                 return false;
             }
 
-            Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            stack.Push(root);
-
             TreeNode<T> parent = null;
-            while (stack.Count != 0)
+            TreeNode<T> node = Root;
+
+            while (node != null)
             {
-                TreeNode<T> child = stack.Pop();
+                TreeNode<T> child = node;
 
                 //если нашли узел рассматриваем 3 варианта
                 if (Equals(child.Data, item))
@@ -186,8 +151,9 @@ namespace TreeTask
                         Count--;
                         return true;
                     }
+
                     //удаление узла с одним ребенком
-                    else if ((child.Left != null && child.Right == null) || (child.Left == null && child.Right != null))
+                    if ((child.Left != null && child.Right == null) || (child.Left == null && child.Right != null))
                     {
                         if (Equals(parent.Left.Data, child.Data))
                         {
@@ -200,8 +166,9 @@ namespace TreeTask
                         Count--;
                         return true;
                     }
+
                     //удаление узла с 2 детьми
-                    else
+                    if (child.Left != null && child.Right != null)
                     {
                         Stack<TreeNode<T>> findMin = new Stack<TreeNode<T>>();
                         findMin.Push(child.Right);
@@ -234,7 +201,7 @@ namespace TreeTask
                         //если parent null значит искомый элемент корень
                         if (parent == null)
                         {
-                            root.Data = value;
+                            Root.Data = value;
                             Count--;
                             return true;
                         }
@@ -253,16 +220,14 @@ namespace TreeTask
                 }
                 else
                 {
-                    if (child.Data.CompareTo(item) == 1)
+                    if (child.Data.CompareTo(item) > 0)
                     {
                         if (child.Left == null)
                         {
                             return false;
                         }
-                        else
-                        {
-                            stack.Push(child.Left);
-                        }
+
+                        node = node.Left;
                     }
                     else
                     {
@@ -270,10 +235,8 @@ namespace TreeTask
                         {
                             return false;
                         }
-                        else
-                        {
-                            stack.Push(child.Right);
-                        }
+
+                        node = node.Right;
                     }
                 }
 
@@ -287,7 +250,7 @@ namespace TreeTask
         public IEnumerable<TreeNode<T>> WayGoWide(Action<TreeNode<T>> action)
         {
             Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
-            queue.Enqueue(root);
+            queue.Enqueue(Root);
 
             while (queue.Count != 0)
             {
@@ -311,7 +274,7 @@ namespace TreeTask
         public IEnumerable<TreeNode<T>> WayGoDepth(Action<TreeNode<T>> action)
         {
             Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            stack.Push(root);
+            stack.Push(Root);
 
             while (stack.Count != 0)
             {
@@ -331,28 +294,23 @@ namespace TreeTask
             }
         }
 
-
         //метод для обхода дерева в глубину с реккурсией
-        public IEnumerable<TreeNode<T>> WayGoDepthWithRecursion(Action<TreeNode<T>> action)
+        public IEnumerable<TreeNode<T>> WayGoDepthWithRecursion(TreeNode<T> root, Action<TreeNode<T>> action)
         {
-            TreeNode<T> node = root;
-
-            action(node);
-            yield return node;
-
-            while(true)
+            if (root != null)
             {
-                TreeNode<T>[] nodes = node.GetChildren();
-                foreach (TreeNode<T> child in nodes)
-                {
-                    if(child == null)
-                    {
-                        return;
-                    }
+                action(root);
 
-                    node = child;
-                    action(node);
-                    yield return node;
+                if (root.GetChildren() != null)
+                {
+                    foreach (var node in root.GetChildren())
+                    {
+                        foreach (var value in WayGoDepthWithRecursion(node, action))
+                        {
+                            action(value);
+                            yield return value;
+                        }
+                    }
                 }
             }
         }

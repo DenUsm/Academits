@@ -20,16 +20,17 @@ namespace GraphTask
                 { 0, 0, 0, 0, 0, 0, 0, 1, 0 }
             });
 
-            Action<int> printActionDel = delegate (int i)
-            {
-                Console.WriteLine(i);
-            };
+            Action<int> printActionDel = i => Console.WriteLine(i);
 
             graph.WayGoWide(3, printActionDel);
 
             Console.WriteLine();
 
             graph.WayGoDepth(3, printActionDel);
+
+            Console.WriteLine();
+
+            graph.WayGoDepthWithRecursion(3, printActionDel);
 
             Console.ReadKey();
         }

@@ -7,26 +7,27 @@ namespace GraphTask
     {
         private int[,] graph;
 
-        private bool[] visited;
-
         public Graph(int[,] graph)
         {
             this.graph = graph;
-            visited = new bool[graph.GetLength(0)];
         }
 
-        private void StatusVisitedInitial()
+        private void VisitedStatusInitial(bool[] array)
         {
-            for (int i = 0; i < visited.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             {
-                visited[i] = false;
+                array[i] = false;
             }
         }
 
         public void WayGoWide(int initialNode, Action<int> work)
         {
+            int length = graph.GetLength(0);
+
+            bool[] visited = new bool[length];
+
             //Инициализируем массив пустыми значениями
-            StatusVisitedInitial();
+            VisitedStatusInitial(visited);
 
             Queue<int> queue = new Queue<int>();
             queue.Enqueue(initialNode);
@@ -35,23 +36,15 @@ namespace GraphTask
             {
                 int nextNode = queue.Dequeue();
 
-                int length = graph.GetLength(0);
-                int[] node = new int[length];
-
-                for (int i = 0; i < length; i++)
-                {
-                    node[i] = graph[nextNode, i];
-                }
-
                 //проверяем посещали ли данный узел
                 if (!visited[nextNode])
                 {
                     visited[nextNode] = true;
                     work(nextNode);
 
-                    for (int i = 0; i < node.Length; i++)
+                    for (int i = 0; i < length; i++)
                     {
-                        if (node[i] == 1 && !visited[i])
+                        if (graph[nextNode, i] == 1 && !visited[i])
                         {
                             queue.Enqueue(i);
                         }
@@ -66,6 +59,7 @@ namespace GraphTask
                         if (!visited[i])
                         {
                             queue.Enqueue(i);
+                            break;
                         }
                     }
                 }
@@ -74,8 +68,12 @@ namespace GraphTask
 
         public void WayGoDepth(int initialNode, Action<int> work)
         {
+            int length = graph.GetLength(0);
+
+            bool[] visited = new bool[length];
+
             //Инициализируем массив пустыми значениями
-            StatusVisitedInitial();
+            VisitedStatusInitial(visited);
 
             Stack<int> stack = new Stack<int>();
             stack.Push(initialNode);
@@ -84,23 +82,15 @@ namespace GraphTask
             {
                 int nextNode = stack.Pop();
 
-                int length = graph.GetLength(0);
-                int[] node = new int[length];
-
-                for (int i = 0; i < length; i++)
-                {
-                    node[i] = graph[nextNode, i];
-                }
-
                 //проверяем посещали ли данный узел
                 if (!visited[nextNode])
                 {
                     visited[nextNode] = true;
                     work(nextNode);
 
-                    for (int i = 0; i < node.Length; i++)
+                    for (int i = length - 1; i >= 0; i--)
                     {
-                        if (node[i] == 1 && !visited[i])
+                        if (graph[nextNode, i] == 1 && !visited[i])
                         {
                             stack.Push(i);
                         }
@@ -115,7 +105,46 @@ namespace GraphTask
                         if (!visited[i])
                         {
                             stack.Push(i);
+                            break;
                         }
+                    }
+                }
+            }
+        }
+
+        public void WayGoDepthWithRecursion(int initialNode, Action<int> work)
+        {
+            int length = graph.GetLength(0);
+
+            bool[] visited = new bool[length];
+
+            //Инициализируем массив пустыми значениями
+            VisitedStatusInitial(visited);
+
+            Visited(visited, initialNode, work);
+
+            for (int i = 0; i < length; i++)
+            {
+                if (!visited[i])
+                {
+                    Visited(visited, i, work);
+                }
+            }
+        }
+
+        public void Visited(bool[] visited, int initialNode, Action<int> work)
+        {
+            //проверяем посещали ли данный узел
+            if (!visited[initialNode])
+            {
+                visited[initialNode] = true;
+                work(initialNode);
+
+                for (int i = 0; i < visited.Length; i++)
+                {
+                    if (graph[initialNode, i] == 1 && !visited[i])
+                    {
+                        Visited(visited, i, work);
                     }
                 }
             }

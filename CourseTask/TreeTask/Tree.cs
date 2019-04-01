@@ -4,26 +4,32 @@ using System.Text;
 
 namespace TreeTask
 {
-    class Tree<T> where T : IComparable<T>
+    class Tree<T>
     {
         public TreeNode<T> Root { get; private set; }
 
         public int Count { get; private set; }
 
+        public IComparer<T> Comparer { get; }
+
+        public Tree()
+        {
+
+        }
+
+        public Tree(IComparer<T> comparer)
+        {
+            Comparer = comparer;
+        }
+
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();
 
-            //Хотим выводить информацию по узлу (Data , Left, Right)
-            Action<TreeNode<T>> action = delegate (TreeNode<T> node)
-            {
-                str.AppendLine(node.ToString());
-            };
-
-            IEnumerable<TreeNode<T>> iteratorWayGoWide = WayGoWide(action);
+            IEnumerable<T> iteratorWayGoWide = WayGoWide();
             foreach (var value in iteratorWayGoWide)
             {
-
+                str.AppendLine(value.ToString());
             }
 
             return str.ToString();
@@ -32,49 +38,60 @@ namespace TreeTask
         //вставка элемента в дерево
         public void Add(T item)
         {
-            if (Root == null)
+            if(Comparer != null)
             {
-                Root = new TreeNode<T>(item, null, null);
-                Count++;
-                return;
+                Comparer.Compare(Root.Data, item);
+            }
+            else
+            {
+                T:IComparable<T>
             }
 
-            TreeNode<T> node = Root;
 
-            while (node != null)
-            {
-                if (node.Data.CompareTo(item) > 0)
-                {
-                    if (node.Left == null)
-                    {
-                        node.Left = new TreeNode<T>(item, null, null);
-                        Count++;
-                        return;
-                    }
-                    else
-                    {
-                        node = node.Left;
-                    }
-                }
-                else
-                {
-                    if (node.Right == null)
-                    {
-                        node.Right = new TreeNode<T>(item, null, null);
-                        Count++;
-                        return;
-                    }
-                    else
-                    {
-                        node = node.Right;
-                    }
-                }
-            }
+
+            //if (Root == null)
+            //{
+            //    Root = new TreeNode<T>(item);
+            //    Count++;
+            //    return;
+            //}
+            //
+            //TreeNode<T> node = Root;
+            //
+            //while (node != null)
+            //{
+            //    if (node.Data.CompareTo(item) > 0)
+            //    {
+            //        if (node.Left == null)
+            //        {
+            //            node.Left = new TreeNode<T>(item);
+            //            Count++;
+            //            return;
+            //        }
+            //        else
+            //        {
+            //            node = node.Left;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (node.Right == null)
+            //        {
+            //            node.Right = new TreeNode<T>(item);
+            //            Count++;
+            //            return;
+            //        }
+            //        else
+            //        {
+            //            node = node.Right;
+            //        }
+            //    }
+            //}
 
         }
 
         //поиск узла по значению
-        public bool FindNodeByValue(T item)
+        /*public bool FindNodeByValue(T item)
         {
             //поверка на корень
             if (Equals(Root.Data, item))
@@ -117,10 +134,10 @@ namespace TreeTask
             }
 
             return false;
-        }
+        }*/
 
         //удаление первого вхождения узла
-        public bool Remove(T item)
+        /*public bool Remove(T item)
         {
             if (Root == null)
             {
@@ -244,10 +261,10 @@ namespace TreeTask
             }
 
             return false;
-        }
+        }*/
 
         //метод для обхода дерева в ширину
-        public IEnumerable<TreeNode<T>> WayGoWide(Action<TreeNode<T>> action)
+        public IEnumerable<T> WayGoWide()
         {
             Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
             queue.Enqueue(Root);
@@ -255,8 +272,7 @@ namespace TreeTask
             while (queue.Count != 0)
             {
                 TreeNode<T> node = queue.Dequeue();
-                action(node);
-                yield return node;
+                yield return node.Data;
 
                 if (node.Left != null)
                 {
@@ -271,7 +287,7 @@ namespace TreeTask
         }
 
         //метод для обхода дерева в ширину
-        public IEnumerable<TreeNode<T>> WayGoDepth(Action<TreeNode<T>> action)
+        public IEnumerable<T> WayGoDepth()
         {
             Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
             stack.Push(Root);
@@ -279,8 +295,7 @@ namespace TreeTask
             while (stack.Count != 0)
             {
                 TreeNode<T> node = stack.Pop();
-                action(node);
-                yield return node;
+                yield return node.Data;
 
                 if (node.Right != null)
                 {
@@ -295,24 +310,41 @@ namespace TreeTask
         }
 
         //метод для обхода дерева в глубину с реккурсией
-        public IEnumerable<TreeNode<T>> WayGoDepthWithRecursion(TreeNode<T> root, Action<TreeNode<T>> action)
+        public IEnumerable<T> WayGoDepthWithRecursion()
         {
-            if (root != null)
+            
+            if(Root.Left != null)
             {
-                action(root);
-
-                if (root.GetChildren() != null)
-                {
-                    foreach (var node in root.GetChildren())
-                    {
-                        foreach (var value in WayGoDepthWithRecursion(node, action))
-                        {
-                            action(value);
-                            yield return value;
-                        }
-                    }
-                }
+              
             }
+            //foreach (var node in Root.Left)
+            //{
+                foreach (var value in WayGoDepthWithRecursion())
+                {
+                    yield return value;
+                }
+            //}
         }
+
+      
+        //private TreeNode<T>[] DepthRecursion(TreeNode<T> node)
+        //{
+        //    if (node.Left != null && node.Right != null)
+        //    {
+        //        return new TreeNode<T>[] { node.Left, node.Right };
+        //    }
+        //
+        //    if (node.Left != null && node.Right == null)
+        //    {
+        //        return new TreeNode<T>[] { node.Left };
+        //    }
+        //
+        //    if (node.Left == null && node.Right != null)
+        //    {
+        //        return new TreeNode<T>[] { node.Left };
+        //    }
+        //
+        //    return null;
+        //}
     }
 }

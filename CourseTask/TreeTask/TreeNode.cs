@@ -3,37 +3,15 @@ using System.Text;
 
 namespace TreeTask
 {
-    class TreeNode<T> where T : IComparable<T>
+    class TreeNode<T> : IComparable<T>
     {
         public TreeNode<T> Left { get; set; }
         public TreeNode<T> Right { get; set; }
         public T Data { get; set; }
 
-        public TreeNode(T data, TreeNode<T> left, TreeNode<T> right)
+        public TreeNode(T data)
         {
             Data = data;
-            Left = left;
-            Right = right;
-        }
-
-        public TreeNode<T>[] GetChildren()
-        {
-            if (Left != null && Right != null)
-            {
-                return new TreeNode<T>[] { Left, Right };
-            }
-
-            if (Left != null && Right == null)
-            {
-                return new TreeNode<T>[] { Left };
-            }
-
-            if (Left == null && Right != null)
-            {
-                return new TreeNode<T>[] { Left };
-            }
-
-            return null;
         }
 
         public override string ToString()
@@ -45,5 +23,12 @@ namespace TreeTask
             return str.ToString();
         }
 
+        public int CompareTo(T other)
+        {
+            if(default(Data) > other)
+            {
+
+            }
+        }
     }
 }

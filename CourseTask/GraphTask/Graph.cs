@@ -12,22 +12,11 @@ namespace GraphTask
             this.graph = graph;
         }
 
-        private void VisitedStatusInitial(bool[] array)
-        {
-            for (int i = 0; i < array.Length; i++)
-            {
-                array[i] = false;
-            }
-        }
-
         public void WayGoWide(int initialNode, Action<int> work)
         {
             int length = graph.GetLength(0);
 
             bool[] visited = new bool[length];
-
-            //Инициализируем массив пустыми значениями
-            VisitedStatusInitial(visited);
 
             Queue<int> queue = new Queue<int>();
             queue.Enqueue(initialNode);
@@ -72,9 +61,6 @@ namespace GraphTask
 
             bool[] visited = new bool[length];
 
-            //Инициализируем массив пустыми значениями
-            VisitedStatusInitial(visited);
-
             Stack<int> stack = new Stack<int>();
             stack.Push(initialNode);
 
@@ -118,21 +104,18 @@ namespace GraphTask
 
             bool[] visited = new bool[length];
 
-            //Инициализируем массив пустыми значениями
-            VisitedStatusInitial(visited);
-
-            Visited(visited, initialNode, work);
+            Visit(visited, initialNode, work);
 
             for (int i = 0; i < length; i++)
             {
                 if (!visited[i])
                 {
-                    Visited(visited, i, work);
+                    Visit(visited, i, work);
                 }
             }
         }
 
-        public void Visited(bool[] visited, int initialNode, Action<int> work)
+        private void Visit(bool[] visited, int initialNode, Action<int> work)
         {
             //проверяем посещали ли данный узел
             if (!visited[initialNode])
@@ -144,7 +127,7 @@ namespace GraphTask
                 {
                     if (graph[initialNode, i] == 1 && !visited[i])
                     {
-                        Visited(visited, i, work);
+                        Visit(visited, i, work);
                     }
                 }
             }

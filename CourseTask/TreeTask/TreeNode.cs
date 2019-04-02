@@ -3,7 +3,7 @@ using System.Text;
 
 namespace TreeTask
 {
-    class TreeNode<T> : IComparable<T>
+    class TreeNode<T>
     {
         public TreeNode<T> Left { get; set; }
         public TreeNode<T> Right { get; set; }
@@ -21,14 +21,6 @@ namespace TreeTask
             str.AppendFormat("{0}  {1}", (Left == null) ? "null" : Left.Data.ToString().PadRight(4, ' '),
                                          (Right == null) ? "null" : Right.Data.ToString().PadRight(4, ' '));
             return str.ToString();
-        }
-
-        public int CompareTo(T other)
-        {
-            if(default(Data) > other)
-            {
-
-            }
         }
     }
 }

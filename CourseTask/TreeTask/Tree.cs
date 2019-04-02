@@ -35,16 +35,46 @@ namespace TreeTask
             return str.ToString();
         }
 
+
         //вставка элемента в дерево
         public void Add(T item)
         {
-            if(Comparer != null)
+            if (Root == null)
             {
-                Comparer.Compare(Root.Data, item);
+                Root = new TreeNode<T>(item);
+                Count++;
+                return;
+            }
+
+            if (Comparer != null)
+            {
+                if(Comparer.Compare(Root.Data, item) > 0)
+                {
+
+                }
             }
             else
             {
-                T:IComparable<T>
+                if (!(Root.Data is IComparable<T>))
+                {
+                    throw new Exception("Root data is not a Comparable T type");
+                }
+
+                var value = Root.Data as IComparable<T>;
+
+                if (value.CompareTo(item) > 0)
+                {
+                    if (Root.Left == null)
+                    {
+                        Root.Left = new TreeNode<T>(item);
+                        Count++;
+                        return;
+                    }
+                    else
+                    {
+                        Root = Root.Left;
+                    }
+                }
             }
 
 
@@ -312,21 +342,24 @@ namespace TreeTask
         //метод для обхода дерева в глубину с реккурсией
         public IEnumerable<T> WayGoDepthWithRecursion()
         {
-            
-            if(Root.Left != null)
+
+            if (Root.Left != null)
             {
-              
+
             }
             //foreach (var node in Root.Left)
             //{
-                foreach (var value in WayGoDepthWithRecursion())
-                {
-                    yield return value;
-                }
+            foreach (var value in WayGoDepthWithRecursion())
+            {
+                yield return value;
+            }
             //}
         }
 
-      
+
+
+
+
         //private TreeNode<T>[] DepthRecursion(TreeNode<T> node)
         //{
         //    if (node.Left != null && node.Right != null)

@@ -12,11 +12,11 @@ namespace TreeTask
             {
                 if (x > y)
                 {
-                    return -1;
+                    return 1;
                 }
                 else if (x < y)
                 {
-                    return 1;
+                    return -1;
                 }
                 else
                 {
@@ -29,9 +29,11 @@ namespace TreeTask
         static void Main(string[] args)
         {
             Tree<int> test1 = new Tree<int>();
+            test1.Add(8);
             test1.Add(3);
             Tree<int> test2 = new Tree<int>(new MyComparer());
-            test2.Add(4);
+            test2.Add(8);
+            test2.Add(3);
 
 
             Console.WriteLine("------------------------------------------Test Add-----------------------------------");

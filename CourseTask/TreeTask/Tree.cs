@@ -35,6 +35,26 @@ namespace TreeTask
             return str.ToString();
         }
 
+        private int modCount = 0;
+
+        private int GetStatusCompare(TreeNode<T> node, T item)
+        {
+            if (Comparer != null)
+            {
+                return Comparer.Compare(node.Data, item);
+            }
+            else
+            {
+                if (!(node.Data is IComparable<T>))
+                {
+                    throw new ArgumentException("T is not a comparable type");
+                }
+
+                var value = node.Data as IComparable<T>;
+
+                return value.CompareTo(item);
+            }
+        }
 
         //вставка элемента в дерево
         public void Add(T item)
@@ -43,85 +63,45 @@ namespace TreeTask
             {
                 Root = new TreeNode<T>(item);
                 Count++;
+                modCount++;
                 return;
             }
 
-            if (Comparer != null)
+            TreeNode<T> node = Root;
+
+            while (node != null)
             {
-                if(Comparer.Compare(Root.Data, item) > 0)
+                if (GetStatusCompare(node, item) > 0)
                 {
-
-                }
-            }
-            else
-            {
-                if (!(Root.Data is IComparable<T>))
-                {
-                    throw new Exception("Root data is not a Comparable T type");
-                }
-
-                var value = Root.Data as IComparable<T>;
-
-                if (value.CompareTo(item) > 0)
-                {
-                    if (Root.Left == null)
+                    if (node.Left == null)
                     {
-                        Root.Left = new TreeNode<T>(item);
+                        node.Left = new TreeNode<T>(item);
                         Count++;
                         return;
                     }
                     else
                     {
-                        Root = Root.Left;
+                        node = node.Left;
+                    }
+                }
+                else
+                {
+                    if (node.Right == null)
+                    {
+                        node.Right = new TreeNode<T>(item);
+                        Count++;
+                        return;
+                    }
+                    else
+                    {
+                        node = node.Right;
                     }
                 }
             }
-
-
-
-            //if (Root == null)
-            //{
-            //    Root = new TreeNode<T>(item);
-            //    Count++;
-            //    return;
-            //}
-            //
-            //TreeNode<T> node = Root;
-            //
-            //while (node != null)
-            //{
-            //    if (node.Data.CompareTo(item) > 0)
-            //    {
-            //        if (node.Left == null)
-            //        {
-            //            node.Left = new TreeNode<T>(item);
-            //            Count++;
-            //            return;
-            //        }
-            //        else
-            //        {
-            //            node = node.Left;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (node.Right == null)
-            //        {
-            //            node.Right = new TreeNode<T>(item);
-            //            Count++;
-            //            return;
-            //        }
-            //        else
-            //        {
-            //            node = node.Right;
-            //        }
-            //    }
-            //}
-
         }
 
         //поиск узла по значению
-        /*public bool FindNodeByValue(T item)
+        public bool FindNodeByValue(T item)
         {
             //поверка на корень
             if (Equals(Root.Data, item))
@@ -133,7 +113,7 @@ namespace TreeTask
 
             while (node != null)
             {
-                if (node.Data.CompareTo(item) > 0)
+                if (GetStatusCompare(node, item) > 0)
                 {
                     if (node.Left == null)
                     {
@@ -164,10 +144,10 @@ namespace TreeTask
             }
 
             return false;
-        }*/
+        }
 
         //удаление первого вхождения узла
-        /*public bool Remove(T item)
+        public bool Remove(T item)
         {
             if (Root == null)
             {
@@ -187,7 +167,7 @@ namespace TreeTask
                     //удаление листа
                     if (child.Left == null && child.Right == null)
                     {
-                        if (parent.Data.CompareTo(item) == 1)
+                        if (GetStatusCompare(parent, item) > 0)
                         {
                             parent.Left = null;
                         }
@@ -196,6 +176,7 @@ namespace TreeTask
                             parent.Right = null;
                         }
                         Count--;
+                        modCount++;
                         return true;
                     }
 
@@ -211,27 +192,22 @@ namespace TreeTask
                             parent.Right = child.Right == null ? child.Left : child.Right;
                         }
                         Count--;
+                        modCount++;
                         return true;
                     }
 
                     //удаление узла с 2 детьми
                     if (child.Left != null && child.Right != null)
                     {
-                        Stack<TreeNode<T>> findMin = new Stack<TreeNode<T>>();
-                        findMin.Push(child.Right);
+                        TreeNode<T> minNode = child.Right;
 
                         //находим минимальный элемент слева
                         TreeNode<T> parentMinNode = null;
-                        TreeNode<T> minNode = null;
-                        while (findMin.Count != 0)
-                        {
-                            minNode = findMin.Pop();
 
-                            if (minNode.Left != null)
-                            {
-                                findMin.Push(minNode.Left);
-                                parentMinNode = minNode;
-                            }
+                        while (minNode.Left != null)
+                        {
+                            parentMinNode = minNode;
+                            minNode = minNode.Left;
                         }
 
                         T value = minNode.Data;
@@ -250,6 +226,7 @@ namespace TreeTask
                         {
                             Root.Data = value;
                             Count--;
+                            modCount++;
                             return true;
                         }
 
@@ -261,13 +238,15 @@ namespace TreeTask
                         {
                             parent.Right.Data = value;
                         }
+
                         Count--;
+                        modCount++;
                         return true;
                     }
                 }
                 else
                 {
-                    if (child.Data.CompareTo(item) > 0)
+                    if (GetStatusCompare(child, item) > 0)
                     {
                         if (child.Left == null)
                         {
@@ -291,17 +270,29 @@ namespace TreeTask
             }
 
             return false;
-        }*/
+        }
 
         //метод для обхода дерева в ширину
         public IEnumerable<T> WayGoWide()
         {
+            int modCountSave = modCount;
+
             Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
-            queue.Enqueue(Root);
+
+            if (Root != null)
+            {
+                queue.Enqueue(Root);
+            }
 
             while (queue.Count != 0)
             {
                 TreeNode<T> node = queue.Dequeue();
+
+                if (modCount != modCountSave)
+                {
+                    throw new InvalidOperationException("There were changes in the collection");
+                }
+
                 yield return node.Data;
 
                 if (node.Left != null)
@@ -319,12 +310,24 @@ namespace TreeTask
         //метод для обхода дерева в ширину
         public IEnumerable<T> WayGoDepth()
         {
+            int modCountSave = modCount;
+
             Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            stack.Push(Root);
+
+            if (Root != null)
+            {
+                stack.Push(Root);
+            }
 
             while (stack.Count != 0)
             {
                 TreeNode<T> node = stack.Pop();
+
+                if (modCount != modCountSave)
+                {
+                    throw new InvalidOperationException("There were changes in the collection");
+                }
+
                 yield return node.Data;
 
                 if (node.Right != null)
@@ -355,10 +358,6 @@ namespace TreeTask
             }
             //}
         }
-
-
-
-
 
         //private TreeNode<T>[] DepthRecursion(TreeNode<T> node)
         //{

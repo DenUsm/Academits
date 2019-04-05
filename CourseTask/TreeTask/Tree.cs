@@ -43,17 +43,15 @@ namespace TreeTask
             {
                 return Comparer.Compare(node.Data, item);
             }
-            else
+
+            if (!(node.Data is IComparable<T>))
             {
-                if (!(node.Data is IComparable<T>))
-                {
-                    throw new ArgumentException("T is not a comparable type");
-                }
-
-                var value = node.Data as IComparable<T>;
-
-                return value.CompareTo(item);
+                throw new ArgumentException("T is not a comparable type");
             }
+
+            var value = node.Data as IComparable<T>;
+
+            return value.CompareTo(item);
         }
 
         //вставка элемента в дерево
@@ -345,38 +343,41 @@ namespace TreeTask
         //метод для обхода дерева в глубину с реккурсией
         public IEnumerable<T> WayGoDepthWithRecursion()
         {
+            int modCountSave = modCount;
 
-            if (Root.Left != null)
+            if (Root != null)
             {
+                foreach (var value in Recursion(Root))
+                {
+                    if (modCount != modCountSave)
+                    {
+                        throw new InvalidOperationException("There were changes in the collection");
+                    }
 
+                    yield return value;
+                }
             }
-            //foreach (var node in Root.Left)
-            //{
-            foreach (var value in WayGoDepthWithRecursion())
-            {
-                yield return value;
-            }
-            //}
         }
 
-        //private TreeNode<T>[] DepthRecursion(TreeNode<T> node)
-        //{
-        //    if (node.Left != null && node.Right != null)
-        //    {
-        //        return new TreeNode<T>[] { node.Left, node.Right };
-        //    }
-        //
-        //    if (node.Left != null && node.Right == null)
-        //    {
-        //        return new TreeNode<T>[] { node.Left };
-        //    }
-        //
-        //    if (node.Left == null && node.Right != null)
-        //    {
-        //        return new TreeNode<T>[] { node.Left };
-        //    }
-        //
-        //    return null;
-        //}
+        private IEnumerable<T> Recursion(TreeNode<T> node)
+        {
+            yield return node.Data;
+
+            if (node.Left != null)
+            {
+                foreach (var value in Recursion(node.Left))
+                {
+                    yield return value;
+                }
+            }
+
+            if (node.Right != null)
+            {
+                foreach (var value in Recursion(node.Right))
+                {
+                    yield return value;
+                }
+            }
+        }
     }
 }

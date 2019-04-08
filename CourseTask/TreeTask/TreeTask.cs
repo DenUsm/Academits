@@ -5,47 +5,6 @@ namespace TreeTask
 {
     class TreeTask
     {
-        //компаратор для сравнения типа данных string
-        class MyComparerString : IComparer<string>
-        {
-            public int Compare(string x, string y)
-            {
-                if (x.Length > y.Length)
-                {
-                    return 1;
-                }
-                else if (x.Length < y.Length)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
-
-        //компаратор для сравнения типа данных int
-        class MyComparerInt : IComparer<int>
-        {
-            public int Compare(int x, int y)
-            {
-                if (x > y)
-                {
-                    return 1;
-                }
-                else if (x < y)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
-
-
         static void Main(string[] args)
         {
             Tree<int> test1 = new Tree<int>();
@@ -53,21 +12,27 @@ namespace TreeTask
             test1.Add(8);
             test1.Add(3);
 
-            Tree<string> test2 = new Tree<string>(new MyComparerString());
+            //компаратор для сравнения строк по длине
+            Comparer<string> strComparer = Comparer<string>.Create((v1, v2) =>
+            {
+                return v1.Length.CompareTo(v2.Length);
+            });
+
+            Tree<string> test2 = new Tree<string>(strComparer);
             test2.Add("aaaaaaaa");
+            test2.Add("cccccccc");
             test2.Add("bbb");
 
-            Tree<int> test3 = new Tree<int>(new MyComparerInt());
+            //компаратор для сравнения типа Int по дефолту
+            Comparer<int> intComparer = Comparer<int>.Default;
+
+            Tree<int> test3 = new Tree<int>(intComparer);
             test3.Add(8);
             test3.Add(8);
             test3.Add(3);
 
-            //Tree<string> test4 = new Tree<string>();
-            //IEnumerator<string> iteratorDepth = test4.WayGoDepthWithRecursion().GetEnumerator();
-            //while (iteratorDepth.MoveNext())
-            //{
-            //    Console.WriteLine(iteratorDepth.Current);
-            //}
+            Tree<string> test4 = new Tree<string>();
+            test4.FindNodeByValue("res");
 
             Console.WriteLine("------------------------------------------Test Add-----------------------------------");
             Tree<int> tree = new Tree<int>();

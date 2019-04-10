@@ -37,9 +37,17 @@ namespace TreeTask
 
         private int Compare(T data, T item)
         {
-            if (data == null || item == null)
+            if (data == null && item == null)
             {
-                throw new ArgumentNullException("Compared parameter must be not null");
+                return 0;
+            }
+            else if (data == null && item != null)
+            {
+                return -1;
+            }
+            else if (data != null && item == null)
+            {
+                return 1;
             }
 
             if (Comparer != null)
@@ -101,12 +109,6 @@ namespace TreeTask
                 return false;
             }
 
-            //поверка на корень
-            if (Compare(Root.Data, item) == 0)
-            {
-                return true;
-            }
-
             TreeNode<T> node = Root;
 
             while (node != null)
@@ -118,26 +120,30 @@ namespace TreeTask
                         return false;
                     }
 
-                    if (Equals(node.Left.Data, item))
+                    if (Compare(node.Left.Data, item) == 0)
                     {
                         return true;
                     }
 
                     node = node.Left;
                 }
-                else
+                else if (Compare(node.Data, item) < 0)
                 {
                     if (node.Right == null)
                     {
                         return false;
                     }
 
-                    if (Equals(node.Right.Data, item))
+                    if (Compare(node.Right.Data, item) == 0)
                     {
                         return true;
                     }
 
                     node = node.Right;
+                }
+                else
+                {
+                    return true;
                 }
             }
 
@@ -195,9 +201,9 @@ namespace TreeTask
             }
 
             //удаление узла с одним ребенком
-            if ((node.Left != null && node.Right == null) || (node.Left == null && node.Right != null))
+            if (node.Left == null || node.Right == null)
             {
-                if (Compare(parent.Left.Data, node.Data) == 0)
+                if (Compare(parent.Left.Data, item) == 0)
                 {
                     parent.Left = node.Left == null ? node.Right : node.Left;
                 }
@@ -210,52 +216,47 @@ namespace TreeTask
             }
 
             //удаление узла с 2 детьми
-            if (node.Left != null && node.Right != null)
+            TreeNode<T> minNode = node.Right;
+
+            //находим минимальный элемент слева
+            TreeNode<T> parentMinNode = null;
+
+            while (minNode.Left != null)
             {
-                TreeNode<T> minNode = node.Right;
+                parentMinNode = minNode;
+                minNode = minNode.Left;
+            }
 
-                //находим минимальный элемент слева
-                TreeNode<T> parentMinNode = null;
+            T value = minNode.Data;
+            //проверяем есть ли у него праввый сын
+            if (minNode.Right != null)
+            {
+                minNode = minNode.Right;
+            }
+            else
+            {
+                parentMinNode.Left = null;
+            }
 
-                while (minNode.Left != null)
-                {
-                    parentMinNode = minNode;
-                    minNode = minNode.Left;
-                }
-
-                T value = minNode.Data;
-                //проверяем есть ли у него праввый сын
-                if (minNode.Right != null)
-                {
-                    minNode = minNode.Right;
-                }
-                else
-                {
-                    parentMinNode.Left = null;
-                }
-
-                //если parent null значит искомый элемент корень
-                if (parent == null)
-                {
-                    Root.Data = value;
-                    Count--;
-                    return true;
-                }
-
-                if (Compare(parent.Left.Data, item) == 0)
-                {
-                    parent.Left.Data = value;
-                }
-                else
-                {
-                    parent.Right.Data = value;
-                }
-
+            //если parent null значит искомый элемент корень
+            if (parent == null)
+            {
+                Root.Data = value;
                 Count--;
                 return true;
             }
 
-            return false;
+            if (Compare(parent.Left.Data, item) == 0)
+            {
+                parent.Left.Data = value;
+            }
+            else
+            {
+                parent.Right.Data = value;
+            }
+
+            Count--;
+            return true;
         }
 
         //метод для обхода дерева в ширину

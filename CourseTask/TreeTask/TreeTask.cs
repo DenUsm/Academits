@@ -32,7 +32,11 @@ namespace TreeTask
             test3.Add(3);
 
             Tree<string> test4 = new Tree<string>();
-            test4.FindNodeByValue("res");
+            test4.Add("aaa");
+            test4.Add(null);
+            test4.Add("bbbb");
+            test4.Add(null);
+            bool res = test4.FindNodeByValue(null);
 
             Console.WriteLine("------------------------------------------Test Add-----------------------------------");
             Tree<int> tree = new Tree<int>();
@@ -42,7 +46,7 @@ namespace TreeTask
             tree.Add(14);
             tree.Add(10);
             tree.Add(9);
-            tree.Add(13);
+            tree.Add(15);
             tree.Add(1);
             tree.Add(6);
             tree.Add(4);
@@ -77,6 +81,11 @@ namespace TreeTask
             //тест удаление с 2 детьми 
             int removeValue2 = 8;
             Console.WriteLine("Remove value: {0} status: {1}", removeValue2, tree.Remove(removeValue2));
+            Console.WriteLine(tree.ToString());
+
+            //тест удаление с 2 детьми 
+            int removeValue3 = 16;
+            Console.WriteLine("Remove value: {0} status: {1}", removeValue3, tree.Remove(removeValue3));
             Console.WriteLine(tree.ToString());
 
 

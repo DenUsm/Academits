@@ -161,11 +161,13 @@ namespace TreeTask
             TreeNode<T> parent = null;
             TreeNode<T> node = Root;
 
-            while (Compare(node.Data, item) != 0)
+            int resultCompare = Compare(node.Data, item);
+
+            while (resultCompare != 0)
             {
                 parent = node;
 
-                if (Compare(node.Data, item) > 0)
+                if (resultCompare > 0)
                 {
                     if (node.Left == null)
                     {
@@ -183,11 +185,20 @@ namespace TreeTask
 
                     node = node.Right;
                 }
+
+                resultCompare = Compare(node.Data, item);
             }
 
             //удаление листа
             if (node.Left == null && node.Right == null)
             {
+                //случай когда удаляем корень
+                if (parent == null)
+                {
+                    Root = null;
+                    return true;
+                }
+
                 if (Compare(parent.Data, item) > 0)
                 {
                     parent.Left = null;
@@ -227,7 +238,8 @@ namespace TreeTask
                 minNode = minNode.Left;
             }
 
-            T value = minNode.Data;
+            TreeNode<T> tempNode = new TreeNode<T>(minNode.Data);
+
             //проверяем есть ли у него праввый сын
             if (minNode.Right != null)
             {
@@ -241,18 +253,23 @@ namespace TreeTask
             //если parent null значит искомый элемент корень
             if (parent == null)
             {
-                Root.Data = value;
+                tempNode.Left = Root.Left;
+                tempNode.Right = Root.Right;
+                Root = tempNode;
                 Count--;
                 return true;
             }
 
+            tempNode.Left = node.Left;
+            tempNode.Right = node.Right;
+
             if (Compare(parent.Left.Data, item) == 0)
             {
-                parent.Left.Data = value;
+                parent.Left = tempNode;
             }
             else
             {
-                parent.Right.Data = value;
+                parent.Right = tempNode;
             }
 
             Count--;

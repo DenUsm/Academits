@@ -113,7 +113,14 @@ namespace TreeTask
 
             while (node != null)
             {
-                if (Compare(node.Data, item) > 0)
+                int resultCompare = Compare(node.Data, item);
+
+                if(resultCompare == 0)
+                {
+                    return true;
+                }
+
+                if (resultCompare > 0)
                 {
                     if (node.Left == null)
                     {
@@ -127,7 +134,7 @@ namespace TreeTask
 
                     node = node.Left;
                 }
-                else if (Compare(node.Data, item) < 0)
+                else
                 {
                     if (node.Right == null)
                     {
@@ -140,10 +147,6 @@ namespace TreeTask
                     }
 
                     node = node.Right;
-                }
-                else
-                {
-                    return true;
                 }
             }
 

@@ -189,6 +189,7 @@ namespace TreeTask
                 if (parent == null)
                 {
                     Root = null;
+                    Count--;
                     return true;
                 }
 
@@ -207,14 +208,44 @@ namespace TreeTask
             //удаление узла с одним ребенком
             if (node.Left == null || node.Right == null)
             {
-                if (Compare(parent.Left.Data, item) == 0)
+                //случай когда удаляем корень
+                if (parent == null)
                 {
-                    parent.Left = node.Left == null ? node.Right : node.Left;
+                    if (Root.Left != null)
+                    {
+                        Root = Root.Left;
+                    }
+                    else
+                    {
+                        Root = Root.Right;
+                    }
+                    Count--;
+                    return true;
+                }
+
+                if (Compare(parent.Data, item) > 0)
+                {
+                    if (node.Left != null)
+                    {
+                        parent.Left = node.Left;
+                    }
+                    else
+                    {
+                        parent.Left = node.Right;
+                    }
                 }
                 else
                 {
-                    parent.Right = node.Right == null ? node.Left : node.Right;
+                    if (node.Left != null)
+                    {
+                        parent.Right = node.Left;
+                    }
+                    else
+                    {
+                        parent.Right = node.Right;
+                    }
                 }
+
                 Count--;
                 return true;
             }

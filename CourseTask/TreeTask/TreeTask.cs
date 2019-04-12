@@ -92,6 +92,7 @@ namespace TreeTask
             Tree<int> tree4 = new Tree<int>();
             int removeValue4 = 8;
             tree4.Add(removeValue4);
+            tree4.Add(12);
             Console.WriteLine("Remove value: {0} status: {1}", removeValue4, tree4.Remove(removeValue4));
             Console.WriteLine(tree4.ToString());
 

@@ -262,12 +262,10 @@ namespace TreeTask
                 minNode = minNode.Left;
             }
 
-            TreeNode<T> tempNode = new TreeNode<T>(minNode.Data);
-
             //проверяем есть ли у него праввый сын
             if (minNode.Right != null)
             {
-                minNode = minNode.Right;
+                parentMinNode.Left = minNode.Right;
             }
             else
             {
@@ -277,23 +275,23 @@ namespace TreeTask
             //если parent null значит искомый элемент корень
             if (parent == null)
             {
-                tempNode.Left = Root.Left;
-                tempNode.Right = Root.Right;
-                Root = tempNode;
+                minNode.Left = Root.Left;
+                minNode.Right = Root.Right;
+                Root = minNode;
                 Count--;
                 return true;
             }
 
-            tempNode.Left = node.Left;
-            tempNode.Right = node.Right;
+            minNode.Left = node.Left;
+            minNode.Right = node.Right;
 
             if (Compare(parent.Left.Data, item) == 0)
             {
-                parent.Left = tempNode;
+                parent.Left = minNode;
             }
             else
             {
-                parent.Right = tempNode;
+                parent.Right = minNode;
             }
 
             Count--;

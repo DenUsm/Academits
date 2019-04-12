@@ -42,13 +42,16 @@ namespace TreeTask
             Tree<int> tree = new Tree<int>();
             tree.Add(8);
             tree.Add(3);
-            tree.Add(12);
+            tree.Add(13);
             tree.Add(14);
-            tree.Add(10);
+            tree.Add(12);
+            tree.Add(11);
             tree.Add(9);
+            tree.Add(10);
             tree.Add(15);
-            tree.Add(1);
+            tree.Add(2);
             tree.Add(6);
+            tree.Add(5);
             tree.Add(4);
             tree.Add(7);
 
@@ -79,7 +82,7 @@ namespace TreeTask
             Console.WriteLine(tree.ToString());
 
             //тест удаление с 2 детьми 
-            int removeValue2 = 8;
+            int removeValue2 = 3;
             Console.WriteLine("Remove value: {0} status: {1}", removeValue2, tree.Remove(removeValue2));
             Console.WriteLine(tree.ToString());
 

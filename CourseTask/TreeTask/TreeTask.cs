@@ -50,9 +50,9 @@ namespace TreeTask
             tree.Add(10);
             tree.Add(15);
             tree.Add(2);
-            tree.Add(6);
             tree.Add(5);
-            tree.Add(4);
+            tree.Add(6);
+            //tree.Add(4);
             tree.Add(7);
 
             Console.WriteLine(tree.ToString());
@@ -72,9 +72,9 @@ namespace TreeTask
             Console.WriteLine("------------------------------------------Test Remove-----------------------------------");
             Console.WriteLine();
             //тест удаление листа
-            int removeValue = 7;
-            Console.WriteLine("Remove value: {0} status: {1}", removeValue, tree.Remove(removeValue));
-            Console.WriteLine(tree.ToString());
+            //int removeValue = 7;
+            //Console.WriteLine("Remove value: {0} status: {1}", removeValue, tree.Remove(removeValue));
+            //Console.WriteLine(tree.ToString());
 
             //тест удаление с одним ребенком 
             int removeValue1 = 14;

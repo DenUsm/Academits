@@ -265,11 +265,25 @@ namespace TreeTask
             //проверяем есть ли у него праввый сын
             if (minNode.Right != null)
             {
-                parentMinNode.Left = minNode.Right;
+                if (parentMinNode != null)
+                {
+                    parentMinNode.Left = minNode.Right;
+                }
+                else
+                {
+                    node.Right = minNode.Right;
+                }
             }
             else
             {
-                parentMinNode.Left = null;
+                if (parentMinNode != null)
+                {
+                    parentMinNode.Left = null;
+                }
+                else
+                {
+                    node.Right = null;
+                }
             }
 
             //если parent null значит искомый элемент корень

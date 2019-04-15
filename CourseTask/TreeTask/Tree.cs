@@ -299,13 +299,27 @@ namespace TreeTask
             minNode.Left = node.Left;
             minNode.Right = node.Right;
 
-            if (Compare(parent.Left.Data, item) == 0)
+            if (parent.Left != null)
             {
-                parent.Left = minNode;
+                if (Compare(parent.Left.Data, item) == 0)
+                {
+                    parent.Left = minNode;
+                }
+                else
+                {
+                    parent.Right = minNode;
+                }
             }
             else
             {
-                parent.Right = minNode;
+                if (Compare(parent.Right.Data, item) == 0)
+                {
+                    parent.Right = minNode;
+                }
+                else
+                {
+                    parent.Left = minNode;
+                }
             }
 
             Count--;

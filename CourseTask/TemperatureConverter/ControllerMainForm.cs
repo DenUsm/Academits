@@ -9,7 +9,8 @@ namespace TemperatureConverter
 
         public ControllerMainForm()
         {
-            model = new ModelTemperatureConverter(); 
+            model = new ModelTemperatureConverter();
+            ModelTemperatureConverter. = 5;
         }
 
         //метод создания формы 

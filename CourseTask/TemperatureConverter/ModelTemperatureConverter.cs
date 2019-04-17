@@ -14,13 +14,14 @@ namespace TemperatureConverter
             Celsius = 3
         }
 
-        private ScaleMesurment scaleMesurment;
+        private double temperature;
+
+        const double coefKelvin = 273.15; 
 
         public ModelTemperatureConverter()
         {
             
         }
-
 
 
 

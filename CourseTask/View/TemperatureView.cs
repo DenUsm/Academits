@@ -1,42 +1,52 @@
 ﻿using System.Windows.Forms;
+using Interface;
 using Model;
-using Controller;
 using System;
-using System.Reflection;
-using System.ComponentModel;
 
 namespace View
 {
     public partial class TemperatureView : Form, ITemperatureView
     {
-        private TemperatureController controller;
-
         public TemperatureView()
         {
             InitializeComponent();
             InitialValueScaleInCmb();
         }
 
-        private string GetDescription(Enum enumElement)
+        //ввод градусов в поле ввода
+        public double InputDegree
         {
-            Type type = enumElement.GetType();
-
-            MemberInfo[] memInfo = type.GetMember(enumElement.ToString());
-            if (memInfo != null && memInfo.Length > 0)
+            get
             {
-                object[] attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-                if (attrs != null && attrs.Length > 0)
-                    return ((DescriptionAttribute)attrs[0]).Description;
+                try
+                {
+                    return Convert.ToDouble(tbInputValue.Text);
+                }
+                catch(FormatException)
+                {
+                    MessageBox.Show("Ввведенные данные не корректны!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return 0;   
             }
-
-            return enumElement.ToString();
         }
+      
+        //выбор шкалы входдных данных
+        public int IndexInputScale { get; private set; }
 
+        //выбор шкалы выходных данных
+        public int IndexOutputScale { get; private set; }
+
+        public double OutputDegree { set => tbOutputValue.Text = Math.Round(value, 2).ToString(); }
+
+        //Событие перевода температуры
+        public event EventHandler<EventArgs> ConvertTemperature;
+
+        //заполнение начальными значениям cmb
         private void InitialValueScaleInCmb()
         {
             foreach (TemperatureModel.ScaleMesurment scale in Enum.GetValues(typeof(TemperatureModel.ScaleMesurment)))
             {
-                string value = GetDescription(scale);
+                string value = InitializeSomeControl.GetDescriptionScale(scale);
                 cmbInputScale.Items.Add(value);
                 cmbOutputScale.Items.Add(value);
             }
@@ -44,14 +54,12 @@ namespace View
             cmbOutputScale.SelectedIndex = 1;
         }
 
-        public void SetController(TemperatureController controller)
+        //Обработка события нажатия кнопки конвертирования температуры
+        private void btnConvert_Click(object sender, EventArgs e)
         {
-            this.controller = controller;
-        }
-
-        public void ConvertTemperature()
-        {
-            throw new NotImplementedException();
-        }
+            IndexInputScale = cmbInputScale.SelectedIndex;
+            IndexOutputScale = cmbOutputScale.SelectedIndex;
+            ConvertTemperature(this, EventArgs.Empty);
+        }     
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using View;
-using Controller;
+using Presenter;
 
 namespace TemperatureConverterApplication
 {
@@ -13,7 +13,7 @@ namespace TemperatureConverterApplication
         static void Main()
         {
             TemperatureView view = new TemperatureView();
-            TemperatureController controller = new TemperatureController(view);
+            TemperaturePresnter presnter = new TemperaturePresnter(view);
             view.ShowDialog();
         }
     }

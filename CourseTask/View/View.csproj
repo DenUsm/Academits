@@ -63,17 +63,17 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Controller\Controller.csproj">
-      <Project>{7f33655e-74f1-4837-bfea-fcd11f364663}</Project>
-      <Name>Controller</Name>
+    <Content Include="Temperature.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Interface\Interface.csproj">
+      <Project>{0dd9d54f-479b-4eee-bba7-de02e4f05158}</Project>
+      <Name>Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{013dd9e3-cb2a-44e3-aefe-15e3a606815e}</Project>
       <Name>Model</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Temperature.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

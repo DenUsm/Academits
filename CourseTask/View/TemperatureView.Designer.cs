@@ -42,7 +42,7 @@
             // 
             this.cmbInputScale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbInputScale.FormattingEnabled = true;
-            this.cmbInputScale.Location = new System.Drawing.Point(12, 25);
+            this.cmbInputScale.Location = new System.Drawing.Point(24, 25);
             this.cmbInputScale.Name = "cmbInputScale";
             this.cmbInputScale.Size = new System.Drawing.Size(121, 21);
             this.cmbInputScale.TabIndex = 0;
@@ -52,41 +52,41 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 13);
+            this.label1.Size = new System.Drawing.Size(143, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Scales input";
+            this.label1.Text = "Входная шкала измерения";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(162, 9);
+            this.label2.Location = new System.Drawing.Point(165, 9);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 13);
+            this.label2.Size = new System.Drawing.Size(151, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Scales output";
+            this.label2.Text = "Выходная шкала измерения";
             // 
             // cmbOutputScale
             // 
             this.cmbOutputScale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbOutputScale.FormattingEnabled = true;
-            this.cmbOutputScale.Location = new System.Drawing.Point(165, 25);
+            this.cmbOutputScale.Location = new System.Drawing.Point(180, 25);
             this.cmbOutputScale.Name = "cmbOutputScale";
             this.cmbOutputScale.Size = new System.Drawing.Size(121, 21);
             this.cmbOutputScale.TabIndex = 2;
             // 
             // btnConvert
             // 
-            this.btnConvert.Location = new System.Drawing.Point(211, 103);
+            this.btnConvert.Location = new System.Drawing.Point(226, 103);
             this.btnConvert.Name = "btnConvert";
             this.btnConvert.Size = new System.Drawing.Size(75, 23);
             this.btnConvert.TabIndex = 6;
-            this.btnConvert.Text = "Convert";
+            this.btnConvert.Text = "Перевести";
             this.btnConvert.UseVisualStyleBackColor = true;
             this.btnConvert.Click += new System.EventHandler(this.btnConvert_Click);
             // 
             // tbInputValue
             // 
-            this.tbInputValue.Location = new System.Drawing.Point(12, 63);
+            this.tbInputValue.Location = new System.Drawing.Point(24, 63);
             this.tbInputValue.Name = "tbInputValue";
             this.tbInputValue.Size = new System.Drawing.Size(121, 20);
             this.tbInputValue.TabIndex = 4;
@@ -95,7 +95,7 @@
             // 
             // tbOutputValue
             // 
-            this.tbOutputValue.Location = new System.Drawing.Point(165, 63);
+            this.tbOutputValue.Location = new System.Drawing.Point(180, 63);
             this.tbOutputValue.Name = "tbOutputValue";
             this.tbOutputValue.ReadOnly = true;
             this.tbOutputValue.Size = new System.Drawing.Size(121, 20);
@@ -106,7 +106,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(298, 138);
+            this.ClientSize = new System.Drawing.Size(324, 138);
             this.Controls.Add(this.btnConvert);
             this.Controls.Add(this.tbOutputValue);
             this.Controls.Add(this.tbInputValue);

@@ -14,7 +14,7 @@ namespace View
         }
 
         //ввод градусов в поле ввода
-        public double InputDegree
+        public double? InputDegree
         {
             get
             {
@@ -22,21 +22,34 @@ namespace View
                 {
                     return Convert.ToDouble(tbInputValue.Text);
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
-                    MessageBox.Show("Ввведенные данные не корректны!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Ввведенные данные не корректны!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                return 0;   
+                return null;
             }
         }
-      
+
         //выбор шкалы входдных данных
         public int IndexInputScale { get; private set; }
 
         //выбор шкалы выходных данных
         public int IndexOutputScale { get; private set; }
 
-        public double OutputDegree { set => tbOutputValue.Text = Math.Round(value, 2).ToString(); }
+        public double? OutputDegree
+        {
+            set
+            {
+                if (value != null)
+                {
+                    tbOutputValue.Text = Math.Round(Convert.ToDouble(value), 2).ToString();
+                }
+                else
+                {
+                    tbOutputValue.Clear();
+                }
+            }
+        }
 
         //Событие перевода температуры
         public event EventHandler<EventArgs> ConvertTemperature;
@@ -60,6 +73,6 @@ namespace View
             IndexInputScale = cmbInputScale.SelectedIndex;
             IndexOutputScale = cmbOutputScale.SelectedIndex;
             ConvertTemperature(this, EventArgs.Empty);
-        }     
+        }
     }
 }

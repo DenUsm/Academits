@@ -4,12 +4,12 @@ namespace Model
 {
     public class TemperatureModel
     {
-        private double celsius = 0;
-        private double fahrenheit = 32;
-        private double kelvin = 273.15;
+        private double? celsius = 0;
+        private double? fahrenheit = 32;
+        private double? kelvin = 273.15;
 
 
-        public double Fahrenheit
+        public double? Fahrenheit
         {
             get => fahrenheit;
             set
@@ -20,7 +20,7 @@ namespace Model
             }
         }
 
-        public double Celsius
+        public double? Celsius
         {
             get => celsius;
             set
@@ -31,7 +31,7 @@ namespace Model
             }
         }
 
-        public double Kelvin
+        public double? Kelvin
         {
             get => kelvin;
             set
@@ -39,6 +39,7 @@ namespace Model
                 kelvin = value;
                 fahrenheit = (kelvin - 273.15) * 1.8 + 32;
                 celsius = kelvin - 273.15;
+                
             }
         }
 

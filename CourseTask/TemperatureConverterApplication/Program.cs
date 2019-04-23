@@ -13,7 +13,7 @@ namespace TemperatureConverterApplication
         static void Main()
         {
             TemperatureView view = new TemperatureView();
-            TemperaturePresnter presnter = new TemperaturePresnter(view);
+            TemperaturePresenter presenter = new TemperaturePresenter(view);
             view.ShowDialog();
         }
     }

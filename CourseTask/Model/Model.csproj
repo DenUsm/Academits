@@ -41,6 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Celsius.cs" />
+    <Compile Include="ITemperatureModel.cs" />
+    <Compile Include="Kelvin.cs" />
+    <Compile Include="Temperature.cs" />
     <Compile Include="TemperatureModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

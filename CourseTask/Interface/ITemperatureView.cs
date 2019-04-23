@@ -5,10 +5,10 @@ namespace Interface
     public interface ITemperatureView
     {
         //ввод значения градусов
-        double InputDegree { get; }
+        double? InputDegree { get; }
 
         //вывод значения градусов
-        double OutputDegree { set; }
+        double? OutputDegree { set; }
 
         //индекс выбора входной шкалы измерения
         int IndexInputScale { get; }

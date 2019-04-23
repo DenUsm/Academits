@@ -4,12 +4,12 @@ using Interface;
 
 namespace Presenter
 {
-    public class TemperaturePresnter
+    public class TemperaturePresenter
     {
         private TemperatureModel model = new TemperatureModel();
         private ITemperatureView view;
 
-        public TemperaturePresnter(ITemperatureView view)
+        public TemperaturePresenter(ITemperatureView view)
         {
             this.view = view;
             view.ConvertTemperature += new EventHandler<EventArgs>(Convert);

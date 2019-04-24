@@ -2,11 +2,11 @@
 
 namespace Model
 {
-    public class Kelvin : ITemperatureModel
+    public class Fahrenheit : ITemperatureModel
     {
         private double? degree;
 
-        public Kelvin(string scale)
+        public Fahrenheit(string scale)
         {
             DescriptionScale = scale;
         }
@@ -20,7 +20,7 @@ namespace Model
             {
                 if (value != null)
                 {
-                    degree = Convert.ToDouble(value) - 273.15;
+                    degree = (Convert.ToDouble(value) - 32) * 5 / 9;
                 }
                 else
                 {
@@ -29,6 +29,6 @@ namespace Model
             }
         }
 
-        public double? CelsiusToDegree { get => degree + 273.15; set => degree = value; }
+        public double? CelsiusToDegree { get => (degree * 1.8) + 32; set => degree = value; }
     }
 }

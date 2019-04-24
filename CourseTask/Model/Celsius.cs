@@ -1,12 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Model
 {
-    class Celsius
+    public class Celsius : ITemperatureModel
     {
+        public Celsius(string scale)
+        {
+            DescriptionScale = scale;
+        }
+
+        public string DescriptionScale { get; }
+
+        public double? DegreeToCelsius { get; set; }
+
+        public double? CelsiusToDegree { get => DegreeToCelsius; set => DegreeToCelsius = value; }
     }
 }

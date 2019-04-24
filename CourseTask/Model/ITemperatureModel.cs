@@ -1,7 +1,12 @@
 ﻿namespace Model
 {
-    interface ITemperatureModel
+    public interface ITemperatureModel
     {
-        double Concert(ITemperatureModel temperature);
+        //Описание шкалы перевода
+        string DescriptionScale { get; }
+        //Приведение шкалы к градусам цельсия
+        double? DegreeToCelsius { get; set; }
+        //приведение градусов цельсия к шкале измерения
+        double? CelsiusToDegree { get; set; }
     }
 }

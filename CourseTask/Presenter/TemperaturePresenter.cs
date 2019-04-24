@@ -6,12 +6,14 @@ namespace Presenter
 {
     public class TemperaturePresenter
     {
-        private TemperatureModel model = new TemperatureModel();
+        //private TemperatureModel model = new TemperatureModel();
         private ITemperatureView view;
+        private ITemperatureModel [] model;
 
-        public TemperaturePresenter(ITemperatureView view)
+        public TemperaturePresenter(ITemperatureView view, ITemperatureModel [] model)
         {
             this.view = view;
+            this.model = model;
             view.ConvertTemperature += new EventHandler<EventArgs>(Convert);
         }
 
@@ -21,31 +23,13 @@ namespace Presenter
             int indexInput = view.IndexInputScale;
             int indexOutput = view.IndexOutputScale;
 
-            if (indexInput == 0)
-            {
-                model.Celsius = view.InputDegree;
-            }
-            else if(indexInput == 1)
-            {
-                model.Fahrenheit = view.InputDegree;
-            }
-            else if(indexInput == 2)
-            {
-                model.Kelvin = view.InputDegree;
-            }
+            ITemperatureModel input = model[indexInput];
+            ITemperatureModel output = model[indexOutput];
 
-            if (indexOutput == 0)
-            {
-                view.OutputDegree = model.Celsius;
-            }
-            else if (indexOutput == 1)
-            {
-                view.OutputDegree = model.Fahrenheit;
-            }
-            else if (indexOutput == 2)
-            {
-                view.OutputDegree = model.Kelvin;
-            }
+            input.DegreeToCelsius = view.InputDegree;
+            output.CelsiusToDegree = input.DegreeToCelsius;
+
+            view.OutputDegree = output.CelsiusToDegree;           
         }     
     }
 }

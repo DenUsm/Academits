@@ -10,7 +10,6 @@ namespace View
         public TemperatureView()
         {
             InitializeComponent();
-            InitialValueScaleInCmb();
         }
 
         //ввод градусов в поле ввода
@@ -55,13 +54,12 @@ namespace View
         public event EventHandler<EventArgs> ConvertTemperature;
 
         //заполнение начальными значениям cmb
-        private void InitialValueScaleInCmb()
+        public void InitialValueScaleInCmb(ITemperatureModel[] model)
         {
-            foreach (TemperatureModel.ScaleMesurment scale in Enum.GetValues(typeof(TemperatureModel.ScaleMesurment)))
+            foreach (var value in model)
             {
-                string value = InitializeSomeControl.GetDescriptionScale(scale);
-                cmbInputScale.Items.Add(value);
-                cmbOutputScale.Items.Add(value);
+                cmbInputScale.Items.Add(value.DescriptionScale);
+                cmbOutputScale.Items.Add(value.DescriptionScale);
             }
             cmbInputScale.SelectedIndex = 0;
             cmbOutputScale.SelectedIndex = 1;

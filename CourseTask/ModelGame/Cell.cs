@@ -2,17 +2,29 @@
 
 namespace ModelGame
 {
-    class Cell
+    public class Cell : IComparable<Cell>
     {
-        private int x;
-        private int y;
-        private Cell[] aroundCells;
-        private string type;
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int type { get; set; }
 
-        public Cell(int x, int y)
+        public Cell()
         {
-            this.x = x;
-            this.y = y;
+
+        }
+
+        public override string ToString()
+        {
+            return "1";
+        }
+
+        public int CompareTo(Cell other)
+        {
+            if(X == other.X && Y == other.Y)
+            {
+                return 0;
+            }
+            return 1;
         }
     }
 }

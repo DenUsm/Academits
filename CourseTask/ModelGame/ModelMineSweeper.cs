@@ -4,7 +4,7 @@ namespace ModelGame
 {
     public class ModelMineSweeper
     {
-        private int[,] size;
+        private Cell[] cells;
         private int countMine;
         private int[,] coordinateMine;
         private int[,] coordinateIntersection = new int[10, 10];

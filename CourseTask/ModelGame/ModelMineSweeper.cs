@@ -11,7 +11,7 @@ namespace ModelGame
 
         public ModelMineSweeper(int size, int countMine)
         {
-            this.size = new int[size, size];
+            //this.size = new int[size, size];
             this.countMine = countMine;
             coordinateMine = new int[10, 2] { { 0, 2 }, { 0, 6 }, { 1, 6 }, { 2, 8 }, { 3, 8 }, { 5, 0 }, { 5, 1 }, { 5, 2 }, { 7, 0 }, { 8, 7 } };
         }
@@ -49,7 +49,7 @@ namespace ModelGame
         }
 
         //Инициалицация поля с минами
-        public void FieldInitial()
+        /*public void FieldInitial()
         {
             //GetCoordinateMine();
 
@@ -99,7 +99,7 @@ namespace ModelGame
         public void GetCoordinateIntersection()
         {
             int
-        }
+        }*/
 
     }
 }

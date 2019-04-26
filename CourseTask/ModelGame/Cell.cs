@@ -4,11 +4,23 @@ namespace ModelGame
 {
     public class Cell : IComparable<Cell>
     {
+        public int X { get; set; }
+        public int Y { get; set; }
+        public Cell[] aroundCell { get; set; }
+
         public TypeCell Type { get; set; }
 
-        public Cell(TypeCell type)
+        public Cell(int x, int y, TypeCell type)
         {
+            X = x;
+            Y = y;
             Type = type;
+        }
+
+        public Cell(int x, int y)
+        {
+            X = x;
+            Y = y;
         }
 
         public override string ToString()
@@ -18,7 +30,7 @@ namespace ModelGame
 
         public int CompareTo(Cell other)
         {
-            if(Type == other.Type)
+            if(X == other.X && Y == other.Y)
             {
                 return 0;
             }
@@ -28,7 +40,7 @@ namespace ModelGame
 
     public enum TypeCell
     {
-        Mine = -1,
+        Nine = -1,
         None = 0,
         One = 1,
         Two = 2,
@@ -36,8 +48,8 @@ namespace ModelGame
         Four = 4,
         Five = 5,
         Six = 6,
-        Seven = 7,
+        Mine = 7,
         Eight = 8,
-        Nine = 9
+        Seven = 9
     }
 }

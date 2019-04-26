@@ -4,8 +4,8 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DBDC6006-7C38-4FB1-ADF0-E59EBADC045C}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{123499A7-B709-47E2-8D93-6D05F2DA0EE1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>MineSweeperApplication</RootNamespace>
     <AssemblyName>MineSweeperApplication</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -32,9 +32,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,9 +54,25 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GuiView\GuiView.csproj">
+      <Project>{b27ae50b-e42a-490e-9f31-b814077016a4}</Project>
+      <Name>GuiView</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModelGame\ModelGame.csproj">
       <Project>{0986c7c1-cc61-4933-9d14-fa1bd02722fd}</Project>
       <Name>ModelGame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PresenterMineSweeper\PresenterGame.csproj">
+      <Project>{42957faa-59bf-43a3-bc88-12b5fb73a40f}</Project>
+      <Name>PresenterGame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TextUiView\TextUiView.csproj">
+      <Project>{c01f6065-ebdb-4b73-9cb3-2c811764680f}</Project>
+      <Name>TextUiView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewInterface\ViewInterface.csproj">
+      <Project>{B7C21EC7-79F9-4E82-8530-0ECE5472AFA2}</Project>
+      <Name>ViewInterface</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

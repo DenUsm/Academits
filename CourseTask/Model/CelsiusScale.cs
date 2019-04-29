@@ -4,9 +4,7 @@ namespace Model
 {
     public class CelsiusScale : IScale
     {
-        private const string name = "Celsius, °C";
-
-        public string Name { get => name; }
+        public string Name => "Celsius, °C";
 
         public double? ConvertCelsiusToOtherScale(double? value)
         {

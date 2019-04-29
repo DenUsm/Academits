@@ -7,10 +7,10 @@ namespace Presenter
     public class TemperaturePresenter
     {
         //private TemperatureModel model = new TemperatureModel();
-        private ITemperatureView view;
-        private IScale [] model;
+        private readonly ITemperatureView view;
+        private readonly IScale[] model;
 
-        public TemperaturePresenter(ITemperatureView view, IScale [] model)
+        public TemperaturePresenter(ITemperatureView view, IScale[] model)
         {
             this.view = view;
             this.model = model;
@@ -27,7 +27,7 @@ namespace Presenter
             IScale output = model[indexOutput];
 
             double? celsius = input.ConvertTemperatureToCelsius(view.InputDegree);
-            view.OutputDegree = output.ConvertCelsiusToOtherScale(celsius);         
-        }     
+            view.OutputDegree = output.ConvertCelsiusToOtherScale(celsius);
+        }
     }
 }

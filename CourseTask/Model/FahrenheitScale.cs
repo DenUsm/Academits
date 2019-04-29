@@ -4,9 +4,7 @@ namespace Model
 {
     public class FahrenheitScale : IScale
     {
-        private const string name = "Fahrenheit, °F";
-
-        public string Name { get => name; }
+        public string Name => "Fahrenheit, °F";
 
         public double? ConvertCelsiusToOtherScale(double? value)
         {
@@ -21,7 +19,7 @@ namespace Model
         {
             if (value != null)
             {
-                return (Convert.ToDouble(value) - 32) * 5 / 9;
+                return value - 32 * 5 / 9;
             }
             return value;
         }

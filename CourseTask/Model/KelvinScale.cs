@@ -4,9 +4,7 @@ namespace Model
 {
     public class KelvinScale : IScale
     {
-        private const string name = "Kelvin, K";
-
-        public string Name { get => name; }
+        public string Name => "Kelvin, K";
 
         public double? ConvertCelsiusToOtherScale(double? value)
         {
@@ -21,7 +19,7 @@ namespace Model
         {
             if (value != null)
             {
-                return Convert.ToDouble(value) - 273.15;
+                return value - 273.15;
             }
             return value;
         }

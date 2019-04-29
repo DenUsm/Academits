@@ -8,9 +8,9 @@ namespace Presenter
     {
         //private TemperatureModel model = new TemperatureModel();
         private ITemperatureView view;
-        private ITemperatureModel [] model;
+        private IScale [] model;
 
-        public TemperaturePresenter(ITemperatureView view, ITemperatureModel [] model)
+        public TemperaturePresenter(ITemperatureView view, IScale [] model)
         {
             this.view = view;
             this.model = model;
@@ -23,13 +23,11 @@ namespace Presenter
             int indexInput = view.IndexInputScale;
             int indexOutput = view.IndexOutputScale;
 
-            ITemperatureModel input = model[indexInput];
-            ITemperatureModel output = model[indexOutput];
+            IScale input = model[indexInput];
+            IScale output = model[indexOutput];
 
-            input.DegreeToCelsius = view.InputDegree;
-            output.CelsiusToDegree = input.DegreeToCelsius;
-
-            view.OutputDegree = output.CelsiusToDegree;           
+            double? celsius = input.ConvertTemperatureToCelsius(view.InputDegree);
+            view.OutputDegree = output.ConvertCelsiusToOtherScale(celsius);         
         }     
     }
 }

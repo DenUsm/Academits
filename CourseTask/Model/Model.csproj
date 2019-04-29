@@ -41,10 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Celsius.cs" />
-    <Compile Include="Fahrenheit.cs" />
-    <Compile Include="ITemperatureModel.cs" />
-    <Compile Include="Kelvin.cs" />
+    <Compile Include="CelsiusScale.cs" />
+    <Compile Include="FahrenheitScale.cs" />
+    <Compile Include="IScale.cs" />
+    <Compile Include="KelvinScale.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

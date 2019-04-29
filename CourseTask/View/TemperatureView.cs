@@ -54,12 +54,12 @@ namespace View
         public event EventHandler<EventArgs> ConvertTemperature;
 
         //заполнение начальными значениям cmb
-        public void InitialValueScaleInCmb(ITemperatureModel[] model)
+        public void InitialValueScaleInCmb(IScale[] model)
         {
             foreach (var value in model)
             {
-                cmbInputScale.Items.Add(value.DescriptionScale);
-                cmbOutputScale.Items.Add(value.DescriptionScale);
+                cmbInputScale.Items.Add(value.Name);
+                cmbOutputScale.Items.Add(value.Name);
             }
             cmbInputScale.SelectedIndex = 0;
             cmbOutputScale.SelectedIndex = 1;

@@ -16,6 +16,28 @@ namespace GuiView
         public GuiViewMineSweeper()
         {
             InitializeComponent();
+
+         
+            tableLayoutPanel1.ColumnCount = 5;
+            tableLayoutPanel1.RowCount = 5;
+
+            for(int i = 0; i < tableLayoutPanel1.RowCount; i++)
+            {    
+                for (int j =0; j < tableLayoutPanel1.ColumnCount; j++)
+                {
+                    Button btn = new Button();
+                    btn.Dock = DockStyle.Fill;
+                   
+                    tableLayoutPanel1.Controls.Add(btn);
+                    
+                }
+            }
+
+            //tableLayoutPanel1.ColumnStyles[0].SizeType = SizeType.Percent;
+            //tableLayoutPanel1.RowStyles[0].SizeType = SizeType.Percent;
+            //
+            //tableLayoutPanel1.ColumnStyles[1].SizeType = SizeType.Percent;
+            //tableLayoutPanel1.RowStyles[1].SizeType = SizeType.Percent;
         }
 
         public int[,] GetCoordinate { get; private set; }

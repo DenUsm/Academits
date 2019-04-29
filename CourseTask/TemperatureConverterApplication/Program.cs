@@ -14,10 +14,10 @@ namespace TemperatureConverterApplication
         static void Main()
         {
 
-            ITemperatureModel[] model = new ITemperatureModel[] {
-                new Celsius("Celsius, °C"),
-                new Kelvin("Kelvin, K"),
-                new Fahrenheit("Fahrenheit, °F")             
+            IScale[] model = new IScale[] {
+                new CelsiusScale(),
+                new KelvinScale(),
+                new FahrenheitScale()
             };
 
             TemperatureView view = new TemperatureView();

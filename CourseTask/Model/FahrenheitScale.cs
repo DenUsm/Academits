@@ -10,7 +10,11 @@ namespace Model
 
         public double? ConvertCelsiusToOtherScale(double? value)
         {
-            return value * 1.8 + 32;
+            if (value != null)
+            {
+                return value * 1.8 + 32;
+            }
+            return value;
         }
 
         public double? ConvertTemperatureToCelsius(double? value)

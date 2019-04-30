@@ -23,7 +23,7 @@ namespace View
                 }
                 catch (FormatException)
                 {
-                    MessageBox.Show("Введенные данные не корректны!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Введенные данные некорректны!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 return null;
             }

@@ -12,7 +12,7 @@ namespace TextUiView
         static void Main(string[] args)
         {
             view = new TextUiMineSweeper();
-            PresenterMineSweeper presenter = new PresenterMineSweeper(view);
+            //PresenterMineSweeper presenter = new PresenterMineSweeper(view);
 
             while (true)
             {

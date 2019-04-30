@@ -16,9 +16,15 @@ namespace MineSweeperApplication
         static void Main()
         {
             //Создание экземпляра обьекта для запуска приложения на WinForm
-            GuiViewMineSweeper view = new GuiViewMineSweeper();
-            PresenterMineSweeper presenter = new PresenterMineSweeper(view);
-            view.ShowDialog();    
+            //GuiViewMineSweeper view = new GuiViewMineSweeper();
+            //PresenterMineSweeper presenter = new PresenterMineSweeper(view);
+            //view.ShowDialog();    
+
+            ModelMineSweeper model = new ModelMineSweeper();
+            model.SetParameterGame(9, 9, 10);
+            Console.WriteLine(model.ToString());
+
+            Console.ReadKey();
         }
     }
 }

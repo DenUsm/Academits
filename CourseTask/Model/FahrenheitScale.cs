@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Model
+﻿namespace Model
 {
     public class FahrenheitScale : IScale
     {
@@ -19,7 +17,7 @@ namespace Model
         {
             if (value != null)
             {
-                return value - 32 * 5 / 9;
+                return (value - 32) * 5 / 9;
             }
             return value;
         }

@@ -20,20 +20,18 @@ namespace MineSweeperApplication
             //PresenterMineSweeper presenter = new PresenterMineSweeper(view);
             //view.ShowDialog();    
 
+
+
+            Console.WriteLine("*-----------------MineSweeperGame-----------------------*");
             ModelMineSweeper model = new ModelMineSweeper();
-            model.SetParameterGame(9, 9, 10);
-
-            Console.Write("Введите координату x:");
-            int x = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Введите координату y:");
-            int y = Convert.ToInt32(Console.ReadLine());
-
-            model.GetFirstCoordinateFromUser(x, y);
+            model.SetParameterGame(4, 4, 2);
 
             while (true)
             {
+                //Console.Clear();
                 Console.WriteLine("55 - Посмотреть открытое поле");
                 Console.WriteLine("22 - Сделать ход");
+                model.ShowBoard();
 
                 int cmd = Convert.ToInt32(Console.ReadLine());
                 if(cmd == 55)
@@ -48,19 +46,35 @@ namespace MineSweeperApplication
                     cmd = Convert.ToInt32(Console.ReadLine());
 
                     Console.Write("Введите координату x:");
-                    x = Convert.ToInt32(Console.ReadLine());
+                    int x = Convert.ToInt32(Console.ReadLine());
                     Console.Write("Введите координату y:");
-                    y = Convert.ToInt32(Console.ReadLine());
+                    int y = Convert.ToInt32(Console.ReadLine());
 
                     if (cmd == 33)
                     {
-                        model.GetCoordinateFromUser(x, y);
+                        if(model.GetStatusGame() == GameStatus.InPogress)
+                        {
+                            model.OpenCell(x, y);
+                        }
                     }
                     else if (cmd == 44)
                     {
                         model.SetFlagCoordinate(x, y);
                     }
-                }           
+                }
+
+                if (model.GetStatusGame() == GameStatus.GameOver)
+                {
+                    Console.WriteLine("Game Over");
+                    Console.ReadKey();
+                    return;
+                }
+                else if(model.GetStatusGame() == GameStatus.Win)
+                {
+                    Console.WriteLine("You Win");
+                    Console.ReadKey();
+                    return;
+                }
             }
         }
     }

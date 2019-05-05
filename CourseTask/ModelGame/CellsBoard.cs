@@ -12,6 +12,7 @@ namespace ModelGame
         public int CountMine { get; set; }
         public Cell[,] Cell { get; set; }
         private Cell[] mineCells;
+        public GameStatus Status { get; set; }
 
         public CellsBoard(int width, int height, int countMine)
         {
@@ -20,6 +21,7 @@ namespace ModelGame
             CountMine = countMine;
             Cell = new Cell[Width, Height];
             mineCells = new Cell[countMine];
+            Status = GameStatus.InPogress;
             InitializeCells();
         }
 
@@ -134,7 +136,7 @@ namespace ModelGame
         }
 
         //Функция открытия всех мин на карте
-        public void OpenMineOnBoard()
+        private void OpenMineOnBoard()
         {
            foreach(var cell in this)
            {
@@ -175,7 +177,63 @@ namespace ModelGame
             }
         }
 
+        //отмтить ячейку флагом
+        public void SetOrCancelFlag(int x, int y)
+        {
+            if (Cell[x, y].IsFlagged)
+            {
+                Cell[x, y].IsFlagged = false;
+            }
+            else
+            {
+                Cell[x, y].IsFlagged = true;
+                CheckStatus();
+            }
+        }
 
+        //открыть ячейку
+        public void OpenCell(int x, int y)
+        {
+            if (!Cell[x, y].IsOpened)
+            {
+                if (Cell[x, y].Type == Type.Mine)
+                {
+                    OpenMineOnBoard();
+                    Status = GameStatus.GameOver;
+                }
+                else if (Cell[x, y].Type == Type.Empty)
+                {
+                    OpenAroundEmptyCells(x, y);
+                }
+                else
+                {
+                    Cell[x, y].IsOpened = true;
+                    CheckStatus();
+                }
+            }
+        }
+
+        //проврка статуса игры
+        private void CheckStatus()
+        {
+            int count = 0;
+            foreach(var cell in this)
+            {
+                if(cell.Type == Type.Mine && cell.IsFlagged)
+                {
+                    count++;
+                }
+                else
+                {
+                    Status = GameStatus.InPogress;
+                }
+            }
+
+            if(count == CountMine)
+            {
+                Status = GameStatus.Win;
+            }
+        }
 
 
         public string ShowSolvedBoard()

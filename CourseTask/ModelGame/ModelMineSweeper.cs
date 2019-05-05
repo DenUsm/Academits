@@ -5,67 +5,52 @@ namespace ModelGame
     public class ModelMineSweeper
     {
         private CellsBoard cellBoard;
+        private bool firstChoice = true;
 
         //Задние параметром игры для модели
         public void SetParameterGame(int width, int height, int countMine)
         {
             cellBoard = new CellsBoard(width, height, countMine);
         }
-   
-        public void GetFirstCoordinateFromUser(int x, int y)
+
+        public void OpenCell(int x, int y)
         {
-            //задаем мины с учетом первого нажатия пользовтеля
-            cellBoard.SetMineCoordinate(x - 1, y - 1);
-            //задаем чиловые значения вокруг мин
-            cellBoard.SetInitialValue();
-            //помечем ячейку как отмеченную
-            cellBoard.Cell[x - 1, y - 1].IsOpened = true;
+            x = x - 1;
+            y = y - 1;
 
-            if (cellBoard.Cell[x - 1, y - 1].Type == Type.Empty)
+            if (firstChoice)
             {
-                cellBoard.OpenAroundEmptyCells(x - 1, y - 1);
+                //задаем мины с учетом первого нажатия пользовтеля
+                cellBoard.SetMineCoordinate(x, y);
+                //задаем чиловые значения вокруг мин
+                cellBoard.SetInitialValue();
+                //устанавливаем флаг первого выбора ячйки
+                firstChoice = false;
             }
+            //Открывам ячейку
+            cellBoard.OpenCell(x, y);         
+        }
 
+        //Отметить ячейку флагом
+        public void SetFlagCoordinate(int x, int y)
+        {
+            cellBoard.SetOrCancelFlag(x - 1, y - 1);
             Console.WriteLine(cellBoard.ShowBoard());
         }
 
-        public void GetCoordinateFromUser(int x, int y)
+        public GameStatus GetStatusGame()
         {
-            if(cellBoard.Cell[x - 1, y - 1].Type == Type.Mine)
-            {
-                cellBoard.OpenMineOnBoard();
-                Console.WriteLine(cellBoard.ShowBoard());
-                Console.WriteLine("GameOver");
-                Console.ReadKey();
-                return;
-            }
-            else
-            {
-                cellBoard.Cell[x - 1, y - 1].IsOpened = true;
-                if (cellBoard.Cell[x - 1, y - 1].Type == Type.Empty)
-                {
-                    cellBoard.OpenAroundEmptyCells(x - 1, y - 1);
-                }
-                Console.WriteLine(cellBoard.ShowBoard());
-            }            
-        }
-
-        public void SetFlagCoordinate(int x, int y)
-        {
-            if(cellBoard.Cell[x - 1, y - 1].IsFlagged)
-            {
-                cellBoard.Cell[x - 1, y - 1].IsFlagged = false;
-            }
-            else
-            {
-                cellBoard.Cell[x - 1, y - 1].IsFlagged = true;
-            }
-            Console.WriteLine(cellBoard.ShowBoard()); 
+            return cellBoard.Status;
         }
 
         public void ShowSolved()
         {
             Console.WriteLine(cellBoard.ShowSolvedBoard());
+        }
+
+        public void ShowBoard()
+        {
+            Console.WriteLine(cellBoard.ShowBoard());
         }
     }
 }

@@ -23,8 +23,17 @@ namespace MineSweeperApplication
 
 
             Console.WriteLine("*-----------------MineSweeperGame-----------------------*");
+            Console.Write("Пожалуйста введите ширину поля: ");
+            int width = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("Пожалуйста введите высоту поля: ");
+            int height = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("Пожалуйста введите количество мин: ");
+            int countMine = Convert.ToInt32(Console.ReadLine());
+
             ModelMineSweeper model = new ModelMineSweeper();
-            model.SetParameterGame(4, 4, 2);
+            model.SetParameterGame(width, height, countMine);
 
             while (true)
             {

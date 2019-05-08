@@ -8,11 +8,12 @@ namespace ModelGame
         private bool firstChoice = true;
 
         //Задние параметром игры для модели
-        public void SetParameterGame(int width, int height, int countMine)
+        public void SetGameParameter(int width, int height, int countMine)
         {
             cellBoard = new CellsBoard(width, height, countMine);
         }
 
+        //Открытие ячейки
         public void OpenCell(int x, int y)
         {
             x = x - 1;
@@ -28,29 +29,29 @@ namespace ModelGame
                 firstChoice = false;
             }
             //Открывам ячейку
-            cellBoard.OpenCell(x, y);         
+            cellBoard.OpenCell(x, y);
         }
 
         //Отметить ячейку флагом
         public void SetFlagCoordinate(int x, int y)
         {
             cellBoard.SetOrCancelFlag(x - 1, y - 1);
-            Console.WriteLine(cellBoard.ShowBoard());
         }
 
+        //получить статус игры
         public GameStatus GetStatusGame()
         {
             return cellBoard.Status;
         }
 
-        public void ShowSolved()
-        {
-            Console.WriteLine(cellBoard.ShowSolvedBoard());
-        }
+        //public string GetGameRule()
+        //{
+        //
+        //}
 
-        public void ShowBoard()
-        {
-            Console.WriteLine(cellBoard.ShowBoard());
-        }
+        //public string GetHightScore()
+        //{
+        //
+        //}
     }
 }

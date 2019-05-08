@@ -10,7 +10,7 @@ namespace ModelGame
         public int Width { get; set; }
         public int Height { get; set; }
         public int CountMine { get; set; }
-        public Cell[,] Cell { get; set; }
+        public Cell[,] Cells { get; set; }
         private Cell[] mineCells;
         public GameStatus Status { get; set; }
 
@@ -19,76 +19,51 @@ namespace ModelGame
             Width = width;
             Height = height;
             CountMine = countMine;
-            Cell = new Cell[Width, Height];
+            Cells = new Cell[Width, Height];
             mineCells = new Cell[countMine];
             Status = GameStatus.InPogress;
             InitializeCells();
         }
 
-        //здние нчальных координт для кждой ячейки
+        //задние нчальных координт для кждой ячейки
         private void InitializeCells()
         {
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    Cell[j, i] = new Cell(j, i);
-                    Cell[j, i].Type = Type.Empty;
+                    Cells[j, i] = new Cell(j, i);
+                    Cells[j, i].Type = Type.Empty;
                 }
             }
         }
 
         //получение списка ячеек вокруг текущий
-        private Cell[] GetCoordinateAround(int x, int y)
+        private List<Cell> GetCoordinateAround(int x, int y)
         {
-            List<Cell> list = new List<Cell>();
+            var listCellsAround = new List<Cell>();
 
             //1 2 3
             //4 X 6
             //7 8 9
 
-            //1
-            if (x - 1 >= 0 && y - 1 >= 0)
+            for (int i = y - 1; i <= y + 1; i++)
             {
-                list.Add(Cell[x - 1, y - 1]);
-            }
-            //2
-            if (y - 1 >= 0)
-            {
-                list.Add(Cell[x, y - 1]);
-            }
-            //3
-            if (x + 1 < Width && y - 1 >= 0)
-            {
-                list.Add(Cell[x + 1, y - 1]);
-            }
-            //4
-            if (x - 1 >= 0)
-            {
-                list.Add(Cell[x - 1, y]);
-            }
-            //6
-            if (x + 1 < Width)
-            {
-                list.Add(Cell[x + 1, y]);
-            }
-            //7
-            if (x - 1 >= 0 && y + 1 < Height)
-            {
-                list.Add(Cell[x - 1, y + 1]);
-            }
-            //8
-            if (y + 1 < Height)
-            {
-                list.Add(Cell[x, y + 1]);
-            }
-            //9
-            if (x + 1 < Width && y + 1 < Height)
-            {
-                list.Add(Cell[x + 1, y + 1]);
+                for (int j = x - 1; j <= x + 1; j++)
+                {
+                    if (j == 0 && i == 0)
+                    {
+                        continue;
+                    }
+
+                    if ((j >= 0 && j < Width) && (i >= 0 && i < Height))
+                    {
+                        listCellsAround.Add(Cells[j, i]);
+                    }
+                }
             }
 
-            return list.ToArray();
+            return listCellsAround;
         }
 
         //задание координат для мин с учетом координат первого нажатия
@@ -102,13 +77,13 @@ namespace ModelGame
 
             for (int i = 0; i < CountMine; i++)
             {
-                while (Cell[x, y].Type == Type.Mine || (x == firstX && y == firstY))
+                while (Cells[x, y].Type == Type.Mine || (x == firstX && y == firstY))
                 {
                     x = random.Next(0, rangeCoordinate);
                     y = random.Next(0, rangeCoordinate);
                 }
-                Cell[x, y].Type = Type.Mine;
-                mineCells[i] = Cell[x, y];
+                Cells[x, y].Type = Type.Mine;
+                mineCells[i] = Cells[x, y];
             }
         }
 
@@ -124,7 +99,7 @@ namespace ModelGame
                     {
                         for (int i = 0; i < mineCells.Length; i++)
                         {
-                            if (mine.CompareTo(mineCells[i]) == 0)
+                            if (mine.Compare(mineCells[i]))
                             {
                                 count++;
                             }
@@ -138,38 +113,38 @@ namespace ModelGame
         //Функция открытия всех мин на карте
         private void OpenMineOnBoard()
         {
-           foreach(var cell in this)
-           {
-                if(cell.Type == Type.Mine)
+            foreach (var cell in this)
+            {
+                if (cell.Type == Type.Mine)
                 {
                     cell.IsOpened = true;
                 }
-           }
+            }
         }
 
         //Функция открытия соседних пустых ячеек
         public void OpenAroundEmptyCells(int x, int y)
         {
             Stack<Cell> stack = new Stack<Cell>();
-            stack.Push(Cell[x, y]);
+            stack.Push(Cells[x, y]);
 
-            while(stack.Count != 0)
+            while (stack.Count != 0)
             {
                 Cell cell = stack.Pop();
 
-                if(cell.Type == Type.Empty && !cell.IsOpened)
+                if (cell.Type == Type.Empty && !cell.IsOpened)
                 {
                     cell.IsOpened = true;
                 }
 
-                Cell[] aroundCells = GetCoordinateAround(cell.X, cell.Y);
+                var aroundCells = GetCoordinateAround(cell.X, cell.Y);
                 foreach (var around in aroundCells)
                 {
                     if (around.Type == Type.Empty && !around.IsOpened)
                     {
-                        stack.Push(Cell[around.X, around.Y]);
+                        stack.Push(Cells[around.X, around.Y]);
                     }
-                    else if(around.Type != Type.Mine && !around.IsOpened)
+                    else if (around.Type != Type.Mine && !around.IsOpened)
                     {
                         around.IsOpened = true;
                     }
@@ -180,13 +155,13 @@ namespace ModelGame
         //отмтить ячейку флагом
         public void SetOrCancelFlag(int x, int y)
         {
-            if (Cell[x, y].IsFlagged)
+            if (Cells[x, y].IsFlagged)
             {
-                Cell[x, y].IsFlagged = false;
+                Cells[x, y].IsFlagged = false;
             }
             else
             {
-                Cell[x, y].IsFlagged = true;
+                Cells[x, y].IsFlagged = true;
                 CheckStatus();
             }
         }
@@ -194,20 +169,20 @@ namespace ModelGame
         //открыть ячейку
         public void OpenCell(int x, int y)
         {
-            if (!Cell[x, y].IsOpened)
+            if (!Cells[x, y].IsOpened)
             {
-                if (Cell[x, y].Type == Type.Mine)
+                if (Cells[x, y].Type == Type.Mine)
                 {
                     OpenMineOnBoard();
                     Status = GameStatus.GameOver;
                 }
-                else if (Cell[x, y].Type == Type.Empty)
+                else if (Cells[x, y].Type == Type.Empty)
                 {
                     OpenAroundEmptyCells(x, y);
                 }
                 else
                 {
-                    Cell[x, y].IsOpened = true;
+                    Cells[x, y].IsOpened = true;
                     CheckStatus();
                 }
             }
@@ -217,9 +192,9 @@ namespace ModelGame
         private void CheckStatus()
         {
             int count = 0;
-            foreach(var cell in this)
+            foreach (var cell in this)
             {
-                if(cell.Type == Type.Mine && cell.IsFlagged)
+                if (cell.Type == Type.Mine && cell.IsFlagged)
                 {
                     count++;
                 }
@@ -229,11 +204,15 @@ namespace ModelGame
                 }
             }
 
-            if(count == CountMine)
+            if (count == CountMine)
             {
                 Status = GameStatus.Win;
             }
         }
+
+
+
+
 
 
         public string ShowSolvedBoard()
@@ -263,7 +242,7 @@ namespace ModelGame
                 str.AppendFormat("{0}|", i.ToString().PadLeft(interval, ' '));
                 for (int j = 1; j <= Width; j++)
                 {
-                    int res = (int)Cell[j - 1, i - 1].Type;
+                    int res = (int)Cells[j - 1, i - 1].Type;
                     str.AppendFormat("[{0}]", (res == -1) ? "*" : res.ToString());
                 }
                 str.Append("\r\n");
@@ -309,12 +288,12 @@ namespace ModelGame
         private string UpdateCellBoard(int x, int y)
         {
             StringBuilder str = new StringBuilder();
-            if (Cell[x, y].IsOpened)
+            if (Cells[x, y].IsOpened)
             {
-                int res = (int)Cell[x, y].Type;
+                int res = (int)Cells[x, y].Type;
                 str.AppendFormat("[{0}]", (res == -1) ? "*" : res.ToString());
             }
-            else if(Cell[x, y].IsFlagged)
+            else if (Cells[x, y].IsFlagged)
             {
                 str.AppendFormat("[{0}]", "@");
             }
@@ -325,15 +304,13 @@ namespace ModelGame
             return str.ToString();
         }
 
-
-
         public IEnumerator<Cell> GetEnumerator()
         {
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    yield return Cell[j, i];
+                    yield return Cells[j, i];
                 }
             }
         }
@@ -342,12 +319,5 @@ namespace ModelGame
         {
             return GetEnumerator();
         }
-    }
-
-    public enum GameStatus
-    {
-        InPogress = 0,
-        GameOver = 1,
-        Win = 2
     }
 }

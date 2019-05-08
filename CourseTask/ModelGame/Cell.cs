@@ -2,7 +2,7 @@
 
 namespace ModelGame
 {
-    public class Cell : IComparable<Cell>
+    public class Cell
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -16,28 +16,9 @@ namespace ModelGame
             Y = y;
         }
 
-        public int CompareTo(Cell other)
+        public bool Compare(Cell other)
         {
-            if (X == other.X && Y == other.Y)
-            {
-                return 0;
-            }
-            return 1;
+            return X == other.X && Y == other.Y;
         }
-    }
-
-    public enum Type
-    {
-        Mine = -1,
-        Empty = 0,
-        One = 1,
-        Two = 2,
-        Three = 3,
-        Four = 4,
-        Five = 5,
-        Six = 6,
-        Seven = 7,
-        Eight = 8,
-        Nine = 9
     }
 }

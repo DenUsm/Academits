@@ -45,8 +45,12 @@ namespace GuiView
         public int SetValue { set => textBox1.Text = value.ToString(); }
 
         public event EventHandler<EventArgs> GetIndexCell;
-
-
+        public event EventHandler<EventArgs> NewGame;
+        public event EventHandler<EventArgs> Rule;
+        public event EventHandler<EventArgs> Exit;
+        public event EventHandler<EventArgs> HighScore;
+        public event EventHandler<EventArgs> OpenCell;
+        public event EventHandler<EventArgs> SetFlag;
 
         private void button1_Click(object sender, EventArgs e)
         {

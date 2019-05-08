@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using ViewInterface;
 
 namespace TextUiView
 {
     public class TextUiMineSweeper
     {
+        private int width;
+        private int height;
+        private int[,] cell;
+
         //Список главного меню
         private List<string> mainMenu = new List<string>();
 
@@ -20,6 +23,14 @@ namespace TextUiView
         public TextUiMineSweeper()
         {
             Initialize();
+        }
+
+        //задание размеров поле для построение gui
+        public void SetGuiParameter(int width, int height)
+        {
+            this.width = width;
+            this.height = height;
+            cell = new int[width, height];
         }
 
         //задание значения индекса меню
@@ -104,7 +115,7 @@ namespace TextUiView
         {
             string formatFirst = "//                                                                      //";
             string formatSecond = "//                            ";
-        
+
             Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
             Console.WriteLine(formatFirst);
 
@@ -126,7 +137,7 @@ namespace TextUiView
             }
 
             Console.WriteLine(formatFirst);
-            Console.WriteLine("//////////////////////////////////////////////////////////////////////////");            
+            Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
         }
 
         private void Initialize()

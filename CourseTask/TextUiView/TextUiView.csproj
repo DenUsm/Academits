@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,12 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameManagment.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="SubMenuLevel.cs" />
     <Compile Include="TextUiMineSweeper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModelGame\ModelGame.csproj">
+      <Project>{0986c7c1-cc61-4933-9d14-fa1bd02722fd}</Project>
+      <Name>ModelGame</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ViewInterface\ViewInterface.csproj">
       <Project>{b7c21ec7-79f9-4e82-8530-0ece5472afa2}</Project>
       <Name>ViewInterface</Name>

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ModelGame
 {
-    class CellsBoard : IEnumerable<Cell>
+    public class CellsBoard : IEnumerable<Cell>
     {
         public int Width { get; set; }
         public int Height { get; set; }
@@ -70,17 +70,16 @@ namespace ModelGame
         public void SetMineCoordinate(int firstX, int firstY)
         {
             Random random = new Random();
-            int rangeCoordinate = Width;
 
-            int x = random.Next(0, rangeCoordinate);
-            int y = random.Next(0, rangeCoordinate);
+            int x = random.Next(0, Width - 1);
+            int y = random.Next(0, Height - 1);
 
             for (int i = 0; i < CountMine; i++)
             {
                 while (Cells[x, y].Type == Type.Mine || (x == firstX && y == firstY))
                 {
-                    x = random.Next(0, rangeCoordinate);
-                    y = random.Next(0, rangeCoordinate);
+                    x = random.Next(0, Width - 1);
+                    y = random.Next(0, Height - 1);
                 }
                 Cells[x, y].Type = Type.Mine;
                 mineCells[i] = Cells[x, y];
@@ -208,100 +207,6 @@ namespace ModelGame
             {
                 Status = GameStatus.Win;
             }
-        }
-
-
-
-
-
-
-        public string ShowSolvedBoard()
-        {
-            StringBuilder str = new StringBuilder();
-
-            int interval = 2;
-
-            str.Append("".PadLeft(interval, ' '));
-            for (int i = 1; i <= Width; i++)
-            {
-                str.AppendFormat("{0}", i.ToString().PadLeft(interval + 1, ' '));
-            }
-
-            str.Append("\r\n");
-
-            str.Append("".PadLeft(interval, ' '));
-            for (int i = 0; i < (interval + 1) * Width + 1; i++)
-            {
-                str.Append("-");
-            }
-
-            str.Append("\r\n");
-
-            for (int i = 1; i <= Height; i++)
-            {
-                str.AppendFormat("{0}|", i.ToString().PadLeft(interval, ' '));
-                for (int j = 1; j <= Width; j++)
-                {
-                    int res = (int)Cells[j - 1, i - 1].Type;
-                    str.AppendFormat("[{0}]", (res == -1) ? "*" : res.ToString());
-                }
-                str.Append("\r\n");
-            }
-            return str.ToString();
-        }
-
-        public string ShowBoard()
-        {
-            StringBuilder str = new StringBuilder();
-
-            int interval = 2;
-
-            str.Append("".PadLeft(interval, ' '));
-            for (int i = 1; i <= Width; i++)
-            {
-                str.AppendFormat("{0}", i.ToString().PadLeft(interval + 1, ' '));
-            }
-
-            str.Append("\r\n");
-
-            str.Append("".PadLeft(interval, ' '));
-            for (int i = 0; i < (interval + 1) * Width + 1; i++)
-            {
-                str.Append("-");
-            }
-
-            str.Append("\r\n");
-
-            for (int i = 1; i <= Height; i++)
-            {
-                str.AppendFormat("{0}|", i.ToString().PadLeft(interval, ' '));
-                for (int j = 1; j <= Width; j++)
-                {
-                    str.Append(UpdateCellBoard(j - 1, i - 1));
-                }
-                str.Append("\r\n");
-            }
-
-            return str.ToString();
-        }
-
-        private string UpdateCellBoard(int x, int y)
-        {
-            StringBuilder str = new StringBuilder();
-            if (Cells[x, y].IsOpened)
-            {
-                int res = (int)Cells[x, y].Type;
-                str.AppendFormat("[{0}]", (res == -1) ? "*" : res.ToString());
-            }
-            else if (Cells[x, y].IsFlagged)
-            {
-                str.AppendFormat("[{0}]", "@");
-            }
-            else
-            {
-                str.AppendFormat("[{0}]", " ");
-            }
-            return str.ToString();
         }
 
         public IEnumerator<Cell> GetEnumerator()

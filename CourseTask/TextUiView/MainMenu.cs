@@ -12,7 +12,10 @@ namespace TextUiView
         Rule = 2,
         [Description("Рекорды")]
         HighScores = 3,
+        [Description("О программе")]
+        About = 4,
         [Description("Выход")]
-        Exit = 4
+        Exit = 5,
+        
     }
 }

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Timers;
+using System.Xml;
 
 namespace ModelGame
 {
@@ -9,17 +13,27 @@ namespace ModelGame
         private bool firstChoice;
         public int Time { get; private set; }
         private Timer timer;
+        public static string About { get; private set; }
+        public static string Rule { get; private set; }
+        public static Dictionary<string, int> HightSores { get; private set; }
+
+        public ModelMineSweeper()
+        {
+            About = GetInformation(@"./ModelGame/AboutProgram.txt");
+            Rule = GetInformation(@"./ModelGame/RuleGame.txt");
+            HightSores = LoadHightScores();
+        }
 
         //Задние параметром игры для модели
         public void SetGameParameter(int width, int height, int countMine)
         {
             cellBoard = new CellsBoard(width, height, countMine);
             firstChoice = true;
-            Time = 0;
             //создние таймер с интрвалом 1 секунда
             timer = new Timer(1000);
             // устанавливаем события обратного вызова таймера
             timer.Elapsed += new ElapsedEventHandler(Tick);
+            Time = 0;
         }
 
         //Функция обратного вызова таймера
@@ -69,14 +83,68 @@ namespace ModelGame
             return cellBoard.Status;
         }
 
-        //public string GetGameRule()
-        //{
-        //
-        //}
+        //получение информции об игре из файла
+        private string GetInformation(string path)
+        {
+            StringBuilder str = new StringBuilder();
 
-        //public string GetHightScore()
-        //{
-        //
-        //}
+            try
+            {
+                using (StreamReader reader = new StreamReader(path))
+                {
+                    string readline;
+                    while ((readline = reader.ReadLine()) != null)
+                    {
+                        str.Append(readline);
+                        str.Append(Environment.NewLine);
+                    }
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                str = null;
+            }
+
+            return str.ToString();
+        }
+
+        //получение таблицы рекордов
+        private Dictionary<string, int> LoadHightScores()
+        {
+            Dictionary<string, int> hightSores = new Dictionary<string, int>();
+
+            try
+            {
+                XmlDocument xDoc = new XmlDocument();
+                xDoc.Load(@"./ModelGame/HightScores.xml");
+                // получим корневой элемент
+                XmlElement Root = xDoc.DocumentElement;
+
+                foreach (XmlNode nodeUser in Root)
+                {
+                    string nameUser = null;
+                    XmlNode name = nodeUser.Attributes.GetNamedItem("name");
+                    if (name != null)
+                    {
+                        nameUser = name.Value;
+                    }
+
+                    foreach (XmlNode nodeScore in nodeUser.ChildNodes)
+                    {
+                        if (nodeScore.Name == "score")
+                        {
+                            hightSores.Add(nameUser, Convert.ToInt32(nodeScore.InnerText));
+                        }
+                    }
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                hightSores = null;
+            }
+
+            return hightSores;
+        }
+
     }
 }

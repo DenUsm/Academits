@@ -48,5 +48,10 @@
     <Compile Include="ModelMineSweeper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="AboutProgram.txt" />
+    <Content Include="HightScores.xml" />
+    <Content Include="RuleGame.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -170,14 +170,14 @@ namespace MineSweeperApplication
                 //Выбор пункта меню новая правила игры
                 else if (selectedMenuItem == (int)MainMenu.Rule)
                 {
-                    Console.WriteLine("Action for Rule");
+                    view.DrawAboutProgramAndRule(ModelMineSweeper.Rule);
                     Console.ReadKey();
                     Console.Clear();
                 }
                 //Выбор пункта меню рекорды
                 else if (selectedMenuItem == (int)MainMenu.HighScores)
                 {
-                    Console.WriteLine("Action for HighScores");
+                    view.DrawHightScoresTable(ModelMineSweeper.HightSores);
                     Console.ReadKey();
                     Console.Clear();
                 }
@@ -185,6 +185,13 @@ namespace MineSweeperApplication
                 else if (selectedMenuItem == (int)MainMenu.Exit)
                 {
                     Environment.Exit(0);
+                }
+                //Выбор пункта о программе
+                else if (selectedMenuItem == (int)MainMenu.About)
+                {
+                    view.DrawAboutProgramAndRule(ModelMineSweeper.About);
+                    Console.ReadKey();
+                    Console.Clear();
                 }
             }
         }

@@ -107,9 +107,7 @@ namespace TextUiView
             Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
             Console.WriteLine("//                                                                      //");
             Console.WriteLine("//                    Вас приветсвует игра сапер!!!                     //");
-            Console.WriteLine("//                        Автор: Усманов Денис                          //");
             Console.WriteLine("//                                                                      //");
-            Console.WriteLine("//                               v1.0                                   //");
             Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
             Console.ResetColor();
         }
@@ -323,6 +321,45 @@ namespace TextUiView
             Console.WriteLine("//                                                                      //");
             Console.WriteLine("//                           Вы победили!!!                             //");
             Console.WriteLine("//                                                                      //");
+            Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
+            Console.ResetColor();
+        }
+
+        //вывод информции об игре
+        public void DrawAboutProgramAndRule(string about)
+        {
+            if(about == null)
+            {
+                about = "Извините, к сожалению не удалось получить информацию";
+            }
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
+            Console.WriteLine(about);
+            Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
+            Console.ResetColor();
+        }
+
+        //вывод тблицы рекордов
+        public void DrawHightScoresTable(Dictionary<string, int> hightScores)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
+
+            if (hightScores == null)
+            {
+                Console.WriteLine("Извините, к сожалению не удалось получить информацию");
+            }
+            else
+            {
+                int i = 1;
+                foreach(var score in hightScores)
+                {
+                    Console.WriteLine("Место: {0}   Имя: {1}    Время: {2}", i, score.Key, score.Value);
+                    i++;
+                }            
+            }
             Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
             Console.ResetColor();
         }

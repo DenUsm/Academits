@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<users>
+  <user name="Bill Gates">
+    <score>999</score>
+  </user>
+  <user name="Steve Jobs">
+    <score>999</score>
+  </user>
+  <user name="Elon Musk">
+    <score>999</score>
+  </user>
+</users>

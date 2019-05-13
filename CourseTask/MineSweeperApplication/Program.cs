@@ -101,11 +101,7 @@ namespace MineSweeperApplication
                                     width = 9;
                                     height = 9;
                                     countMine = 10;
-                                    Console.Clear();
-                                    Console.WriteLine("Вы выбрали режим игры новичок");
-                                    Console.WriteLine("Чтобы начать игру нажмите любую клавишу и выберите в меню пункт \"Новая игра\"");
-                                    Console.ReadKey();
-                                    Console.Clear();
+                                    view.ShowInformationLavel(SubMenuLevel.Beginner);
                                     isExit = true;
                                     break;
                                 }
@@ -115,11 +111,7 @@ namespace MineSweeperApplication
                                     width = 16;
                                     height = 16;
                                     countMine = 40;
-                                    Console.Clear();
-                                    Console.WriteLine("Вы выбрали режим игры любитель");
-                                    Console.WriteLine("Чтобы начать игру нажмите любую клавишу и выберите в меню пункт \"Новая игра\"");
-                                    Console.ReadKey();
-                                    Console.Clear();
+                                    view.ShowInformationLavel(SubMenuLevel.Medium);
                                     isExit = true;
                                     break;
                                 }
@@ -129,11 +121,7 @@ namespace MineSweeperApplication
                                     width = 30;
                                     height = 16;
                                     countMine = 99;
-                                    Console.Clear();
-                                    Console.WriteLine("Вы выбрали режим игры професионал");
-                                    Console.WriteLine("Чтобы начать игру нажмите любую клавишу и выберите в меню пункт \"Новая игра\"");
-                                    Console.ReadKey();
-                                    Console.Clear();
+                                    view.ShowInformationLavel(SubMenuLevel.Professional);
                                     isExit = true;
                                     break;
                                 }

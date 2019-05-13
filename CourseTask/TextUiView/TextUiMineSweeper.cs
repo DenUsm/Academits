@@ -325,7 +325,7 @@ namespace TextUiView
             Console.ResetColor();
         }
 
-        //вывод информции об игре
+        //Вывод информции об игре
         public void DrawAboutProgramAndRule(string about)
         {
             if(about == null)
@@ -362,6 +362,29 @@ namespace TextUiView
             }
             Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
             Console.ResetColor();
+        }
+
+        //вывод информации о выборе режима
+        public void ShowInformationLavel(SubMenuLevel type)
+        {
+            string info = null;
+            if(SubMenuLevel.Beginner == type)
+            {
+                info = "новичок";
+            }
+            if (SubMenuLevel.Medium == type)
+            {
+                info = "любитель";
+            }
+            if (SubMenuLevel.Professional == type)
+            {
+                info = "профессионал";
+            }
+            Console.Clear();
+            Console.WriteLine("Вы выбрали режим игры {0}", info);
+            Console.WriteLine("Чтобы начать игру нажмите любую клавишу и выберите в главном меню пункт \"Новая игра\"");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

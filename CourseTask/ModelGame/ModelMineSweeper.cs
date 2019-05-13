@@ -15,7 +15,7 @@ namespace ModelGame
         private Timer timer;
         public static string About { get; private set; }
         public static string Rule { get; private set; }
-        public static Dictionary<string, int> HightSores { get; private set; }
+        public static List<Score> HightSores { get; private set; }
 
         public ModelMineSweeper()
         {
@@ -109,9 +109,9 @@ namespace ModelGame
         }
 
         //получение таблицы рекордов
-        private Dictionary<string, int> LoadHightScores()
+        private List<Score> LoadHightScores()
         {
-            Dictionary<string, int> hightSores = new Dictionary<string, int>();
+            List<Score> hightSores = new List<Score>();
 
             try
             {
@@ -133,7 +133,7 @@ namespace ModelGame
                     {
                         if (nodeScore.Name == "score")
                         {
-                            hightSores.Add(nameUser, Convert.ToInt32(nodeScore.InnerText));
+                            hightSores.Add(new Score(nameUser, Convert.ToInt32(nodeScore.InnerText)));
                         }
                     }
                 }
@@ -146,5 +146,52 @@ namespace ModelGame
             return hightSores;
         }
 
+        //Проверка добавления рекорда в таблицу
+        public bool CheckResult()
+        {
+            for (int i = 0; i < HightSores.Count; i++)
+            {
+                if (Time < HightSores[i].TimeResult)
+                {
+                    HightSores[i].TimeResult = Time;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        //Запись результата в файл .xml рекордов
+        public void SaveResultHightScore(string name)
+        {
+            for (int i = 0; i < HightSores.Count; i++)
+            {
+                if (HightSores[i].TimeResult == Time)
+                {
+                    HightSores[i].Name = name;
+                }
+            }
+
+            XmlDocument doc = new XmlDocument();
+
+            XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
+            XmlElement root = doc.DocumentElement;
+            doc.InsertBefore(xmlDeclaration, root);
+
+            XmlNode users = doc.CreateElement("users");
+            doc.AppendChild(users);
+
+            for (int i = 0; i < HightSores.Count; i++)
+            {
+                XmlNode user = doc.CreateElement("user");
+                XmlAttribute userAttribute = doc.CreateAttribute("name");
+                userAttribute.Value = HightSores[i].Name;
+
+                XmlNode score = doc.CreateElement("score");
+                score.AppendChild(doc.CreateTextNode(HightSores[i].TimeResult.ToString()));
+            }
+
+            doc.Save(@"./ModelGame/HightScores.xml");
+        }
     }
 }

@@ -328,7 +328,7 @@ namespace TextUiView
         //Вывод информции об игре
         public void DrawAboutProgramAndRule(string about)
         {
-            if(about == null)
+            if (about == null)
             {
                 about = "Извините, к сожалению не удалось получить информацию";
             }
@@ -338,10 +338,12 @@ namespace TextUiView
             Console.WriteLine(about);
             Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
             Console.ResetColor();
+            Console.ReadKey();
+            Console.Clear();
         }
 
         //вывод тблицы рекордов
-        public void DrawHightScoresTable(Dictionary<string, int> hightScores)
+        public void DrawHightScoresTable(List<Score> hightScores)
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -354,21 +356,23 @@ namespace TextUiView
             else
             {
                 int i = 1;
-                foreach(var score in hightScores)
+                foreach (var score in hightScores)
                 {
-                    Console.WriteLine("Место: {0}   Имя: {1}    Время: {2}", i, score.Key, score.Value);
+                    Console.WriteLine("Место: {0}   Имя: {1}    Время: {2}", i, score.Name, score.TimeResult);
                     i++;
-                }            
+                }
             }
             Console.WriteLine("//////////////////////////////////////////////////////////////////////////");
             Console.ResetColor();
+            Console.ReadKey();
+            Console.Clear();
         }
 
         //вывод информации о выборе режима
         public void ShowInformationLavel(SubMenuLevel type)
         {
             string info = null;
-            if(SubMenuLevel.Beginner == type)
+            if (SubMenuLevel.Beginner == type)
             {
                 info = "новичок";
             }
@@ -385,6 +389,22 @@ namespace TextUiView
             Console.WriteLine("Чтобы начать игру нажмите любую клавишу и выберите в главном меню пункт \"Новая игра\"");
             Console.ReadKey();
             Console.Clear();
+        }
+
+        //Внесение имени в таблицу рекордов
+        public string SetNameHightScore(bool status)
+        {
+            if (!status)
+            {
+                return null;
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Поздравляем ваш результат стал одним из лучших в игре!!!");
+                Console.Write("Пожалуста введите свое имя: ");
+                return Console.ReadLine();
+            }
         }
     }
 }

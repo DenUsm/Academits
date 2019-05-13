@@ -75,6 +75,8 @@ namespace MineSweeperApplication
                         if (model.GetStatusGame() == GameStatus.Win)
                         {
                             view.DrawWin();
+                            string name = view.SetNameHightScore(model.CheckResult());
+                            model.SaveResultHightScore(name);
                             seletedGameManagment = view.DrawGameBoard(model);
                             isExit = false;
                         }
@@ -159,15 +161,11 @@ namespace MineSweeperApplication
                 else if (selectedMenuItem == (int)MainMenu.Rule)
                 {
                     view.DrawAboutProgramAndRule(ModelMineSweeper.Rule);
-                    Console.ReadKey();
-                    Console.Clear();
                 }
                 //Выбор пункта меню рекорды
                 else if (selectedMenuItem == (int)MainMenu.HighScores)
                 {
                     view.DrawHightScoresTable(ModelMineSweeper.HightSores);
-                    Console.ReadKey();
-                    Console.Clear();
                 }
                 //Выбор пункта меню выход
                 else if (selectedMenuItem == (int)MainMenu.Exit)
@@ -178,8 +176,6 @@ namespace MineSweeperApplication
                 else if (selectedMenuItem == (int)MainMenu.About)
                 {
                     view.DrawAboutProgramAndRule(ModelMineSweeper.About);
-                    Console.ReadKey();
-                    Console.Clear();
                 }
             }
         }

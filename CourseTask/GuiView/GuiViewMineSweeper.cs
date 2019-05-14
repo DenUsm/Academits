@@ -1,61 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using ViewInterface;
 
 namespace GuiView
 {
-    public partial class GuiViewMineSweeper : Form, IMineSweeperView
+    public partial class GuiViewMineSweeper : Form
     {
+        private Button[,] btn_grid;
+
         public GuiViewMineSweeper()
         {
             InitializeComponent();
 
-         
-            tableLayoutPanel1.ColumnCount = 5;
-            tableLayoutPanel1.RowCount = 5;
+            int width = 30;
+            int height = 16;
 
-            for(int i = 0; i < tableLayoutPanel1.RowCount; i++)
-            {    
-                for (int j =0; j < tableLayoutPanel1.ColumnCount; j++)
+            int param1 = 0;
+            int param2 = 0;
+
+            int startX = 0, startY = 0;
+            btn_grid = new Button[width, height];
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
                 {
-                    Button btn = new Button();
-                    btn.Dock = DockStyle.Fill;
-                   
-                    tableLayoutPanel1.Controls.Add(btn);
-                    
-                }
+                    btn_grid[x, y] = createButton(startX + 24 * x, startY + 24 * y, x, y);
+
+                    param1 = 24 * (x + 1);
+                    param2 = 24 * (y + 1);
+                }                
             }
 
-            //tableLayoutPanel1.ColumnStyles[0].SizeType = SizeType.Percent;
-            //tableLayoutPanel1.RowStyles[0].SizeType = SizeType.Percent;
-            //
-            //tableLayoutPanel1.ColumnStyles[1].SizeType = SizeType.Percent;
-            //tableLayoutPanel1.RowStyles[1].SizeType = SizeType.Percent;
+            Width = param1;
+            Height = param2;
         }
 
-        public int[,] GetCoordinate { get; private set; }
-
-        public int SetValue { set => textBox1.Text = value.ToString(); }
-
-        public event EventHandler<EventArgs> GetIndexCell;
-        public event EventHandler<EventArgs> NewGame;
-        public event EventHandler<EventArgs> Rule;
-        public event EventHandler<EventArgs> Exit;
-        public event EventHandler<EventArgs> HighScore;
-        public event EventHandler<EventArgs> OpenCell;
-        public event EventHandler<EventArgs> SetFlag;
-
-        private void button1_Click(object sender, EventArgs e)
+        private Button createButton(int x, int y, int gridX, int gridY)
         {
-            GetCoordinate = new int[1, 2] { {3, 1} };
-            GetIndexCell(this, EventArgs.Empty);
+            Button bttn = new Button();
+
+            bttn.Text = "";
+            bttn.Name = gridX.ToString() + " " + gridY.ToString();
+            bttn.Size = new System.Drawing.Size(24, 24);
+            bttn.Location = new System.Drawing.Point(x, y);
+            Controls.AddRange(new Control[] { bttn });
+            //bttn.Click += new System.EventHandler(bttnOnclick);
+            //bttn.MouseClick += new System.Windows.Forms.MouseEventHandler(this.bttnOnRightClick);
+
+            return bttn;
         }
+
     }
 }

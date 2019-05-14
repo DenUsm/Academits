@@ -150,16 +150,16 @@ namespace TextUiView
                 mainMenu.Add(GetDescription((MainMenu)value));
             }
 
-            foreach (var value in Enum.GetValues(typeof(SubMenuLevel)))
+            foreach (var value in Enum.GetValues(typeof(Level)))
             {
-                subMenuLavel.Add(GetDescription((SubMenuLevel)value));
+                subMenuLavel.Add(GetDescription((Level)value));
             }
         }
 
         //Вывод информации времени об игре
         private void ShowTimeInterval(ModelMineSweeper model)
         {
-            Console.WriteLine("{0}", "Время игры: " + model.Time.ToString());
+            Console.WriteLine("Время игры: {0}", model.Time.ToString());
         }
 
         //Вывод игрового поля
@@ -368,29 +368,6 @@ namespace TextUiView
             Console.Clear();
         }
 
-        //вывод информации о выборе режима
-        public void ShowInformationLavel(SubMenuLevel type)
-        {
-            string info = null;
-            if (SubMenuLevel.Beginner == type)
-            {
-                info = "новичок";
-            }
-            if (SubMenuLevel.Medium == type)
-            {
-                info = "любитель";
-            }
-            if (SubMenuLevel.Professional == type)
-            {
-                info = "профессионал";
-            }
-            Console.Clear();
-            Console.WriteLine("Вы выбрали режим игры {0}", info);
-            Console.WriteLine("Чтобы начать игру нажмите любую клавишу и выберите в главном меню пункт \"Новая игра\"");
-            Console.ReadKey();
-            Console.Clear();
-        }
-
         //Внесение имени в таблицу рекордов
         public string SetNameHightScore(bool status)
         {
@@ -405,6 +382,34 @@ namespace TextUiView
                 Console.Write("Пожалуста введите свое имя: ");
                 return Console.ReadLine();
             }
+        }
+
+        //получение параметров игры для особого режима чложности
+        public int[] GetParameterSpecialLevel()
+        {
+            Console.Clear();
+            int[] myparamsGame = new int[3];
+            try
+            {
+                Console.Write("Пожалуйста введите ширину поля: ");
+                myparamsGame[0] = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("Пожалуйста введите высоту поля: ");
+                myparamsGame[1] = Convert.ToInt32(Console.ReadLine());
+
+                Console.Write("Пожалуйста введите количество мин: ");
+                myparamsGame[2] = Convert.ToInt32(Console.ReadLine());
+            }
+            catch (FormatException)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Пожалуйста введите данные в корректном формате");
+                Console.ResetColor();
+                Console.ReadKey();
+            }
+            Console.Clear();
+
+            return myparamsGame;
         }
     }
 }

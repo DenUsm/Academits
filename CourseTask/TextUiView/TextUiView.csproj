@@ -44,7 +44,6 @@
   <ItemGroup>
     <Compile Include="GameManagment.cs" />
     <Compile Include="MainMenu.cs" />
-    <Compile Include="SubMenuLevel.cs" />
     <Compile Include="TextUiMineSweeper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

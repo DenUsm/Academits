@@ -45,7 +45,9 @@
     <Compile Include="CellsBoard.cs" />
     <Compile Include="CellType.cs" />
     <Compile Include="GameStatus.cs" />
+    <Compile Include="Level.cs" />
     <Compile Include="ModelMineSweeper.cs" />
+    <Compile Include="ParameterSpecialLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Score.cs" />
   </ItemGroup>

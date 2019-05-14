@@ -16,6 +16,7 @@ namespace ModelGame
         public static string About { get; private set; }
         public static string Rule { get; private set; }
         public static List<Score> HightSores { get; private set; }
+        public Level GameLevel { get; set; }
 
         public ModelMineSweeper()
         {
@@ -24,10 +25,25 @@ namespace ModelGame
             HightSores = LoadHightScores();
         }
 
-        //Задние параметром игры для модели
-        public void SetGameParameter(int width, int height, int countMine)
+        //Задние параметром игры для станадратных режимов
+        public void SetGameParameter(Level gameLevel, int width, int height, int countMine)
         {
-            cellBoard = new CellsBoard(width, height, countMine);
+            if (gameLevel == Level.Beginner)
+            {
+                cellBoard = new CellsBoard(9, 9, 10);
+            }
+            else if (gameLevel == Level.Medium)
+            {
+                cellBoard = new CellsBoard(16, 16, 40);
+            }
+            else if (gameLevel == Level.Professional)
+            {
+                cellBoard = new CellsBoard(30, 20, 99);
+            }
+            else if (gameLevel == Level.Special)
+            {
+                cellBoard = new CellsBoard(width, height, countMine);
+            }
             firstChoice = true;
             //создние таймер с интрвалом 1 секунда
             timer = new Timer(1000);
@@ -75,6 +91,11 @@ namespace ModelGame
         public void SetFlagCoordinate(int x, int y)
         {
             cellBoard.SetOrCancelFlag(x, y);
+
+            if (cellBoard.Status != GameStatus.InPogress)
+            {
+                StopTimer();
+            }
         }
 
         //получить статус игры
@@ -122,20 +143,13 @@ namespace ModelGame
 
                 foreach (XmlNode nodeUser in Root)
                 {
-                    string nameUser = null;
-                    XmlNode name = nodeUser.Attributes.GetNamedItem("name");
+                    int score = 0;
+                    XmlNode name = nodeUser.Attributes.GetNamedItem("score");
                     if (name != null)
                     {
-                        nameUser = name.Value;
+                        score = Convert.ToInt32(name.Value);
                     }
-
-                    foreach (XmlNode nodeScore in nodeUser.ChildNodes)
-                    {
-                        if (nodeScore.Name == "score")
-                        {
-                            hightSores.Add(new Score(nameUser, Convert.ToInt32(nodeScore.InnerText)));
-                        }
-                    }
+                    hightSores.Add(new Score(nodeUser.InnerText, score));
                 }
             }
             catch (FileNotFoundException)
@@ -149,6 +163,12 @@ namespace ModelGame
         //Проверка добавления рекорда в таблицу
         public bool CheckResult()
         {
+            if (HightSores.Count == 0)
+            {
+                HightSores = new List<Score>() { new Score(null, Time) };
+                return true;
+            }
+
             for (int i = 0; i < HightSores.Count; i++)
             {
                 if (Time < HightSores[i].TimeResult)
@@ -172,26 +192,23 @@ namespace ModelGame
                 }
             }
 
-            XmlDocument doc = new XmlDocument();
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlDeclaration xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
 
-            XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
-            XmlElement root = doc.DocumentElement;
-            doc.InsertBefore(xmlDeclaration, root);
-
-            XmlNode users = doc.CreateElement("users");
-            doc.AppendChild(users);
+            XmlNode rootNode = xmlDoc.CreateElement("users");
+            xmlDoc.AppendChild(rootNode);
 
             for (int i = 0; i < HightSores.Count; i++)
             {
-                XmlNode user = doc.CreateElement("user");
-                XmlAttribute userAttribute = doc.CreateAttribute("name");
-                userAttribute.Value = HightSores[i].Name;
-
-                XmlNode score = doc.CreateElement("score");
-                score.AppendChild(doc.CreateTextNode(HightSores[i].TimeResult.ToString()));
+                XmlNode userNode = xmlDoc.CreateElement("user");
+                XmlAttribute attribute = xmlDoc.CreateAttribute("score");
+                attribute.Value = HightSores[i].TimeResult.ToString();
+                userNode.Attributes.Append(attribute);
+                userNode.InnerText = HightSores[i].Name;
+                rootNode.AppendChild(userNode);
             }
 
-            doc.Save(@"./ModelGame/HightScores.xml");
+            xmlDoc.Save(@"./ModelGame/HightScores.xml");
         }
     }
 }

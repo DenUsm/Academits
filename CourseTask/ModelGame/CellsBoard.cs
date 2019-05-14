@@ -206,6 +206,7 @@ namespace ModelGame
             if (count == CountMine)
             {
                 Status = GameStatus.Win;
+
             }
         }
 

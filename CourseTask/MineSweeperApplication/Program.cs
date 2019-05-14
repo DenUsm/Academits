@@ -9,81 +9,20 @@ namespace MineSweeperApplication
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        /// 
+        public static TextUiMineSweeper view = new TextUiMineSweeper();
+        public static ModelMineSweeper model = new ModelMineSweeper();
+
         [STAThread]
         static void Main()
         {
-            #region
-            //Создание экземпляра обьекта для запуска приложения на WinForm
-            //GuiViewMineSweeper view = new GuiViewMineSweeper();
-            //PresenterMineSweeper presenter = new PresenterMineSweeper(view);
-            //view.ShowDialog();    
-
-            //TextUiMineSweeper view = new TextUiMineSweeper();
-            //view.ShowScreensaver();
-            //view.ShowGameMenu(new string[] {"Новая игра", "Сложность", "Правила", "Результаты", "Выход" });
-            //
-            //
-            //Console.ReadKey();
-            #endregion
-
-            TextUiMineSweeper view = new TextUiMineSweeper();
-            ModelMineSweeper model = new ModelMineSweeper();
-
-            //Начльный уровень сложности
-            int width = 9;
-            int height = 9;
-            int countMine = 10;
-
             Console.CursorVisible = false;
             while (true)
             {
                 int selectedMenuItem = view.GetMenu();
+
                 //Выбор пункта меню новая игра
                 if (selectedMenuItem == (int)MainMenu.NewGame)
-                {
-                    //создли новую игру
-                    model.SetGameParameter(width, height, countMine);
-                    view.SetPaameterGui(width, height);
-                    bool isExit = true;
-                    while (isExit)
-                    {
-                        int seletedGameManagment = view.DrawGameBoard(model);
-                        switch (seletedGameManagment)
-                        {
-                            //возврат назад
-                            case (int)GameManagment.Back:
-                                model.StopTimer();
-                                isExit = false;
-                                break;
-                            //открыти ячейки
-                            case (int)GameManagment.Open:
-                                model.OpenCell(view.X, view.Y);
-                                break;
-                            //отмтить/убрать флаг
-                            case (int)GameManagment.Flag:
-                                model.SetFlagCoordinate(view.X, view.Y);
-                                break;
-                        }
-
-                        //проверка статуса игры посл хода
-                        if (model.GetStatusGame() == GameStatus.GameOver)
-                        {
-                            view.DrawGameOver();
-                            seletedGameManagment = view.DrawGameBoard(model);
-                            isExit = false;
-                        }
-                        if (model.GetStatusGame() == GameStatus.Win)
-                        {
-                            view.DrawWin();
-                            string name = view.SetNameHightScore(model.CheckResult());
-                            model.SaveResultHightScore(name);
-                            seletedGameManagment = view.DrawGameBoard(model);
-                            isExit = false;
-                        }
-                    }
-                }
-                //Выбор пункта меню сложность
-                else if (selectedMenuItem == (int)MainMenu.Lavel)
                 {
                     Console.Clear();
                     view.SetIndex(0);
@@ -93,63 +32,44 @@ namespace MineSweeperApplication
                         int selectedSubMenuItem = view.GetSubMenu();
                         switch (selectedSubMenuItem)
                         {
-                            //возврат назад
-                            case (int)SubMenuLevel.Back:
-                                isExit = false;
-                                break;
                             //начальный уровень
-                            case (int)SubMenuLevel.Beginner:
+                            case (int)Level.Beginner:
                                 {
-                                    width = 9;
-                                    height = 9;
-                                    countMine = 10;
-                                    view.ShowInformationLavel(SubMenuLevel.Beginner);
+                                    model.SetGameParameter(Level.Beginner, 0, 0, 0);
+                                    view.SetPaameterGui(model.cellBoard.Width, model.cellBoard.Height);
+                                    ProcessGame();
                                     isExit = true;
                                     break;
                                 }
                             //любитель
-                            case (int)SubMenuLevel.Medium:
+                            case (int)Level.Medium:
                                 {
-                                    width = 16;
-                                    height = 16;
-                                    countMine = 40;
-                                    view.ShowInformationLavel(SubMenuLevel.Medium);
+                                    model.SetGameParameter(Level.Medium, 0, 0, 0);
+                                    view.SetPaameterGui(model.cellBoard.Width, model.cellBoard.Height);
+                                    ProcessGame();
                                     isExit = true;
                                     break;
                                 }
                             //профессионал
-                            case (int)SubMenuLevel.Professional:
+                            case (int)Level.Professional:
                                 {
-                                    width = 30;
-                                    height = 16;
-                                    countMine = 99;
-                                    view.ShowInformationLavel(SubMenuLevel.Professional);
+                                    model.SetGameParameter(Level.Professional, 0, 0, 0);
+                                    view.SetPaameterGui(model.cellBoard.Width, model.cellBoard.Height);
+                                    ProcessGame();
                                     isExit = true;
                                     break;
                                 }
                             //Особые
-                            case (int)SubMenuLevel.Special:
+                            case (int)Level.Special:
                                 {
-                                    try
-                                    {
-                                        Console.Write("Пожалуйста введите ширину поля: ");
-                                        width = Convert.ToInt32(Console.ReadLine());
-
-                                        Console.Write("Пожалуйста введите высоту поля: ");
-                                        height = Convert.ToInt32(Console.ReadLine());
-
-                                        Console.Write("Пожалуйста введите количество мин: ");
-                                        countMine = Convert.ToInt32(Console.ReadLine());
-                                    }
-                                    catch (FormatException)
-                                    {
-                                        Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine("Пожалуйста введите данные в корректном формате");
-                                        Console.ResetColor();
-                                        Console.ReadKey();
-                                    }
+                                    int[] parameter = view.GetParameterSpecialLevel();
+                                    model.SetGameParameter(Level.Special,
+                                                           parameter[(int)ParameterSpecialLevel.Width],
+                                                           parameter[(int)ParameterSpecialLevel.Height],
+                                                           parameter[(int)ParameterSpecialLevel.CountMine]);
+                                    view.SetPaameterGui(model.cellBoard.Width, model.cellBoard.Height);
+                                    ProcessGame();
                                     isExit = true;
-                                    Console.Clear();
                                     break;
                                 }
                             default:
@@ -176,6 +96,47 @@ namespace MineSweeperApplication
                 else if (selectedMenuItem == (int)MainMenu.About)
                 {
                     view.DrawAboutProgramAndRule(ModelMineSweeper.About);
+                }
+            }
+        }
+
+        private static void ProcessGame()
+        {
+            bool isExit = true;
+            while (isExit)
+            {
+                int seletedGameManagment = view.DrawGameBoard(model);
+                switch (seletedGameManagment)
+                {
+                    //возврат назад
+                    case (int)GameManagment.Back:
+                        model.StopTimer();
+                        isExit = false;
+                        break;
+                    //открыти ячейки
+                    case (int)GameManagment.Open:
+                        model.OpenCell(view.X, view.Y);
+                        break;
+                    //отмтить/убрать флаг
+                    case (int)GameManagment.Flag:
+                        model.SetFlagCoordinate(view.X, view.Y);
+                        break;
+                }
+
+                //проверка статуса игры посл хода
+                if (model.GetStatusGame() == GameStatus.GameOver)
+                {
+                    view.DrawGameOver();
+                    seletedGameManagment = view.DrawGameBoard(model);
+                    isExit = false;
+                }
+                if (model.GetStatusGame() == GameStatus.Win)
+                {
+                    view.DrawWin();
+                    string name = view.SetNameHightScore(model.CheckResult());
+                    model.SaveResultHightScore(name);
+                    seletedGameManagment = view.DrawGameBoard(model);
+                    isExit = false;
                 }
             }
         }

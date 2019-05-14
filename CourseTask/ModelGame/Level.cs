@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace TextUiView
+namespace ModelGame
 {
-    public enum SubMenuLevel
+    public enum Level
     {
         [Description("Новичок")]
         Beginner = 0,
@@ -11,8 +11,6 @@ namespace TextUiView
         [Description("Профессионал")]
         Professional = 2,
         [Description("Особые")]
-        Special = 3,
-        [Description("Назад")]
-        Back = 4
+        Special = 3
     }
 }

@@ -1,2 +1,5 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<users />
+<users>
+  <user score="2">User1</user>
+  <user score="999"> Steve Jobs </user>
+  <user score="999"> Elon Musk </user>
+</users>

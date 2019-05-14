@@ -6,16 +6,13 @@ namespace TextUiView
     {
         [Description("Новая игра")]
         NewGame = 0,
-        [Description("Сложность")]
-        Lavel = 1,
         [Description("Правила")]
-        Rule = 2,
+        Rule = 1,
         [Description("Рекорды")]
-        HighScores = 3,
+        HighScores = 2,
         [Description("О программе")]
-        About = 4,
+        About = 3,
         [Description("Выход")]
-        Exit = 5,
-        
+        Exit = 4,
     }
 }

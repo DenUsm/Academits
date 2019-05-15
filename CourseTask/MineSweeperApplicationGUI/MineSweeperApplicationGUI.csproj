@@ -79,6 +79,10 @@
       <Project>{b27ae50b-e42a-490e-9f31-b814077016a4}</Project>
       <Name>GuiView</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModelGame\ModelGame.csproj">
+      <Project>{0986c7c1-cc61-4933-9d14-fa1bd02722fd}</Project>
+      <Name>ModelGame</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PresenterMineSweeper\PresenterGame.csproj">
       <Project>{42957faa-59bf-43a3-bc88-12b5fb73a40f}</Project>
       <Name>PresenterGame</Name>

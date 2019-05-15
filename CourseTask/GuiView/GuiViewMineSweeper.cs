@@ -9,15 +9,22 @@ namespace GuiView
     public partial class GuiViewMineSweeper : Form, IMineSweeperView
     {
         private Button[,] cells;
+        private Control [,] board;
 
         public event EventHandler<EventArgs> NewGame;
         public event EventHandler<EventArgs> Rule;
         public event EventHandler<EventArgs> HighScore;
         public event EventHandler<EventArgs> OpenCell;
         public event EventHandler<EventArgs> SetFlag;
+        public event EventHandler<EventArgs> ChoosenLevel;
 
         public int X { get; private set; }
         public int Y { get; private set; }
+        public Level Level { get; private set; }
+
+        public int WidthGame { private get; set; }
+        public int HeightGame { private get; set; }
+        public int MineCount { private get; set; }
 
         public GuiViewMineSweeper()
         {
@@ -31,6 +38,7 @@ namespace GuiView
             //Стартовый отступ по ширине и высоте
             int startX = 15, startY = 75;
             cells = new Button[width, height];
+            board = new Control [width, height];
 
             //Заполнение и расстановка кнопок на форме
             for (int x = 0; x < width; x++)
@@ -59,6 +67,18 @@ namespace GuiView
             lbCountMine.Text = countMine.ToString();
         }
 
+        //удаление контролов ячеек с формы
+        private void RemoveControl()
+        {
+            for(int i = 0; i < board.GetLength(0); i++)
+            {
+                for (int j = 0; j < board.GetLength(1); j++)
+                {
+                    Controls.Remove(board[i, j]);
+                }
+            }
+        }
+
         //Создание поле из кнопок и их расположение 
         private Button createButton(int x, int y, int gridX, int gridY)
         {
@@ -73,9 +93,13 @@ namespace GuiView
             bttn.Location = new Point(x, y);
             //начальная картинка кнопки
             bttn.BackgroundImage = Properties.Resources.unmarked;
+
+            board[gridX, gridY] = bttn;
+
             //Добавление контрола
-            Controls.AddRange(new Control[] { bttn });
-            //bttn.Click += new System.EventHandler(bttnOnclick);
+            Controls.AddRange(new Control[] { board[gridX, gridY] });
+            
+            //Добавление события для клика на ячейку
             bttn.MouseDown += new MouseEventHandler(bttnClick);
 
             return bttn;
@@ -211,6 +235,53 @@ namespace GuiView
         private void btnNewGame_Click(object sender, EventArgs e)
         {
             NewGame(this, EventArgs.Empty);
+            RemoveControl();
+            InitializeGameBoard(WidthGame, HeightGame, MineCount);
+        }
+
+        //Переключение режимов игры 
+        private void ChangeLevel(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+
+            if (item == btnLevelBeginner)
+            {
+                Level = Level.Beginner;
+                item.Checked = true;
+                btnLevelMedium.Checked = false;
+                btnLevelProfessional.Checked = false;
+            }
+            if (item == btnLevelMedium)
+            {
+                Level = Level.Medium;
+                item.Checked = true;
+                btnLevelBeginner.Checked = false;
+                btnLevelProfessional.Checked = false;
+            }
+            if (item == btnLevelProfessional)
+            {
+                Level = Level.Professional;
+                item.Checked = true;
+                btnLevelBeginner.Checked = false;
+                btnLevelMedium.Checked = false;
+            }
+            ChoosenLevel(this, EventArgs.Empty);
+            RemoveControl();
+            InitializeGameBoard(WidthGame, HeightGame, MineCount);
+        }
+
+        //Нажатие кнопки новая игра
+        private void btnFace_Click(object sender, EventArgs e)
+        {
+            btnNewGame.PerformClick();
+        }
+
+        //Нажатие кнопки правила
+        private void btnRule_Click(object sender, EventArgs e)
+        {
+            RuleMineSweeper rule = new RuleMineSweeper();
+            rule.EnterRuleOnForm(ModelMineSweeper.Rule);
+            rule.ShowDialog();
         }
     }
 }

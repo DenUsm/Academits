@@ -10,8 +10,21 @@ namespace ViewInterface
 
         int Y { get; }
 
+        //уровень игры
+        Level Level { get; }
+        
+        //параметры игры
+        int WidthGame { set; }
+
+        int HeightGame { set; }
+
+        int MineCount { set; }
+
         //Событие новавя игра
         event EventHandler<EventArgs> NewGame;
+
+        //Событие выбора сложности
+        event EventHandler<EventArgs> ChoosenLevel;
 
         //Событие правила игры
         event EventHandler<EventArgs> Rule;

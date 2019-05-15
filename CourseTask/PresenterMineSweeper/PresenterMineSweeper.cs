@@ -14,6 +14,8 @@ namespace PresenterGame
             this.view = view;
             view.OpenCell += new EventHandler<EventArgs>(Open);
             view.SetFlag += new EventHandler<EventArgs>(Flag);
+            view.NewGame += new EventHandler<EventArgs>(Game);
+            view.ChoosenLevel += new EventHandler<EventArgs>(GetParameter);
 
             model.SetGameParameter(Level.Beginner);
         }
@@ -31,5 +33,21 @@ namespace PresenterGame
             model.SetFlagCoordinate(view.X, view.Y);
             view.UpdateView(model);
         }
+
+        //Начать новую игру
+        private void Game(object sender, EventArgs e)
+        {
+            model.SetGameParameter(view.Level);
+            view.WidthGame = model.cellBoard.Width;
+            view.HeightGame = model.cellBoard.Height;
+            view.MineCount = model.cellBoard.CountMine;
+        }
+
+        //получение параметров для перерисовки игрового поля
+        private void GetParameter(object sender, EventArgs e)
+        {
+            Game(null, new EventArgs());
+        }
+
     }
 }

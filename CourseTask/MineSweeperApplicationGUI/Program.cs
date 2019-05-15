@@ -1,6 +1,7 @@
 ﻿using System;
 using GuiView;
 using PresenterGame;
+using ModelGame;
 
 namespace MineSweeperApplicationGUI
 {
@@ -12,7 +13,7 @@ namespace MineSweeperApplicationGUI
         [STAThread]
         static void Main()
         {
-            GuiViewMineSweeper view = new GuiViewMineSweeper();
+            GuiViewMineSweeper view = new GuiViewMineSweeper();            
             PresenterMineSweeper presenter = new PresenterMineSweeper(view);
             view.ShowDialog();
         }

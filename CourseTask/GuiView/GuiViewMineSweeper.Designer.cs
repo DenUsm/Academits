@@ -32,9 +32,14 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.новаяИграToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnNewGame = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnLevelBeginner = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnLevelMedium = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnLevelProfessional = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограамеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.правилаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnRule = new System.Windows.Forms.ToolStripMenuItem();
             this.рекордыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.описаниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lbl_ElapsedTime = new System.Windows.Forms.Label();
@@ -42,11 +47,6 @@
             this.gbTime = new System.Windows.Forms.GroupBox();
             this.gbMines = new System.Windows.Forms.GroupBox();
             this.lbCountMine = new System.Windows.Forms.Label();
-            this.btnLevelMedium = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnLevelProfessional = new System.Windows.Forms.ToolStripMenuItem();
-            this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.gbTime.SuspendLayout();
             this.gbMines.SuspendLayout();
@@ -80,44 +80,80 @@
             // btnNewGame
             // 
             this.btnNewGame.Name = "btnNewGame";
-            this.btnNewGame.Size = new System.Drawing.Size(180, 22);
+            this.btnNewGame.Size = new System.Drawing.Size(158, 22);
             this.btnNewGame.Text = "Новая игра";
             this.btnNewGame.Click += new System.EventHandler(this.btnNewGame_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(155, 6);
             // 
             // btnLevelBeginner
             // 
             this.btnLevelBeginner.Checked = true;
+            this.btnLevelBeginner.CheckOnClick = true;
             this.btnLevelBeginner.CheckState = System.Windows.Forms.CheckState.Checked;
             this.btnLevelBeginner.Name = "btnLevelBeginner";
-            this.btnLevelBeginner.Size = new System.Drawing.Size(180, 22);
+            this.btnLevelBeginner.Size = new System.Drawing.Size(158, 22);
             this.btnLevelBeginner.Text = "Новичок";
+            this.btnLevelBeginner.Click += new System.EventHandler(this.ChangeLevel);
+            // 
+            // btnLevelMedium
+            // 
+            this.btnLevelMedium.CheckOnClick = true;
+            this.btnLevelMedium.Name = "btnLevelMedium";
+            this.btnLevelMedium.Size = new System.Drawing.Size(158, 22);
+            this.btnLevelMedium.Text = "Любитель";
+            this.btnLevelMedium.Click += new System.EventHandler(this.ChangeLevel);
+            // 
+            // btnLevelProfessional
+            // 
+            this.btnLevelProfessional.CheckOnClick = true;
+            this.btnLevelProfessional.Name = "btnLevelProfessional";
+            this.btnLevelProfessional.Size = new System.Drawing.Size(158, 22);
+            this.btnLevelProfessional.Text = "Профессионал";
+            this.btnLevelProfessional.Click += new System.EventHandler(this.ChangeLevel);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(155, 6);
+            // 
+            // выходToolStripMenuItem
+            // 
+            this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.выходToolStripMenuItem.Text = "Выход";
+            this.выходToolStripMenuItem.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // оПрограамеToolStripMenuItem
             // 
             this.оПрограамеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.правилаToolStripMenuItem,
+            this.btnRule,
             this.рекордыToolStripMenuItem,
             this.описаниеToolStripMenuItem});
             this.оПрограамеToolStripMenuItem.Name = "оПрограамеToolStripMenuItem";
             this.оПрограамеToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
             this.оПрограамеToolStripMenuItem.Text = "О програаме";
             // 
-            // правилаToolStripMenuItem
+            // btnRule
             // 
-            this.правилаToolStripMenuItem.Name = "правилаToolStripMenuItem";
-            this.правилаToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
-            this.правилаToolStripMenuItem.Text = "Правила";
+            this.btnRule.Name = "btnRule";
+            this.btnRule.Size = new System.Drawing.Size(180, 22);
+            this.btnRule.Text = "Правила";
+            this.btnRule.Click += new System.EventHandler(this.btnRule_Click);
             // 
             // рекордыToolStripMenuItem
             // 
             this.рекордыToolStripMenuItem.Name = "рекордыToolStripMenuItem";
-            this.рекордыToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.рекордыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.рекордыToolStripMenuItem.Text = "Рекорды";
             // 
             // описаниеToolStripMenuItem
             // 
             this.описаниеToolStripMenuItem.Name = "описаниеToolStripMenuItem";
-            this.описаниеToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.описаниеToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.описаниеToolStripMenuItem.Text = "Описание";
             // 
             // lbl_ElapsedTime
@@ -138,6 +174,7 @@
             this.btnFace.Size = new System.Drawing.Size(33, 33);
             this.btnFace.TabIndex = 6;
             this.btnFace.UseVisualStyleBackColor = true;
+            this.btnFace.Click += new System.EventHandler(this.btnFace_Click);
             // 
             // gbTime
             // 
@@ -174,35 +211,6 @@
             this.lbCountMine.TabIndex = 3;
             this.lbCountMine.Text = "0";
             // 
-            // btnLevelMedium
-            // 
-            this.btnLevelMedium.Name = "btnLevelMedium";
-            this.btnLevelMedium.Size = new System.Drawing.Size(180, 22);
-            this.btnLevelMedium.Text = "Любитель";
-            // 
-            // btnLevelProfessional
-            // 
-            this.btnLevelProfessional.Name = "btnLevelProfessional";
-            this.btnLevelProfessional.Size = new System.Drawing.Size(180, 22);
-            this.btnLevelProfessional.Text = "Профессионал";
-            // 
-            // выходToolStripMenuItem
-            // 
-            this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.выходToolStripMenuItem.Text = "Выход";
-            this.выходToolStripMenuItem.Click += new System.EventHandler(this.btnExit_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
-            // 
             // GuiViewMineSweeper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -217,6 +225,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "GuiViewMineSweeper";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MineSweeper";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -236,7 +245,7 @@
         private System.Windows.Forms.ToolStripMenuItem btnNewGame;
         private System.Windows.Forms.ToolStripMenuItem btnLevelBeginner;
         private System.Windows.Forms.ToolStripMenuItem оПрограамеToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem правилаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem btnRule;
         private System.Windows.Forms.ToolStripMenuItem рекордыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem описаниеToolStripMenuItem;
         private System.Windows.Forms.Label lbl_ElapsedTime;

@@ -62,6 +62,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RuleMineSweeper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RuleMineSweeper.Designer.cs">
+      <DependentUpon>RuleMineSweeper.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GuiViewMineSweeper.resx">
@@ -70,6 +76,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RuleMineSweeper.resx">
+      <DependentUpon>RuleMineSweeper.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

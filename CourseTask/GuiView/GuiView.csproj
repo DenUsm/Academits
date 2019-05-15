@@ -33,6 +33,10 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,17 +57,135 @@
       <DependentUpon>GuiViewMineSweeper.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GuiViewMineSweeper.resx">
       <DependentUpon>GuiViewMineSweeper.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModelGame\ModelGame.csproj">
+      <Project>{0986c7c1-cc61-4933-9d14-fa1bd02722fd}</Project>
+      <Name>ModelGame</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ViewInterface\ViewInterface.csproj">
       <Project>{b7c21ec7-79f9-4e82-8530-0ece5472afa2}</Project>
       <Name>ViewInterface</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\led0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\led1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\led2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\led3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\led4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\led5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\led6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\led7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\led8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\led9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mine8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\notmine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\question.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileybase.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smileybasedown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smiley-lose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smiley-losedown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smiley-win.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smiley-windown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\smiley-worry.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tilebase.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unmarked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MineIco.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MineIco.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -9,8 +9,6 @@ namespace ModelGame
         [Description("Любитель")]
         Medium = 1,
         [Description("Профессионал")]
-        Professional = 2,
-        [Description("Особые")]
-        Special = 3
+        Professional = 2
     }
 }

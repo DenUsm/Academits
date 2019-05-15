@@ -35,7 +35,7 @@ namespace MineSweeperApplication
                             //начальный уровень
                             case (int)Level.Beginner:
                                 {
-                                    model.SetGameParameter(Level.Beginner, 0, 0, 0);
+                                    model.SetGameParameter(Level.Beginner);
                                     view.SetPaameterGui(model.cellBoard.Width, model.cellBoard.Height);
                                     ProcessGame();
                                     isExit = true;
@@ -44,7 +44,7 @@ namespace MineSweeperApplication
                             //любитель
                             case (int)Level.Medium:
                                 {
-                                    model.SetGameParameter(Level.Medium, 0, 0, 0);
+                                    model.SetGameParameter(Level.Medium);
                                     view.SetPaameterGui(model.cellBoard.Width, model.cellBoard.Height);
                                     ProcessGame();
                                     isExit = true;
@@ -53,20 +53,7 @@ namespace MineSweeperApplication
                             //профессионал
                             case (int)Level.Professional:
                                 {
-                                    model.SetGameParameter(Level.Professional, 0, 0, 0);
-                                    view.SetPaameterGui(model.cellBoard.Width, model.cellBoard.Height);
-                                    ProcessGame();
-                                    isExit = true;
-                                    break;
-                                }
-                            //Особые
-                            case (int)Level.Special:
-                                {
-                                    int[] parameter = view.GetParameterSpecialLevel();
-                                    model.SetGameParameter(Level.Special,
-                                                           parameter[(int)ParameterSpecialLevel.Width],
-                                                           parameter[(int)ParameterSpecialLevel.Height],
-                                                           parameter[(int)ParameterSpecialLevel.CountMine]);
+                                    model.SetGameParameter(Level.Professional);
                                     view.SetPaameterGui(model.cellBoard.Width, model.cellBoard.Height);
                                     ProcessGame();
                                     isExit = true;

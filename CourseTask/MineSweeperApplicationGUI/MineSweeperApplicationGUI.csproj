@@ -32,6 +32,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -75,6 +79,17 @@
       <Project>{b27ae50b-e42a-490e-9f31-b814077016a4}</Project>
       <Name>GuiView</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PresenterMineSweeper\PresenterGame.csproj">
+      <Project>{42957faa-59bf-43a3-bc88-12b5fb73a40f}</Project>
+      <Name>PresenterGame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewInterface\ViewInterface.csproj">
+      <Project>{B7C21EC7-79F9-4E82-8530-0ECE5472AFA2}</Project>
+      <Name>ViewInterface</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MineIco.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

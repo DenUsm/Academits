@@ -44,5 +44,11 @@
     <Compile Include="IMineSweeperView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ModelGame\ModelGame.csproj">
+      <Project>{0986c7c1-cc61-4933-9d14-fa1bd02722fd}</Project>
+      <Name>ModelGame</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

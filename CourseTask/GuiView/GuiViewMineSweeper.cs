@@ -1,54 +1,216 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
 using ViewInterface;
+using ModelGame;
 
 namespace GuiView
 {
-    public partial class GuiViewMineSweeper : Form
+    public partial class GuiViewMineSweeper : Form, IMineSweeperView
     {
-        private Button[,] btn_grid;
+        private Button[,] cells;
+
+        public event EventHandler<EventArgs> NewGame;
+        public event EventHandler<EventArgs> Rule;
+        public event EventHandler<EventArgs> HighScore;
+        public event EventHandler<EventArgs> OpenCell;
+        public event EventHandler<EventArgs> SetFlag;
+
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
         public GuiViewMineSweeper()
         {
             InitializeComponent();
+            InitializeGameBoard(9, 9, 10); 
+        }
 
-            int width = 30;
-            int height = 16;
+        //начальное создание игрового поля
+        private void InitializeGameBoard(int width, int height, int countMine)
+        {
+            //Стартовый отступ по ширине и высоте
+            int startX = 15, startY = 75;
+            cells = new Button[width, height];
 
-            int param1 = 0;
-            int param2 = 0;
-
-            int startX = 0, startY = 0;
-            btn_grid = new Button[width, height];
-
+            //Заполнение и расстановка кнопок на форме
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
-                    btn_grid[x, y] = createButton(startX + 24 * x, startY + 24 * y, x, y);
-
-                    param1 = 24 * (x + 1);
-                    param2 = 24 * (y + 1);
-                }                
+                    cells[x, y] = createButton(startX + 24 * x, startY + 24 * y, x, y);
+                }
             }
 
-            Width = param1;
-            Height = param2;
+            //Изменение размеров формы в зависимости от количства ячеек
+            Width = startX * 2 + (width + 1) * 24 - 8;
+            Height = startY + (height + 2) * 24;
+
+            //Автоматическое выставление расположения gbTime
+            gbTime.Location = new Point(startX, startY - 50);
+
+            //Автоматическое выставление расположения btnFace
+            btnFace.Location = new Point(startX + Width / 2 - btnFace.Width - 8, startY - 45);
+            btnFace.BackgroundImage = Properties.Resources.smileybase;
+
+            //Автоматическое выставление расположения gbMines
+            gbMines.Location = new Point(Width - 2 * startX - gbMines.Width, startY - 50);
+
+            //задание количества мин
+            lbCountMine.Text = countMine.ToString();
         }
 
+        //Создание поле из кнопок и их расположение 
         private Button createButton(int x, int y, int gridX, int gridY)
         {
             Button bttn = new Button();
+            int sizeBttn = 24;
 
-            bttn.Text = "";
+            bttn.Text = null;
             bttn.Name = gridX.ToString() + " " + gridY.ToString();
-            bttn.Size = new System.Drawing.Size(24, 24);
-            bttn.Location = new System.Drawing.Point(x, y);
+            //Задаем размер кнопки
+            bttn.Size = new Size(sizeBttn, sizeBttn);
+            //Положении кнопки
+            bttn.Location = new Point(x, y);
+            //начальная картинка кнопки
+            bttn.BackgroundImage = Properties.Resources.unmarked;
+            //Добавление контрола
             Controls.AddRange(new Control[] { bttn });
             //bttn.Click += new System.EventHandler(bttnOnclick);
-            //bttn.MouseClick += new System.Windows.Forms.MouseEventHandler(this.bttnOnRightClick);
+            bttn.MouseDown += new MouseEventHandler(bttnClick);
 
             return bttn;
         }
 
+        //событие открытия или высавления флага на игровом поле
+        private void bttnClick(object sender, MouseEventArgs e)
+        {
+            Button btn = (Button)sender;
+            string[] split = btn.Name.Split(new Char[] { ' ' });
+
+            //Получаем координаты ячейки
+            X = Convert.ToInt32(split[0]);
+            Y = Convert.ToInt32(split[1]);
+
+            if (e.Button == MouseButtons.Left)
+            {
+                OpenCell(this, EventArgs.Empty);
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                SetFlag(this, EventArgs.Empty);
+            }
+        }
+
+        //Обновление view после события
+        public void UpdateView(ModelMineSweeper model)
+        {
+            var iterator = model.cellBoard.GetEnumerator();
+            while (iterator.MoveNext())
+            {
+                int x = iterator.Current.X;
+                int y = iterator.Current.Y;
+
+                if (iterator.Current.IsOpened)
+                {
+                    int type = (int)iterator.Current.Type;
+
+                    //Выставление соответсвующей картинки на для типа мина
+                    if (type == (int)ModelGame.Type.Mine)
+                    {
+                        if(x == X && y == Y)
+                        {
+                            cells[x, y].Image = Properties.Resources.hit;
+                        }
+                        else
+                        {
+                            cells[x, y].Image = Properties.Resources.mine;
+                        }
+                        //Отменить действие нажатия на уже открытых ячейках
+                        cells[x, y].MouseDown -= new MouseEventHandler(bttnClick);
+                        continue;
+                    }
+
+                    //Выставление соответсвующей картинки на ячейки
+                    switch (type)
+                    {
+                        case (int)ModelGame.Type.Empty:
+                            cells[x, y].Image = Properties.Resources.tilebase;
+                            break;
+                        case (int)ModelGame.Type.One:
+                            cells[x, y].Image = Properties.Resources.mine1;
+                            break;
+                        case (int)ModelGame.Type.Two:
+                            cells[x, y].Image = Properties.Resources.mine2;
+                            break;
+                        case (int)ModelGame.Type.Three:
+                            cells[x, y].Image = Properties.Resources.mine3;
+                            break;
+                        case (int)ModelGame.Type.Four:
+                            cells[x, y].Image = Properties.Resources.mine4;
+                            break;
+                        case (int)ModelGame.Type.Five:
+                            cells[x, y].Image = Properties.Resources.mine5;
+                            break;
+                        case (int)ModelGame.Type.Six:
+                            cells[x, y].Image = Properties.Resources.mine6;
+                            break;
+                        case (int)ModelGame.Type.Seven:
+                            cells[x, y].Image = Properties.Resources.mine7;
+                            break;
+                        case (int)ModelGame.Type.Eight:
+                            cells[x, y].Image = Properties.Resources.mine8;
+                            break;
+                    }
+
+                    //Отменить действие нажатия на уже открытых ячейках
+                    cells[x, y].MouseDown -= new MouseEventHandler(bttnClick);
+                }
+                else if(iterator.Current.IsFlagged)
+                {
+                    cells[x, y].Image = Properties.Resources.flag;
+                }
+                else
+                {
+                    cells[x, y].Image = Properties.Resources.unmarked;
+                }
+            }
+
+            //проверка игря на проигрыш
+            if(model.GetStatusGame() == GameStatus.GameOver)
+            {
+                //Отменить действие нажатия на оставшихся ячейках
+                iterator = model.cellBoard.GetEnumerator();
+                while (iterator.MoveNext())
+                {
+                    int x = iterator.Current.X;
+                    int y = iterator.Current.Y;
+
+                    if (!iterator.Current.IsOpened)
+                    {
+                        cells[x, y].MouseDown -= new MouseEventHandler(bttnClick);
+                    }
+                }
+
+                btnFace.Image = Properties.Resources.smiley_lose;                
+            }
+            //проверка игры на выигрыш
+            if(model.GetStatusGame() == GameStatus.Win)
+            {
+                MessageBox.Show("Вы победили!!!");
+            }
+
+        }
+
+        //нажатие кнопки выхода из меню
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        //нажатие кнопки новой игры
+        private void btnNewGame_Click(object sender, EventArgs e)
+        {
+            NewGame(this, EventArgs.Empty);
+        }
     }
 }

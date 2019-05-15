@@ -26,7 +26,7 @@ namespace ModelGame
         }
 
         //Задние параметром игры для станадратных режимов
-        public void SetGameParameter(Level gameLevel, int width, int height, int countMine)
+        public void SetGameParameter(Level gameLevel)
         {
             if (gameLevel == Level.Beginner)
             {
@@ -39,10 +39,6 @@ namespace ModelGame
             else if (gameLevel == Level.Professional)
             {
                 cellBoard = new CellsBoard(30, 20, 99);
-            }
-            else if (gameLevel == Level.Special)
-            {
-                cellBoard = new CellsBoard(width, height, countMine);
             }
             firstChoice = true;
             //создние таймер с интрвалом 1 секунда

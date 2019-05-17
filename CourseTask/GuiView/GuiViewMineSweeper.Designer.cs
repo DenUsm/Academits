@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GuiViewMineSweeper));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.новаяИграToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,11 +43,12 @@
             this.btnRule = new System.Windows.Forms.ToolStripMenuItem();
             this.рекордыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.описаниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lbl_ElapsedTime = new System.Windows.Forms.Label();
+            this.lbTime = new System.Windows.Forms.Label();
             this.btnFace = new System.Windows.Forms.Button();
             this.gbTime = new System.Windows.Forms.GroupBox();
             this.gbMines = new System.Windows.Forms.GroupBox();
             this.lbCountMine = new System.Windows.Forms.Label();
+            this.GameTimer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.gbTime.SuspendLayout();
             this.gbMines.SuspendLayout();
@@ -140,32 +142,32 @@
             // btnRule
             // 
             this.btnRule.Name = "btnRule";
-            this.btnRule.Size = new System.Drawing.Size(180, 22);
+            this.btnRule.Size = new System.Drawing.Size(129, 22);
             this.btnRule.Text = "Правила";
             this.btnRule.Click += new System.EventHandler(this.btnRule_Click);
             // 
             // рекордыToolStripMenuItem
             // 
             this.рекордыToolStripMenuItem.Name = "рекордыToolStripMenuItem";
-            this.рекордыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.рекордыToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.рекордыToolStripMenuItem.Text = "Рекорды";
             // 
             // описаниеToolStripMenuItem
             // 
             this.описаниеToolStripMenuItem.Name = "описаниеToolStripMenuItem";
-            this.описаниеToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.описаниеToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.описаниеToolStripMenuItem.Text = "Описание";
             // 
-            // lbl_ElapsedTime
+            // lbTime
             // 
-            this.lbl_ElapsedTime.AutoSize = true;
-            this.lbl_ElapsedTime.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbl_ElapsedTime.ForeColor = System.Drawing.Color.Maroon;
-            this.lbl_ElapsedTime.Location = new System.Drawing.Point(21, 18);
-            this.lbl_ElapsedTime.Name = "lbl_ElapsedTime";
-            this.lbl_ElapsedTime.Size = new System.Drawing.Size(16, 14);
-            this.lbl_ElapsedTime.TabIndex = 3;
-            this.lbl_ElapsedTime.Text = "0";
+            this.lbTime.AutoSize = true;
+            this.lbTime.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbTime.ForeColor = System.Drawing.Color.Maroon;
+            this.lbTime.Location = new System.Drawing.Point(21, 18);
+            this.lbTime.Name = "lbTime";
+            this.lbTime.Size = new System.Drawing.Size(16, 14);
+            this.lbTime.TabIndex = 3;
+            this.lbTime.Text = "0";
             // 
             // btnFace
             // 
@@ -178,7 +180,7 @@
             // 
             // gbTime
             // 
-            this.gbTime.Controls.Add(this.lbl_ElapsedTime);
+            this.gbTime.Controls.Add(this.lbTime);
             this.gbTime.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
             this.gbTime.ForeColor = System.Drawing.Color.Maroon;
             this.gbTime.Location = new System.Drawing.Point(12, 28);
@@ -210,6 +212,11 @@
             this.lbCountMine.Size = new System.Drawing.Size(16, 14);
             this.lbCountMine.TabIndex = 3;
             this.lbCountMine.Text = "0";
+            // 
+            // GameTimer
+            // 
+            this.GameTimer.Interval = 1000;
+            this.GameTimer.Tick += new System.EventHandler(this.GameTimer_Tick);
             // 
             // GuiViewMineSweeper
             // 
@@ -248,7 +255,7 @@
         private System.Windows.Forms.ToolStripMenuItem btnRule;
         private System.Windows.Forms.ToolStripMenuItem рекордыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem описаниеToolStripMenuItem;
-        private System.Windows.Forms.Label lbl_ElapsedTime;
+        private System.Windows.Forms.Label lbTime;
         private System.Windows.Forms.Button btnFace;
         private System.Windows.Forms.GroupBox gbTime;
         private System.Windows.Forms.GroupBox gbMines;
@@ -258,5 +265,6 @@
         private System.Windows.Forms.ToolStripMenuItem btnLevelProfessional;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
+        private System.Windows.Forms.Timer GameTimer;
     }
 }

@@ -9,7 +9,8 @@ namespace GuiView
     public partial class GuiViewMineSweeper : Form, IMineSweeperView
     {
         private Button[,] cells;
-        private Control [,] board;
+        private Control[,] board;
+        private bool firstClick = true;
 
         public event EventHandler<EventArgs> NewGame;
         public event EventHandler<EventArgs> Rule;
@@ -17,6 +18,7 @@ namespace GuiView
         public event EventHandler<EventArgs> OpenCell;
         public event EventHandler<EventArgs> SetFlag;
         public event EventHandler<EventArgs> ChoosenLevel;
+        public event EventHandler<EventArgs> GetTime;
 
         public int X { get; private set; }
         public int Y { get; private set; }
@@ -25,11 +27,12 @@ namespace GuiView
         public int WidthGame { private get; set; }
         public int HeightGame { private get; set; }
         public int MineCount { private get; set; }
+        public int Time { private get; set; }
 
         public GuiViewMineSweeper()
         {
             InitializeComponent();
-            InitializeGameBoard(9, 9, 10); 
+            InitializeGameBoard(9, 9, 10);
         }
 
         //начальное создание игрового поля
@@ -38,7 +41,7 @@ namespace GuiView
             //Стартовый отступ по ширине и высоте
             int startX = 15, startY = 75;
             cells = new Button[width, height];
-            board = new Control [width, height];
+            board = new Control[width, height];
 
             //Заполнение и расстановка кнопок на форме
             for (int x = 0; x < width; x++)
@@ -70,13 +73,14 @@ namespace GuiView
         //удаление контролов ячеек с формы
         private void RemoveControl()
         {
-            for(int i = 0; i < board.GetLength(0); i++)
+            for (int i = 0; i < board.GetLength(0); i++)
             {
                 for (int j = 0; j < board.GetLength(1); j++)
                 {
                     Controls.Remove(board[i, j]);
                 }
             }
+            btnFace.Image = null;
         }
 
         //Создание поле из кнопок и их расположение 
@@ -98,7 +102,7 @@ namespace GuiView
 
             //Добавление контрола
             Controls.AddRange(new Control[] { board[gridX, gridY] });
-            
+
             //Добавление события для клика на ячейку
             bttn.MouseDown += new MouseEventHandler(bttnClick);
 
@@ -118,6 +122,11 @@ namespace GuiView
             if (e.Button == MouseButtons.Left)
             {
                 OpenCell(this, EventArgs.Empty);
+                if (firstClick)
+                {
+                    GameTimer.Start();
+                    firstClick = false;
+                }
             }
             if (e.Button == MouseButtons.Right)
             {
@@ -125,10 +134,65 @@ namespace GuiView
             }
         }
 
+        private void SetImageCellNotMine(int type, int x, int y)
+        {
+            //Выставление соответсвующей картинки на ячейки
+            switch (type)
+            {
+                case (int)ModelGame.Type.Empty:
+                    cells[x, y].Image = Properties.Resources.tilebase;
+                    break;
+                case (int)ModelGame.Type.One:
+                    cells[x, y].Image = Properties.Resources.mine1;
+                    break;
+                case (int)ModelGame.Type.Two:
+                    cells[x, y].Image = Properties.Resources.mine2;
+                    break;
+                case (int)ModelGame.Type.Three:
+                    cells[x, y].Image = Properties.Resources.mine3;
+                    break;
+                case (int)ModelGame.Type.Four:
+                    cells[x, y].Image = Properties.Resources.mine4;
+                    break;
+                case (int)ModelGame.Type.Five:
+                    cells[x, y].Image = Properties.Resources.mine5;
+                    break;
+                case (int)ModelGame.Type.Six:
+                    cells[x, y].Image = Properties.Resources.mine6;
+                    break;
+                case (int)ModelGame.Type.Seven:
+                    cells[x, y].Image = Properties.Resources.mine7;
+                    break;
+                case (int)ModelGame.Type.Eight:
+                    cells[x, y].Image = Properties.Resources.mine8;
+                    break;
+            }
+
+            //Отменить действие нажатия на уже открытых ячейках
+            cells[x, y].MouseDown -= new MouseEventHandler(bttnClick);
+        }
+
+        private void SetImageCellMine(Cell cell, int x, int y)
+        {
+            if(!cell.IsFlagged)
+            {
+                cells[x, y].Image = Properties.Resources.mine;
+            }
+            else if (x == X && y == Y)
+            {
+                cells[x, y].Image = Properties.Resources.hit;
+            }
+
+            //Отменить действие нажатия на уже открытых ячейках
+            cells[x, y].MouseDown -= new MouseEventHandler(bttnClick);
+        }
+
         //Обновление view после события
         public void UpdateView(ModelMineSweeper model)
         {
             var iterator = model.cellBoard.GetEnumerator();
+            lbCountMine.Text = MineCount.ToString();
+
             while (iterator.MoveNext())
             {
                 int x = iterator.Current.X;
@@ -138,58 +202,17 @@ namespace GuiView
                 {
                     int type = (int)iterator.Current.Type;
 
-                    //Выставление соответсвующей картинки на для типа мина
+                    //Выставление соответсвующей картинки для типа мина
                     if (type == (int)ModelGame.Type.Mine)
                     {
-                        if(x == X && y == Y)
-                        {
-                            cells[x, y].Image = Properties.Resources.hit;
-                        }
-                        else
-                        {
-                            cells[x, y].Image = Properties.Resources.mine;
-                        }
-                        //Отменить действие нажатия на уже открытых ячейках
-                        cells[x, y].MouseDown -= new MouseEventHandler(bttnClick);
+                        SetImageCellMine(iterator.Current, x, y);
                         continue;
                     }
-
-                    //Выставление соответсвующей картинки на ячейки
-                    switch (type)
-                    {
-                        case (int)ModelGame.Type.Empty:
-                            cells[x, y].Image = Properties.Resources.tilebase;
-                            break;
-                        case (int)ModelGame.Type.One:
-                            cells[x, y].Image = Properties.Resources.mine1;
-                            break;
-                        case (int)ModelGame.Type.Two:
-                            cells[x, y].Image = Properties.Resources.mine2;
-                            break;
-                        case (int)ModelGame.Type.Three:
-                            cells[x, y].Image = Properties.Resources.mine3;
-                            break;
-                        case (int)ModelGame.Type.Four:
-                            cells[x, y].Image = Properties.Resources.mine4;
-                            break;
-                        case (int)ModelGame.Type.Five:
-                            cells[x, y].Image = Properties.Resources.mine5;
-                            break;
-                        case (int)ModelGame.Type.Six:
-                            cells[x, y].Image = Properties.Resources.mine6;
-                            break;
-                        case (int)ModelGame.Type.Seven:
-                            cells[x, y].Image = Properties.Resources.mine7;
-                            break;
-                        case (int)ModelGame.Type.Eight:
-                            cells[x, y].Image = Properties.Resources.mine8;
-                            break;
-                    }
-
-                    //Отменить действие нажатия на уже открытых ячейках
-                    cells[x, y].MouseDown -= new MouseEventHandler(bttnClick);
+                    //Выставление соответсвующей картинки для не мин
+                    SetImageCellNotMine(type, x, y);
+                    continue;
                 }
-                else if(iterator.Current.IsFlagged)
+                else if (iterator.Current.IsFlagged)
                 {
                     cells[x, y].Image = Properties.Resources.flag;
                 }
@@ -200,8 +223,10 @@ namespace GuiView
             }
 
             //проверка игря на проигрыш
-            if(model.GetStatusGame() == GameStatus.GameOver)
+            if (model.GetStatusGame() == GameStatus.GameOver)
             {
+                GameTimer.Stop();
+
                 //Отменить действие нажатия на оставшихся ячейках
                 iterator = model.cellBoard.GetEnumerator();
                 while (iterator.MoveNext())
@@ -209,17 +234,25 @@ namespace GuiView
                     int x = iterator.Current.X;
                     int y = iterator.Current.Y;
 
+                    if(iterator.Current.IsFlagged && (iterator.Current.Type != ModelGame.Type.Mine))
+                    {
+                        cells[x, y].Image = Properties.Resources.notmine;
+                    }
+
                     if (!iterator.Current.IsOpened)
                     {
                         cells[x, y].MouseDown -= new MouseEventHandler(bttnClick);
                     }
                 }
 
-                btnFace.Image = Properties.Resources.smiley_lose;                
+                btnFace.Image = Properties.Resources.smiley_lose;
             }
+
             //проверка игры на выигрыш
-            if(model.GetStatusGame() == GameStatus.Win)
+            if (model.GetStatusGame() == GameStatus.Win)
             {
+                GameTimer.Stop();
+
                 MessageBox.Show("Вы победили!!!");
             }
 
@@ -234,9 +267,12 @@ namespace GuiView
         //нажатие кнопки новой игры
         private void btnNewGame_Click(object sender, EventArgs e)
         {
+            GameTimer.Stop();
             NewGame(this, EventArgs.Empty);
             RemoveControl();
             InitializeGameBoard(WidthGame, HeightGame, MineCount);
+            lbTime.Text = "0";
+            firstClick = true;
         }
 
         //Переключение режимов игры 
@@ -268,6 +304,8 @@ namespace GuiView
             ChoosenLevel(this, EventArgs.Empty);
             RemoveControl();
             InitializeGameBoard(WidthGame, HeightGame, MineCount);
+            //lbTime.Text = "0";
+            //firstClick = true;
         }
 
         //Нажатие кнопки новая игра
@@ -282,6 +320,13 @@ namespace GuiView
             RuleMineSweeper rule = new RuleMineSweeper();
             rule.EnterRuleOnForm(ModelMineSweeper.Rule);
             rule.ShowDialog();
+        }
+
+        //Таймер
+        private void GameTimer_Tick(object sender, EventArgs e)
+        {
+            GetTime(this, EventArgs.Empty);
+            lbTime.Text = Time.ToString();
         }
     }
 }

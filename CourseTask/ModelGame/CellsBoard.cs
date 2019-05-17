@@ -154,14 +154,19 @@ namespace ModelGame
         //отмтить ячейку флагом
         public void SetOrCancelFlag(int x, int y)
         {
-            if (Cells[x, y].IsFlagged)
+            if(CountMine == 0)
+            {
+                CheckStatus();
+            }
+            else if (Cells[x, y].IsFlagged)
             {
                 Cells[x, y].IsFlagged = false;
+                CountMine++;
             }
             else
             {
                 Cells[x, y].IsFlagged = true;
-                CheckStatus();
+                CountMine--;
             }
         }
 
@@ -170,6 +175,12 @@ namespace ModelGame
         {
             if (!Cells[x, y].IsOpened)
             {
+                if(Cells[x, y].IsFlagged)
+                {
+                    Cells[x, y].IsFlagged = false;
+                    CountMine++;
+                    return;
+                }
                 if (Cells[x, y].Type == Type.Mine)
                 {
                     OpenMineOnBoard();
@@ -182,7 +193,6 @@ namespace ModelGame
                 else
                 {
                     Cells[x, y].IsOpened = true;
-                    CheckStatus();
                 }
             }
         }
@@ -190,24 +200,14 @@ namespace ModelGame
         //проврка статуса игры
         private void CheckStatus()
         {
-            int count = 0;
-            foreach (var cell in this)
+            foreach(var cell in this)
             {
-                if (cell.Type == Type.Mine && cell.IsFlagged)
+                if(cell.IsFlagged && (cell.Type != Type.Mine))
                 {
-                    count++;
-                }
-                else
-                {
-                    Status = GameStatus.InPogress;
+                    return;
                 }
             }
-
-            if (count == CountMine)
-            {
-                Status = GameStatus.Win;
-
-            }
+            Status = GameStatus.Win; 
         }
 
         public IEnumerator<Cell> GetEnumerator()

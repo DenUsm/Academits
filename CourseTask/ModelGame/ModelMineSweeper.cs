@@ -86,7 +86,10 @@ namespace ModelGame
         //Отметить ячейку флагом
         public void SetFlagCoordinate(int x, int y)
         {
-            cellBoard.SetOrCancelFlag(x, y);
+            if (!firstChoice)
+            {
+                cellBoard.SetOrCancelFlag(x, y);
+            }
 
             if (cellBoard.Status != GameStatus.InPogress)
             {

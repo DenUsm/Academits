@@ -38,7 +38,7 @@ namespace MineSweeperApplication
                                     model.SetGameParameter(Level.Beginner);
                                     view.SetPaameterGui(model.cellBoard.Width, model.cellBoard.Height);
                                     ProcessGame();
-                                    isExit = true;
+                                    isExit = false;
                                     break;
                                 }
                             //любитель
@@ -47,7 +47,7 @@ namespace MineSweeperApplication
                                     model.SetGameParameter(Level.Medium);
                                     view.SetPaameterGui(model.cellBoard.Width, model.cellBoard.Height);
                                     ProcessGame();
-                                    isExit = true;
+                                    isExit = false;
                                     break;
                                 }
                             //профессионал
@@ -56,7 +56,7 @@ namespace MineSweeperApplication
                                     model.SetGameParameter(Level.Professional);
                                     view.SetPaameterGui(model.cellBoard.Width, model.cellBoard.Height);
                                     ProcessGame();
-                                    isExit = true;
+                                    isExit = false;
                                     break;
                                 }
                             default:

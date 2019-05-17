@@ -20,6 +20,9 @@ namespace ViewInterface
 
         int MineCount { set; }
 
+        //время игры
+        int Time { set; }
+
         //Событие новавя игра
         event EventHandler<EventArgs> NewGame;
 
@@ -40,5 +43,8 @@ namespace ViewInterface
 
         //Событие обновления view
         void UpdateView(ModelMineSweeper model);
+
+        //Событие вызываемое таймером
+        event EventHandler<EventArgs> GetTime;
     }
 }

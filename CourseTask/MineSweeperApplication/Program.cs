@@ -11,7 +11,7 @@ namespace MineSweeperApplication
         /// </summary>
         /// 
         public static TextUiMineSweeper view = new TextUiMineSweeper();
-        public static ModelMineSweeper model = new ModelMineSweeper();
+        public static MineSweeperModel model = new MineSweeperModel();
 
         [STAThread]
         static void Main()
@@ -67,12 +67,12 @@ namespace MineSweeperApplication
                 //Выбор пункта меню новая правила игры
                 else if (selectedMenuItem == (int)MainMenu.Rule)
                 {
-                    view.DrawAboutProgramAndRule(ModelMineSweeper.Rule);
+                    view.DrawAboutProgramAndRule(MineSweeperModel.Rule);
                 }
                 //Выбор пункта меню рекорды
                 else if (selectedMenuItem == (int)MainMenu.HighScores)
                 {
-                    view.DrawHightScoresTable(ModelMineSweeper.HightSores);
+                    view.DrawHightScoresTable(MineSweeperModel.HightSores);
                 }
                 //Выбор пункта меню выход
                 else if (selectedMenuItem == (int)MainMenu.Exit)
@@ -82,7 +82,7 @@ namespace MineSweeperApplication
                 //Выбор пункта о программе
                 else if (selectedMenuItem == (int)MainMenu.About)
                 {
-                    view.DrawAboutProgramAndRule(ModelMineSweeper.About);
+                    view.DrawAboutProgramAndRule(MineSweeperModel.About);
                 }
             }
         }

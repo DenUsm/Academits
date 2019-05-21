@@ -157,13 +157,13 @@ namespace TextUiView
         }
 
         //Вывод информации времени об игре
-        private void ShowTimeInterval(ModelMineSweeper model)
+        private void ShowTimeInterval(MineSweeperModel model)
         {
             Console.WriteLine("Время игры: {0}", model.Time.ToString());
         }
 
         //Вывод игрового поля
-        public int DrawGameBoard(ModelMineSweeper model)
+        public int DrawGameBoard(MineSweeperModel model)
         {
             ShowTimeInterval(model);
 

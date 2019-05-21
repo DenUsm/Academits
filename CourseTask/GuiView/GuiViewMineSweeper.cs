@@ -188,7 +188,7 @@ namespace GuiView
         }
 
         //Обновление view после события
-        public void UpdateView(ModelMineSweeper model)
+        public void UpdateView(MineSweeperModel model)
         {
             var iterator = model.cellBoard.GetEnumerator();
             lbCountMine.Text = MineCount.ToString();
@@ -318,7 +318,7 @@ namespace GuiView
         private void btnRule_Click(object sender, EventArgs e)
         {
             RuleMineSweeper rule = new RuleMineSweeper();
-            rule.EnterRuleOnForm(ModelMineSweeper.Rule);
+            rule.EnterRuleOnForm(MineSweeperModel.Rule);
             rule.ShowDialog();
         }
 

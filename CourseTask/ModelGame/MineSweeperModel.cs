@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace ModelGame
 {
-    public class ModelMineSweeper
+    public class MineSweeperModel
     {
         public CellsBoard cellBoard;
         private bool firstChoice;
@@ -18,7 +18,7 @@ namespace ModelGame
         public static List<Score> HightSores { get; private set; }
         public Level GameLevel { get; set; }
 
-        public ModelMineSweeper()
+        public MineSweeperModel()
         {
             About = GetInformation(@"./ModelGame/AboutProgram.txt");
             Rule = GetInformation(@"./ModelGame/RuleGame.txt");
